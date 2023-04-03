@@ -1,0 +1,23 @@
+{
+  "name": "client-example",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@bit/bolttech.components.common.form-group": "^0.0.16",
+    "@bit/bolttech.components.ui.checkbox": "^2.0.11",
+    "@bit/bolttech.components.ui.dropdown": "^1.0.72",
+    "@bit/bolttech.components.ui.input": "^0.0.44",
+    "@bit/bolttech.components.ui.switch-group": "^0.0.7",
+    "@edirect/frontend-foundations": "^0.0.8",
+    "@form-builder/web-components": "*",
+    "eslint": "8.37.0",
+    "eslint-config-next": "13.2.4",
+    "next": "13.2.4"
+  }
+}

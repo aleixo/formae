@@ -1,0 +1,22 @@
+{
+  "name": "@form-builder/web-components",
+  "version": "0.0.1",
+  "main": "./src/index.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@form-builder/engine": "*",
+    "@mui/icons-material": "^5.11.11",
+    "@mui/material": "^5.11.15",
+    "styled-components": "^5.3.6",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/styled-components": "^5.1.26",
+    "@types/uuid": "^8.3.4"
+  }
+}

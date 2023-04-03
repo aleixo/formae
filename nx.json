@@ -1,0 +1,148 @@
+{
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": [
+          "type-check",
+          "type-check:watch",
+          "preversion",
+          "postversion",
+          "build",
+          "build:babel",
+          "format",
+          "lint",
+          "prepare",
+          "prepublishOnly",
+          "version",
+          "storybook",
+          "build-storybook",
+          "publish:patch",
+          "publish:minor",
+          "publish:major",
+          "cypress:open",
+          "cypress:run",
+          "test",
+          "test:open-coverage",
+          "dev",
+          "start"
+        ]
+      }
+    }
+  },
+  "targetDefaults": {
+    "type-check": {
+      "dependsOn": [
+        "^type-check"
+      ]
+    },
+    "type-check:watch": {
+      "dependsOn": [
+        "^type-check:watch"
+      ]
+    },
+    "preversion": {
+      "dependsOn": [
+        "^preversion"
+      ]
+    },
+    "postversion": {
+      "dependsOn": [
+        "^postversion"
+      ]
+    },
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
+    },
+    "build:babel": {
+      "dependsOn": [
+        "^build:babel"
+      ]
+    },
+    "format": {
+      "dependsOn": [
+        "^format"
+      ]
+    },
+    "lint": {
+      "dependsOn": [
+        "^lint"
+      ]
+    },
+    "prepare": {
+      "dependsOn": [
+        "^prepare"
+      ]
+    },
+    "prepublishOnly": {
+      "dependsOn": [
+        "^prepublishOnly"
+      ]
+    },
+    "version": {
+      "dependsOn": [
+        "^version"
+      ]
+    },
+    "storybook": {
+      "dependsOn": [
+        "^storybook"
+      ]
+    },
+    "build-storybook": {
+      "dependsOn": [
+        "^build-storybook"
+      ]
+    },
+    "publish:patch": {
+      "dependsOn": [
+        "^publish:patch"
+      ]
+    },
+    "publish:minor": {
+      "dependsOn": [
+        "^publish:minor"
+      ]
+    },
+    "publish:major": {
+      "dependsOn": [
+        "^publish:major"
+      ]
+    },
+    "cypress:open": {
+      "dependsOn": [
+        "^cypress:open"
+      ]
+    },
+    "cypress:run": {
+      "dependsOn": [
+        "^cypress:run"
+      ]
+    },
+    "test": {
+      "dependsOn": [
+        "^test"
+      ]
+    },
+    "test:open-coverage": {
+      "dependsOn": [
+        "^test:open-coverage"
+      ]
+    },
+    "dev": {
+      "dependsOn": [
+        "^dev"
+      ]
+    },
+    "start": {
+      "dependsOn": [
+        "^start"
+      ]
+    }
+  }
+}
