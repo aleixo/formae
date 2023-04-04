@@ -8,7 +8,7 @@ import {
 import {
   formMapper,
   formPropsMapping,
-} from "./form-component-features.configs";
+} from "./form-component-features.mappings";
 
 import { useCms } from "../../contexts/cms.context";
 import { useSchema } from "../../hooks/useSchema";
@@ -25,7 +25,7 @@ import { schema as basicsSchema } from "./forms/form-component-features.basics";
 
 import { FeatureEvents } from "./form-component-events";
 import * as S from "./form-component-features.styles";
-import { FormComponentFeatureTemplate } from "./form-component-feature-template";
+import { FormComponentFeatureTemplate } from "../form-template/form-template";
 import { Button, Divider } from "@mui/material";
 type EFeatures = keyof TComponent;
 

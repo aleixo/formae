@@ -1,7 +1,5 @@
-import { TComponent, TSchema } from "@form-builder/engine";
+import { TSchema } from "@form-builder/engine";
 import { useCallback, useMemo } from "react";
-
-type ITemplates = Record<string, TComponent>;
 
 const getStoreItem = <T>(key: string) =>
   JSON.parse(window.localStorage.getItem(key) || "{}") as T;
@@ -12,52 +10,26 @@ const setStoreItem = (key: string, item: Record<string, unknown>) =>
 const useApi = () => {
   const getSchema = useCallback(() => getStoreItem<TSchema>("form_json"), []);
 
+  const getTemplates = useCallback(() => getStoreItem("templates"), []);
+
+  const updateTemplates = useCallback(
+    (templates: any) => setStoreItem("templates", templates),
+    []
+  );
+
   const updateSchema = useCallback(
     (schema: TSchema) => setStoreItem("form_json", schema),
     []
   );
-  const getTemplates = useCallback(
-    () => getStoreItem<ITemplates>("templates"),
-    []
-  );
-
-  const addTemplate = useCallback(
-    (template: Record<string, TComponent>) =>
-      setStoreItem("templates", { ...getTemplates(), ...template }),
-    [getTemplates]
-  );
-
-  const getFormFieldConfigurationsTemplate = useCallback(
-    () => getStoreItem<TComponent>("field_form_config"),
-    []
-  );
-
-  const addFormFieldConfigurationsTemplate = useCallback(
-    (configs: Record<string, unknown>) =>
-      setStoreItem("field_form_config", {
-        ...getFormFieldConfigurationsTemplate(),
-        ...configs,
-      }),
-    [getFormFieldConfigurationsTemplate]
-  );
 
   return useMemo(
     () => ({
+      updateTemplates,
       getSchema,
       updateSchema,
-      addTemplate,
       getTemplates,
-      addFormFieldConfigurationsTemplate,
-      getFormFieldConfigurationsTemplate,
     }),
-    [
-      addFormFieldConfigurationsTemplate,
-      addTemplate,
-      getFormFieldConfigurationsTemplate,
-      getSchema,
-      getTemplates,
-      updateSchema,
-    ]
+    [updateTemplates, getSchema, getTemplates, updateSchema]
   );
 };
 

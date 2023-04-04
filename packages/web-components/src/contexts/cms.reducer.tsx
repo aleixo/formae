@@ -6,6 +6,7 @@ export enum ECMSActions {
   SET_BUILDER_SCHEMA = "SET_BUILDER_SCHEMA",
   SET_SELECTED_COMPONENT = "SET_SELECTED_COMPONENT",
   ADD_TEMPLATE = "ADD_TEMPLATE",
+  REHYDRATE = "REHYDRATE",
 }
 
 export interface ICMSState {
@@ -19,13 +20,15 @@ type TActionType =
   | ECMSActions.SET_OVERED_COMPONENT
   | ECMSActions.SET_SELECTED_COMPONENT
   | ECMSActions.SET_BUILDER_SCHEMA
-  | ECMSActions.ADD_TEMPLATE;
+  | ECMSActions.ADD_TEMPLATE
+  | ECMSActions.REHYDRATE;
 
 export type TCMSAction = {
   type: TActionType;
   payload: {
     component?: TComponent;
     schema?: TSchema;
+    newState?: ICMSState;
     template?: {
       feature: string;
       configuration: any;
@@ -43,6 +46,10 @@ const cmsInitialState: ICMSState = {
 
 const cmsReducer = (state: ICMSState, action: TCMSAction): ICMSState => {
   const mapper: Record<TActionType, () => ICMSState> = {
+    [ECMSActions.REHYDRATE]: () => ({
+      ...state,
+      ...action.payload.newState,
+    }),
     [ECMSActions.SET_OVERED_COMPONENT]: () => ({
       ...state,
       overedComponent: action.payload.component,
@@ -84,10 +91,10 @@ const useCmsMiddleware = () => {
     },
   };
 
-  const middleware = (action: TCMSAction) =>
+  const pre = (action: TCMSAction) =>
     mapper[action.type] && mapper[action.type](action);
 
-  return { middleware };
+  return { pre };
 };
 
 export { cmsInitialState, cmsReducer, useCmsMiddleware };

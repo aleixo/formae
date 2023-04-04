@@ -58,24 +58,26 @@ const Provider = ({
   const schema = useSchema();
   const [state, dispatch] = useReducer(cmsReducer, {
     ...cmsInitialState,
-    schema: schema.initForm(),
   });
-  const { middleware } = useCmsMiddleware();
+
+  const { pre } = useCmsMiddleware();
 
   useEffect(() => {
-    initialSchema && api.updateSchema(initialSchema);
-  }, [api, initialSchema]);
-
-  useEffect(() => {
-    const schemaFromApi = api.getSchema();
-    if (!Object.keys(schemaFromApi).length) {
-      return;
-    }
     dispatch({
-      type: ECMSActions.SET_BUILDER_SCHEMA,
-      payload: { schema: schemaFromApi },
+      type: ECMSActions.REHYDRATE,
+      payload: {
+        newState: {
+          schema: api.getSchema() || initialSchema || schema.initForm(),
+          templates: api.getTemplates() as any,
+        },
+      },
     });
-  }, [api]);
+  }, []);
+
+  useEffect(() => {
+    if (!Object.keys(state.templates).length) return;
+    api.updateTemplates(state.templates);
+  }, [JSON.stringify(state.templates)]);
 
   return (
     <Context.Provider
@@ -84,7 +86,7 @@ const Provider = ({
         state,
         onSave,
         dispatch: (action) => {
-          middleware(action);
+          pre(action);
           dispatch(action);
         },
       }}

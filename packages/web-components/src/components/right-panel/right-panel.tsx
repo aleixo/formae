@@ -149,7 +149,7 @@ function RightPanel() {
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>
-            <ListItemText primary="Mapped components" />
+            <ListItemText primary="Templates & mapped components" />
           </ListItemButton>
           <ListItemButton onClick={toggleRightMenu(ERightMenus.FORM_HIERARCHY)}>
             <ListItemIcon>
@@ -166,7 +166,6 @@ function RightPanel() {
             </ListItemIcon>
             <ListItemText primary="Field properties" />
           </ListItemButton>
-
           <Divider sx={{ my: 1 }} />
           <ListSubheader component="div" inset>
             Form Features
