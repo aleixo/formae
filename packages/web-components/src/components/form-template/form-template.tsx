@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { useCms } from "../../contexts/cms.context";
-import { TComponent } from "@form-builder/engine";
+import { Form, FormProvider, TComponent } from "@form-builder/engine";
 import { useState } from "react";
 import { NewTemplateModal } from "../new-template-modal/new-template-modal";
 import { ActionAreaCard } from "../action-area-card/action-area-card";
@@ -40,7 +40,7 @@ const FormComponentFeatureTemplate = ({
       },
     });
   };
-
+  console.log(template);
   return (
     <List>
       <NewTemplateModal
@@ -49,16 +49,18 @@ const FormComponentFeatureTemplate = ({
         feature={feature}
         template={template}
       />
-      <ListItemButton
-        onClick={() => {
-          setOpenNewTemplateModal(true);
-        }}
-      >
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Save and create template from selection" />
-      </ListItemButton>
+      {template && (
+        <ListItemButton
+          onClick={() => {
+            setOpenNewTemplateModal(true);
+          }}
+        >
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Save and create template from selection" />
+        </ListItemButton>
+      )}
       {showGrid || (
         <ListItemButton>
           <FormControl fullWidth>
@@ -93,6 +95,19 @@ const FormComponentFeatureTemplate = ({
             cms.state.templates.container.map((template) => (
               <Grid item xs={6} key={template.name}>
                 <ActionAreaCard
+                  preview={() => (
+                    <FormProvider
+                      propsMapping={cms.propsMapping}
+                      mapper={cms.mappings}
+                    >
+                      <Form
+                        schema={schema.addToFormStep(
+                          schema.initForm(),
+                          template.configuration
+                        )}
+                      />
+                    </FormProvider>
+                  )}
                   title={template.name}
                   description={"User template"}
                   onClick={() => {

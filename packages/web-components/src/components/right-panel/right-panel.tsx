@@ -5,7 +5,13 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 
 import ListSubheader from "@mui/material/ListSubheader";
 
-import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import {
+  Box,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Stack,
+} from "@mui/material";
 import { MappedComponents } from "../mapped-components/mapped-components";
 import { ComponentPropsForm } from "../component-props-form/component-props-form";
 import { ComponentsHierarchy } from "../components-hierarchy/components-hierarchy";
@@ -27,6 +33,42 @@ enum ERightMenus {
   API = "Api",
   BASIC = "Basic",
 }
+
+const EditableVariables = ({ onChange, variables }) => {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const createMarkedContent = () => {
+    ref.current.setHTML("Este é o meu texto ${dsada.dsadsadsa.com} e um test");
+  };
+
+  React.useEffect(() => {
+    createMarkedContent();
+  }, []);
+
+  const addMark = () => {};
+
+  const handleEvent = (e: React.FocusEvent<HTMLDivElement>) => {
+    let content = "";
+    console.log(e);
+
+    e.target.childNodes.forEach((node) => {
+      if (node.dataset?.value) {
+        content += node.innerText;
+        return;
+      }
+      content += node.nodeValue;
+    });
+    console.log("content", content);
+  };
+  return (
+    <div
+      ref={ref}
+      role="textbox"
+      contentEditable
+      suppressContentEditableWarning
+      onBlur={handleEvent}
+    ></div>
+  );
+};
 
 function RightPanel() {
   const cms = useCms();

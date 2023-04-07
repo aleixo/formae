@@ -6,9 +6,10 @@ const FormTextField = asFormField<React.ComponentProps<typeof TextField>>({
   propsMapping: {
     getValue: "onChange",
     setValue: "value",
-    setErrorMessage: "errorMessage",
     onBlur: "onBlur",
     onFocus: "onFocus",
+    setErrorMessage: "helperText",
+    setErrorState: "error",
   },
 });
 

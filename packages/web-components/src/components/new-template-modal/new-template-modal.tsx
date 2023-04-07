@@ -6,6 +6,11 @@ import {
   Grid,
   TextField,
   Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useCms } from "../../contexts/cms.context";
@@ -15,55 +20,67 @@ import { useForm } from "@form-builder/engine";
 
 const NewTemplateModal = ({ open, onClose, feature, template }) => {
   const [openModal, setOpenModal] = useState(open);
+  const [isValid, setIsValid] = useState(false);
   const cms = useCms();
   useEffect(() => {
     setOpenModal(open);
   }, [open]);
   const { formData } = useForm({
     formId: "new_template",
+    onData: (data) => {
+      setIsValid(data.form.isValid);
+    },
   });
 
   return (
-    <Modal
+    <Dialog
       open={openModal}
       onClose={onClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "70%",
-          maxHeight: "50%",
-          bgcolor: "background.paper",
-          border: "2px solid #000",
-          boxShadow: 24,
-          p: 4,
-          overflow: "auto",
-        }}
-      >
-        <Typography id="modal-modal-title" variant="h4" component="h2">
-          New Template
-        </Typography>
+      <DialogTitle>New template</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Ser the configurations for the new template
+        </DialogContentText>
         <FormTextField
+          fullWidth
           formId="new_template"
           placeholder="Template name"
           name="new_template_name"
+          validations={{
+            ON_FIELD_MOUNT: {
+              required: true,
+            },
+            ON_FIELD_CHANGE: {
+              required: true,
+            },
+          }}
+          errorMessages={{
+            default: "Template name is required",
+          }}
         />
+      </DialogContent>
+      <DialogActions>
         <Button
           onClick={() => {
+            setOpenModal(false);
+          }}
+        >
+          Cancel
+        </Button>
+        <Button
+          disabled={!isValid}
+          onClick={() => {
+            setOpenModal(false);
             cms.dispatch({
               type: ECMSActions.ADD_TEMPLATE,
               payload: {
                 template: {
                   feature,
                   configuration: template,
-                  name:
-                    (formData()?.formatted?.new_template_name as string) ||
-                    "new_template",
+                  name: formData()?.formatted?.new_template_name as string,
                 },
               },
             });
@@ -71,8 +88,8 @@ const NewTemplateModal = ({ open, onClose, feature, template }) => {
         >
           Save
         </Button>
-      </Box>
-    </Modal>
+      </DialogActions>
+    </Dialog>
   );
 };
 

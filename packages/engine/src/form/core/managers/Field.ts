@@ -106,6 +106,7 @@ class Field extends Base {
         this.publish(Events.BUILD_EVENT(Events.EEVents.ON_FIELD_FOCUS, this.component.name), { event }),
       setValue: this.value,
       setErrorMessage: this.getFieldErrorMessages()[0],
+      setErrorState: !!this.getFieldErrorMessages()[0],
     };
 
     return Object.keys(this.#propsMapping).reduce((acc, key) => {

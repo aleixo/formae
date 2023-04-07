@@ -26,7 +26,7 @@ import { schema as basicsSchema } from "./forms/form-component-features.basics";
 import { FeatureEvents } from "./form-component-events";
 import * as S from "./form-component-features.styles";
 import { FormComponentFeatureTemplate } from "../form-template/form-template";
-import { Button, Divider } from "@mui/material";
+import { Box, Button, Divider, Stack } from "@mui/material";
 type EFeatures = keyof TComponent;
 
 function merge(...objects) {
@@ -130,40 +130,43 @@ const FormComponentFeatures = ({
   }
   return (
     <FormProvider mapper={formMapper} propsMapping={formPropsMapping}>
-      <Divider>Templates</Divider>
+      <Stack spacing={3}>
+        <Divider>Templates</Divider>
 
-      <FormComponentFeatureTemplate
-        onChangeTemplate={(template) => {
-          if (selectedEvent) {
-            handleComponentUpdate({
-              formatted: {
-                [feature]: { [selectedEvent]: template.configuration },
-              },
-            });
+        <FormComponentFeatureTemplate
+          onChangeTemplate={(template) => {
+            if (selectedEvent) {
+              handleComponentUpdate({
+                formatted: {
+                  [feature]: { [selectedEvent]: template.configuration },
+                },
+              });
+            }
+          }}
+          feature={feature}
+          template={
+            selectedEvent
+              ? ((cms.state.selectedComponent || {})[feature] || {})[
+                  selectedEvent
+                ]
+              : (cms.state.selectedComponent || {})[feature]
           }
-        }}
-        feature={feature}
-        template={
-          selectedEvent
-            ? ((cms.state.selectedComponent || {})[feature] || {})[
-                selectedEvent
-              ]
-            : (cms.state.selectedComponent || {})[feature]
-        }
-      />
-      <Divider>Features</Divider>
-      <Button fullWidth variant="outlined" onClick={() => submitForm()}>
-        Save
-      </Button>
-      <S.FormFullWidth
-        key={formKey}
-        initialValues={cms.state.selectedComponent}
-        id={"features"}
-        schema={featureSchema({
-          event: selectedEvent,
-          component: cms.state.selectedComponent,
-        })}
-      />
+        />
+        <Divider>Features</Divider>
+
+        <Button fullWidth variant="outlined" onClick={() => submitForm()}>
+          Save
+        </Button>
+        <S.FormFullWidth
+          key={formKey}
+          initialValues={cms.state.selectedComponent}
+          id={"features"}
+          schema={featureSchema({
+            event: selectedEvent,
+            component: cms.state.selectedComponent,
+          })}
+        />
+      </Stack>
     </FormProvider>
   );
 };

@@ -105,7 +105,7 @@ const asFormField =
     }, [visibility]);
 
     useEffect(() => {
-      return () => getFormInstance(formId).destroyField(name);
+      //return () => getFormInstance(formId).destroyField(name);
     }, []);
 
     if (!fieldInstance.data.visible) {

@@ -1,12 +1,11 @@
-import { Divider, Grid } from "@mui/material";
+import { Divider, Grid, Stack } from "@mui/material";
 import { ReactElement } from "react";
 import { useCms } from "../../contexts/cms.context";
 import { ECMSActions } from "../../contexts/cms.reducer";
 import { useSchema } from "../../hooks/useSchema";
 import { ActionAreaCard } from "../action-area-card/action-area-card";
 import { FormComponentFeatureTemplate } from "../form-template/form-template";
-import { TSchema } from "@form-builder/engine";
-
+import { Form, FormProvider, TSchema } from "@form-builder/engine";
 const MappedComponents = (): ReactElement => {
   const cms = useCms();
   const schema = useSchema();
@@ -21,12 +20,28 @@ const MappedComponents = (): ReactElement => {
   };
 
   return (
-    <>
+    <Stack spacing={3}>
       <Divider>User mapped components</Divider>
       <Grid container spacing={2}>
         {Object.keys(cms.mappings).map((key, i) => (
           <Grid item xs={6} key={key}>
             <ActionAreaCard
+              preview={() => (
+                <FormProvider
+                  propsMapping={cms.propsMapping}
+                  mapper={cms.mappings}
+                >
+                  <Form
+                    schema={schema.addToFormStep(
+                      schema.initForm(),
+                      schema.buildComponent({
+                        component: key,
+                        props: cms.examples[key] as any,
+                      })
+                    )}
+                  />
+                </FormProvider>
+              )}
               title={cms.mappings[key].label as string}
               description={cms.mappings[key].description as string}
               onClick={() => {
@@ -48,7 +63,7 @@ const MappedComponents = (): ReactElement => {
         showGrid
         onChangeTemplate={(template) => {}}
       />
-    </>
+    </Stack>
   );
 };
 

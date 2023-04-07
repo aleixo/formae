@@ -618,6 +618,7 @@ export type TComponentPropsMapping = {
   getValue?: string;
   setValue?: string;
   setErrorMessage?: string;
+  setErrorState?: boolean;
   onBlur?: string;
 };
 
