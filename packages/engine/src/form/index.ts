@@ -10,4 +10,4 @@ export type {
   TScope,
 } from 'core/types';
 export { TAvailableHooks, CoreEvents, ALL_NAMESPACE_EVENTS, BUILD_EVENT } from 'core';
-export { Form, FormProvider, useForm, asFormField, Fragment } from 'adapters/react';
+export { Form, FormProvider, useForm, asFormField } from 'adapters/react';

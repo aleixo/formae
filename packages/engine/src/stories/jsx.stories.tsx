@@ -22,7 +22,7 @@ const schema: TSchema = {
           },
           children: [
             {
-              component: 'connectedInput',
+              component: 'input',
               name: 'name',
               props: {
                 name: 'change',
@@ -48,64 +48,14 @@ const schema: TSchema = {
 
 export const ConnectedInputInsideSchema: Story = (): React.ReactElement => {
   const { submitForm } = useForm({
+    id: '1',
     onData: (data) => {},
-    onSubmit: () => {},
+    onSubmit: console.log,
   });
   return (
     <FormProvider mapper={Mappings} propsMapping={formBuilderPropsMapping}>
-      <Form schema={schema} />
-      <FormInput
-        maxLength={19}
-        name="cardNumber"
-        placeholder="0000 0000 0000 0000"
-        filter={{ maxLength: 16 }}
-        masks={{
-          ON_FIELD_BLUR: {
-            generic: [
-              {
-                from: 0,
-                to: 4,
-                mask: 'x',
-              },
-              {
-                from: 6,
-                to: 9,
-                mask: 'x',
-              },
-              {
-                from: 11,
-                to: 14,
-                mask: 'x',
-              },
-            ],
-          },
-          ON_FIELD_FOCUS: {
-            cleanMask: true,
-          },
-        }}
-        formatters={{
-          ON_FIELD_CHANGE: {
-            splitter: [
-              {
-                position: 4,
-                value: ' ',
-              },
-              {
-                position: 9,
-                value: ' ',
-              },
-              {
-                position: 14,
-                value: ' ',
-              },
-              {
-                position: 19,
-                value: ' ',
-              },
-            ],
-          },
-        }}
-      />
+      <Form schema={schema} id="1" />
+
       <button onClick={submitForm}>SUBMIT</button>
     </FormProvider>
   );
@@ -222,6 +172,173 @@ export const AddingRemovingField: Story = (): React.ReactElement => {
         <button onClick={() => setRows(rows - 1)}>Delete row</button>
         <button onClick={() => setRows(rows + 1)}>Add new row</button>
       </>
+    </FormProvider>
+  );
+};
+
+export const UseFormOnMultiple: Story = (): React.ReactElement => {
+  const { submitForm } = useForm({
+    ids: ['form1', 'form2'],
+    onSubmit: (data) => {
+      console.log('SUBMIT ', data);
+    },
+  });
+  return (
+    <FormProvider
+      mapper={Mappings}
+      propsMapping={{
+        __default__: {
+          onBlur: 'onBlur',
+          getValue: 'onChange',
+          setValue: 'value',
+          setErrorMessage: 'errorMessage',
+          setErrorState: 'isErrored',
+        },
+      }}
+    >
+      <Form
+        id="form1"
+        schema={{
+          components: [
+            {
+              component: '',
+              name: '',
+              children: [
+                {
+                  name: '',
+                  component: 'formGroup',
+                  children: [
+                    {
+                      component: 'errorStateInput',
+                      name: 'emailform1',
+                      props: {
+                        variants: 'default_border',
+                        label: 'Input form 1',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }}
+      />
+      <Form
+        id="form2"
+        schema={{
+          components: [
+            {
+              component: '',
+              name: '',
+              children: [
+                {
+                  name: '',
+                  component: 'formGroup',
+                  children: [
+                    {
+                      component: 'input',
+                      name: 'emailform2',
+                      props: {
+                        variants: 'default_border',
+                        label: 'Input form 2',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }}
+      />
+      <button onClick={() => submitForm()}>Submit the two forms</button>
+    </FormProvider>
+  );
+};
+
+export const UseFormGroup: Story = (): React.ReactElement => {
+  const { submitForm } = useForm({
+    ids: ['form', 'form2'],
+    onValid: (d, a) => {
+      console.log('validation', d, a);
+    },
+    onSubmit: (data) => {
+      console.log('SUBMIT ', data);
+    },
+    onData: console.log,
+  });
+  return (
+    <FormProvider
+      mapper={Mappings}
+      propsMapping={{
+        __default__: {
+          onBlur: 'onBlur',
+          getValue: 'onChange',
+          setValue: 'value',
+          setErrorMessage: 'errorMessage',
+          setErrorState: 'isErrored',
+        },
+      }}
+    >
+      <Form
+        id="form"
+        schema={{
+          components: [
+            {
+              component: '',
+              name: '',
+              children: [
+                {
+                  name: '',
+                  component: 'formGroup',
+                  children: [
+                    {
+                      component: 'errorStateInput',
+                      name: 'emailform1',
+                      props: {
+                        variants: 'default_border',
+                        label: 'Input form 1',
+                      },
+                      validations: {
+                        ON_FIELD_CHANGE: {
+                          required: true,
+                        },
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }}
+      />
+      <Form
+        id="form2"
+        schema={{
+          components: [
+            {
+              component: '',
+              name: '',
+              children: [
+                {
+                  name: '',
+                  component: 'formGroup',
+                  children: [
+                    {
+                      component: 'input',
+                      name: 'emailform2',
+                      props: {
+                        variants: 'default_border',
+                        label: 'Input form 2',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }}
+      />
+      <button onClick={() => submitForm()}>Submit the two forms</button>
     </FormProvider>
   );
 };

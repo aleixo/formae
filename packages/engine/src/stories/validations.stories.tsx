@@ -77,15 +77,6 @@ const schema: TSchema = {
                 label: 'Password dsa das ',
               },
             },
-            {
-              component: 'x',
-              name: 'x',
-              props: {
-                variants: 'default_border',
-                placeholder: 'Please enter your password',
-                label: 'Password dsa das ',
-              },
-            },
           ],
         },
       ],
@@ -101,17 +92,7 @@ export const Required: Story = (): React.ReactElement => {
         __default__: { onBlur: 'onBlur', getValue: 'onChange', setValue: 'value', setErrorMessage: 'errorMessage' },
       }}
     >
-      <Form
-        schema={schema}
-        iVars={{ x: false }}
-        render={() => {
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              resolve(<p>ssss</p>);
-            }, 3000);
-          });
-        }}
-      />
+      <Form schema={schema} iVars={{ x: true }} />
     </FormProvider>
   );
 };
@@ -1696,25 +1677,7 @@ export const isInTheListWithIVars: Story = (): React.ReactElement => {
                               name: 'notInTheList',
                               id: 'notInTheList',
                               dataTestId: 'notInTheList',
-                              label: 'On change',
-                            },
-                            validations: {
-                              ON_FIELD_CHANGE: {
-                                isInTheList: '${list}',
-                              },
-                            },
-                            errorMessages: {
-                              isInTheList: 'Should be in [1, 2, 3]',
-                            },
-                          },
-                          {
-                            component: 'input',
-                            name: 'notInTheList',
-                            props: {
-                              name: 'notInTheList',
-                              id: 'notInTheList',
-                              dataTestId: 'notInTheList',
-                              label: 'On blur',
+                              label: 'On blur you pressed ${fields.notInTheList.value||0}',
                             },
                             validations: {
                               ON_FIELD_BLUR: {

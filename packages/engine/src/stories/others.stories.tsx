@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Story } from '@storybook/react/types-6-0';
 import { formBuilderPropsMapping, Mappings } from './mappings/bolttech';
-import { Form, FormProvider, TSchema } from '../form';
+import { Form, FormProvider, TFormRefActions, TSchema } from '../form';
 import { useState } from 'react';
 
 export default {
@@ -139,75 +139,73 @@ export const AsyncSchema: Story = (): React.ReactElement => {
   );
 };
 
-const renderFieldWrapperSchema: TSchema = {
-  filteredFields: ['roofUpdatedOptions'],
+const schema: TSchema = {
+  action: '${global.x}',
+  method: 'POST',
   components: [
     {
       component: '',
       name: '',
       children: [
         {
+          name: '',
           component: 'formGroup',
-          name: 'containerGroup',
-          props: {
-            center: true,
-            mb: 0.5,
-          },
           children: [
             {
-              name: 'roofUpdated',
-              group: 'roofUpdatedOptions',
-              clearFields: {
-                ON_FIELD_CHANGE: [
-                  {
-                    validations: {
-                      value: 'Yes',
-                    },
-                    fields: ['roofNoUpdated'],
-                    clearedValue: false,
-                  },
-                ],
+              component: 'input',
+              name: 'email',
+              validations: {
+                ON_FIELD_CHANGE: {
+                  required: true,
+                },
               },
-              component: 'checkbox',
+              errorMessages: {
+                required: 'E-mail is mandatory',
+                email: 'Must be a valid e-mail',
+              },
               props: {
-                id: 'roofUpdated',
-                dataTestId: 'roofUpdated',
-                checked: false,
-                label: 'Yes',
-                variant: 'rounded',
-                size: 3,
-                value: 'Yes',
-                padding: '14px 20px',
-                bgColor: '#ffffff',
-                updateBackground: true,
+                name: 'testsubscreve',
+                variants: 'default_border',
+                placeholder: 'Please enter your email address',
+                label: 'E-mail address',
               },
             },
             {
-              name: 'roofNoUpdated',
-              group: 'roofUpdatedOptions',
-              clearFields: {
-                ON_FIELD_CHANGE: [
-                  {
-                    validations: {
-                      value: 'No',
-                    },
-                    fields: ['roofUpdated'],
-                    clearedValue: false,
-                  },
-                ],
+              component: 'input',
+              name: 'email2',
+              errorMessages: {
+                required: 'E-mail is mandatory',
+                email: 'Must be a valid e-mail',
               },
-              component: 'checkbox',
+              validations: {
+                ON_FIELD_CHANGE: {
+                  required: false,
+                },
+              },
               props: {
-                id: 'roofNoUpdated',
-                dataTestId: 'roofNoUpdated',
-                checked: false,
-                label: 'No',
-                value: 'No',
-                variant: 'rounded',
-                size: 3,
-                padding: '14px 20px',
-                bgColor: '#ffffff',
-                updateBackground: true,
+                name: 'default_border',
+                variants: 'default_border',
+                placeholder: 'Please enter your email address2',
+                label: 'E-mail address2',
+              },
+            },
+            {
+              component: 'input',
+              name: 'password',
+              errorMessages: {
+                required: 'Password is required',
+                value: 'Error varOps.add(${fields.email.value||0},10)',
+              },
+              validations: {
+                ON_FIELD_CHANGE: {
+                  required: true,
+                  value: 'varOps.add(${fields.email.value||0},10)',
+                },
+              },
+              props: {
+                variants: 'default_border',
+                placeholder: 'Please enter your password',
+                label: 'Password dsa das ',
               },
             },
           ],
@@ -217,17 +215,87 @@ const renderFieldWrapperSchema: TSchema = {
   ],
 };
 
-export const RenderFieldWrapper: Story = (): React.ReactElement => {
+export const useMethodAndAction: Story = (): React.ReactElement => {
+  const [x, t] = useState('');
+  useEffect(() => {
+    setTimeout(() => {
+      t('https://jsonplaceholder.typicode.com/posts');
+    }, 5000);
+  }, []);
+  const ref = useRef<TFormRefActions>(null);
+
   return (
-    <FormProvider mapper={Mappings} propsMapping={formBuilderPropsMapping}>
+    <FormProvider
+      mapper={Mappings}
+      propsMapping={{
+        __default__: { onBlur: 'onBlur', getValue: 'onChange', setValue: 'value', setErrorMessage: 'errorMessage' },
+      }}
+    >
+      <Form ref={ref} schema={schema} iVars={{ x }} />
+      <button type="submit" onClick={() => ref.current?.submit()}>
+        submit
+      </button>
+    </FormProvider>
+  );
+};
+
+export const SetErrorState: Story = (): React.ReactElement => {
+  const [s, d] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      d(false);
+    }, 10000);
+  }, []);
+  return (
+    <FormProvider
+      mapper={Mappings}
+      propsMapping={{
+        __default__: {
+          onBlur: 'onBlur',
+          getValue: 'onChange',
+          setValue: 'value',
+          setErrorMessage: 'errorMessage',
+          setErrorState: 'isErrored',
+        },
+      }}
+    >
+      <p>Inject error state into the component. Errors - Required, email</p>
       <Form
-        renderFieldWrapper={(component, children) => (
-          <div key={component.name}>
-            <p>Ola {component.name}</p>
-            {children}
-          </div>
-        )}
-        schema={renderFieldWrapperSchema}
+        disable={s}
+        schema={{
+          components: [
+            {
+              component: '',
+              name: '',
+              children: [
+                {
+                  name: '',
+                  component: 'formGroup',
+                  children: [
+                    {
+                      component: 'errorStateInput',
+                      name: 'email',
+                      props: {
+                        variants: 'default_border',
+                        label: 'E-mail address',
+                      },
+                      validations: {
+                        ON_FIELD_MOUNT: {
+                          required: true,
+                          email: true,
+                        },
+                        ON_FIELD_CHANGE: {
+                          required: true,
+                          email: true,
+                        },
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }}
       />
     </FormProvider>
   );

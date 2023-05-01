@@ -82,20 +82,6 @@ describe('Testing Core/Form', () => {
     expect(Object.keys(form.steps)).toEqual(['0', '1']);
   });
 
-  it('Asserts rehydrate is called with the corret event', () => {
-    const observer = new Observer(formId);
-    const scope = new Scope(observer);
-    const form = new Form(formId, new Observer(formId), scope);
-
-    //Assert publish
-    const spiedPub = jest.spyOn(form, 'publish');
-    form.rehydrate();
-    expect(spiedPub).toBeCalled();
-
-    //Assert correct event
-    expect(spiedPub).toBeCalledWith(CoreEvents.ON_FORM_REHYDRATE);
-  });
-
   it('Assert field has been destroyed', () => {
     const observer = new Observer(formId);
     const scope = new Scope(observer);

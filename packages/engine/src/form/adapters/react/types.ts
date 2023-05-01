@@ -18,6 +18,12 @@ import { TLoggingEvent } from 'core/events/events.types';
 
 type TFormProps = {
   /**
+   * Allow to set the form as read only mode.
+   *
+   * This will prevent any interaction with the form whatsoever
+   */
+  disable?: boolean;
+  /**
    * Hooks to run on some life-cycles
    */
   hooks?: THooks;
@@ -57,7 +63,7 @@ type TFormProps = {
    * @param values - Form generated value. Refer to its type
    */
   onSubmit?(
-    form: HTMLFormElement,
+    form: React.FormEvent<HTMLFormElement>,
     values: TFormValues,
   ): Promise<Record<string, unknown> | void> | Record<string, unknown> | void;
   /**
@@ -124,13 +130,6 @@ type TFormProps = {
    * @param key - The key responsible for the update
    */
   onScopeChange?(scope: TScope, namespace: string, key: string): void;
-  /**
-   *
-   * When the form is rehydrated, this callback will be called
-   *
-   * @param values - Form generated values
-   */
-  onFormRehydrate?(values: TFormValues): void;
   /**
    *
    * When a given field is rehydrated, this callback will be called

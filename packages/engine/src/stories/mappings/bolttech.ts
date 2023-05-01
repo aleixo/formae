@@ -7,6 +7,7 @@ import H1 from './H1';
 import { asFormField } from '../../form';
 import CreditNumberInput from '@bit/bolttech.components.common.credit-number-input';
 import CvvInput from '@bit/bolttech.components.common.cvv-input';
+import { ErrorStateInput } from './ErrorStateInput';
 
 const formBuilderPropsMapping = {
   cvvInput: {
@@ -57,6 +58,7 @@ const FormCheckbox = asFormField<React.ComponentProps<typeof Checkbox>>({
 });
 
 const Mappings = {
+  errorStateInput: { component: ErrorStateInput },
   cvvInput: { component: CvvInput },
   creditNumberInput: { component: CreditNumberInput },
   p: { component: P },

@@ -1,7 +1,7 @@
 import Field from './Field';
 import { Observer } from '../events/Observer';
 import Scope from './Scope';
-import { BUILD_EVENT, CoreEvents, EEVents } from 'core/events';
+import { BUILD_EVENT, EEVents } from 'core/events';
 
 const component = {
   name: 'field1',
@@ -176,7 +176,8 @@ describe('Testing Core/Field', () => {
 
     //Assert correct event
     expect(spiedPub).toBeCalledWith(BUILD_EVENT(EEVents.ON_FIELD_REHYDRATE, component.name), {
-      checksum: JSON.stringify(field.data) + JSON.stringify(field.scopedComponent),
+      checksum:
+        JSON.stringify(field.data) + JSON.stringify(field.scopedComponent) + JSON.stringify(field.scope.scope.configs),
     });
   });
 });

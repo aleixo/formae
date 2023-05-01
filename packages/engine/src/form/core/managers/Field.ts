@@ -106,17 +106,20 @@ class Field extends Base {
         this.publish(Events.BUILD_EVENT(Events.EEVents.ON_FIELD_FOCUS, this.component.name), { event }),
       setValue: this.value,
       setErrorMessage: this.getFieldErrorMessages()[0],
-      setErrorState: !!this.getFieldErrorMessages()[0],
+      setErrorState: this.fieldHasError(),
     };
 
-    return Object.keys(this.#propsMapping).reduce((acc, key) => {
-      if (typeof propsActionsMapping[key] === 'undefined') return acc;
+    return Object.keys(this.#propsMapping).reduce(
+      (acc, key) => {
+        if (typeof propsActionsMapping[key] === 'undefined') return acc;
 
-      return {
-        ...acc,
-        [this.#propsMapping[key]]: propsActionsMapping[key],
-      };
-    }, this.#scopedComponent.props);
+        return {
+          ...acc,
+          [this.#propsMapping[key]]: propsActionsMapping[key],
+        };
+      },
+      { disabled: this.scope.scope.configs?.disable, ...this.#scopedComponent.props },
+    );
   }
 
   get mappings() {
@@ -166,7 +169,6 @@ class Field extends Base {
     return {
       api: this.#scopedComponent.api && this.#scopedComponent.api[event],
       clearFields: this.#scopedComponent.clearFields && this.#scopedComponent.clearFields[event],
-      rehydrate: this.#scopedComponent.rehydrate && this.#scopedComponent.rehydrate[event],
       formatters: this.#scopedComponent.formatters && this.#scopedComponent.formatters[event],
       masks: this.#scopedComponent.masks && this.#scopedComponent.masks[event],
       validations: this.#scopedComponent.validations && this.#scopedComponent.validations[event],
@@ -177,7 +179,8 @@ class Field extends Base {
 
   rehydrate() {
     this.publish(Events.BUILD_EVENT(Events.EEVents.ON_FIELD_REHYDRATE, this.#component.name), {
-      checksum: JSON.stringify(this.data) + JSON.stringify(this.scopedComponent),
+      checksum:
+        JSON.stringify(this.data) + JSON.stringify(this.scopedComponent) + JSON.stringify(this.scope.scope.configs),
     });
   }
 }

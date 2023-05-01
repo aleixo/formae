@@ -2,6 +2,8 @@ import * as Events from 'core/events';
 import * as utils from 'core/utils';
 
 export const handler = ({ form, field }: Events.TEventInformation) => {
+  field.subscribe(Events.BUILD_EVENT(Events.EEVents.ON_SCOPE_CHANGE, 'configs', 'disable'), () => field.rehydrate());
+
   field.data.mounted = true;
 
   const { props = {} } = field.component;

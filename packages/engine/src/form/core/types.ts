@@ -15,7 +15,10 @@ export type TScope = {
   global?: any;
   api?: any;
   hooks?: any;
-  configs?: any;
+  configs?: TConfigs & {
+    disable?: boolean;
+    enableLogging?: boolean;
+  };
   fields?: any;
 };
 
@@ -408,11 +411,6 @@ type TSchemaHandler<T> = Partial<
   >
 >;
 
-export type TSchemaRehydrate = {
-  validations: TSchemaValidation;
-  fields: string[];
-}[];
-
 export type TSchemaVisibilityConditions = {
   /**
    * The validations that will say if the target field will be visible or not
@@ -464,11 +462,6 @@ export type TSchemaMasks = { cleanMask?: boolean } & TComponentMasks;
 export type TEventReducedSchema = {
   api: TSchemaApi;
   clearFields: TSchemaClearFields;
-  /**
-   *
-   * @deprecated - Rehydrate can be accomplished with template binding (eg: ${targetvalue})
-   */
-  rehydrate: TSchemaRehydrate;
   formatters: TSchemaFormatters;
   masks: TSchemaMasks;
   validations: TSchemaValidation;
@@ -585,10 +578,6 @@ export type TComponent = {
   validations?: TSchemaHandler<Pick<TEventReducedSchema, 'validations'>['validations']>;
   filter?: Pick<TEventReducedSchema, 'validations'>['validations'];
   /**
-   * @deprecated - Use data binding instead
-   */
-  rehydrate?: TSchemaHandler<Pick<TEventReducedSchema, 'rehydrate'>['rehydrate']>;
-  /**
    * Allows you to specify the conditions a given field will be visible
    * what will run when this field meets the specified life-cycle
    */
@@ -617,14 +606,17 @@ export type TStep = {
 export type TComponentPropsMapping = {
   getValue?: string;
   setValue?: string;
-  setErrorMessage?: string;
-  setErrorState?: boolean;
   onBlur?: string;
+  onFocus?: string;
+  setErrorMessage?: string;
+  setErrorState?: string;
 };
 
 export type TPropsMapping = Record<string, TComponentPropsMapping>;
 
 export type TSchema = {
+  action?: string;
+  method?: string;
   /**
    * Give some configurations to the form
    */

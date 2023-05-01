@@ -1,3 +1,4 @@
+import React from 'react';
 import { createContext, ReactElement } from 'react';
 
 import * as T from './types';

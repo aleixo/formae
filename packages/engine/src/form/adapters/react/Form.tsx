@@ -28,9 +28,9 @@ const Form = React.forwardRef<TFormRefActions, TFormProps>(
       onFocus,
       onLog,
       onScopeChange,
-      onFormRehydrate,
       onFieldRehydrate,
       renderFieldWrapper,
+      disable,
     },
     ref,
   ): ReactElement => {
@@ -44,7 +44,7 @@ const Form = React.forwardRef<TFormRefActions, TFormProps>(
         schema,
         newInstance: true,
         initialScope: {
-          configs: { ...schema?.configs, enableLogging: !!onLog },
+          configs: { ...schema?.configs, enableLogging: !!onLog, disable },
           global: {
             ...schema?.iVars,
             ...iVars,
@@ -52,9 +52,6 @@ const Form = React.forwardRef<TFormRefActions, TFormProps>(
         },
         initialValues,
       });
-      hooks?.preMount && formInstance.subscribe(EEVents.ON_FORM_MOUNT, hooks?.preMount);
-
-      formInstance.publish(EEVents.ON_FORM_MOUNT);
 
       return formInstance;
     }, []);
@@ -119,14 +116,27 @@ const Form = React.forwardRef<TFormRefActions, TFormProps>(
     }, [formInstance.step.index, id]);
 
     useEffect(() => {
+      formInstance.scope.globalScope = {
+        namespace: 'configs',
+        data: {
+          disable,
+        },
+      };
+    }, [disable]);
+
+    useEffect(() => {
       onFormMount && onFormMount(formInstance.formData);
     }, []);
+
     useEffect(() => {
-      formInstance.subscribe(EEVents.ON_FRAGMENT_FIELD_CHANGE, ({ payload }) => {
-        console.log('payload', payload);
-        onData && onData(formInstance.formData, payload.component, payload.field);
-      });
-    }, []);
+      formInstance.scope.globalScope = {
+        namespace: 'configs',
+        data: {
+          disable,
+        },
+      };
+    }, [disable]);
+
     useEffect(() => {
       formInstance.scope.globalScope = {
         namespace: 'global',
@@ -139,13 +149,11 @@ const Form = React.forwardRef<TFormRefActions, TFormProps>(
 
     useMemo(
       () =>
-        formInstance.subscribe(
-          EEVents.ON_FORM_REHYDRATE,
-          () => onFormRehydrate && onFormRehydrate(formInstance.formData),
-        ),
+        formInstance.subscribe(EEVents.ON_FORM_REHYDRATE, () => {
+          forceUpdate();
+        }),
       [],
     );
-    useEffect(() => formInstance.subscribe(EEVents.ON_FORM_REHYDRATE, forceUpdate), []);
     useEffect(() => formInstance.subscribe(EEVents.LOG, ({ data }) => onLog && onLog(data)), []);
     useMemo(
       () =>
@@ -195,11 +203,12 @@ const Form = React.forwardRef<TFormRefActions, TFormProps>(
 
     return (
       <form
+        action={formInstance.scopedSchema.action}
+        method={formInstance.scopedSchema.method}
         className={className}
         ref={formRef}
         autoComplete={autoComplete}
         onSubmit={(event) => {
-          event.preventDefault();
           formInstance.publish(CoreEvents.ON_FORM_SUBMIT, { event });
         }}
       >

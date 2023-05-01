@@ -29,7 +29,9 @@ class Factory {
     const scope = new Scope(observer);
 
     scope.initialScope = { ...opts?.initialScope, ...opts?.schema?.iVars };
-    this.workers[namespace] = new Form(namespace, observer, scope, opts?.schema, opts?.initialValues);
+    this.workers[namespace] = new Form(namespace, observer, scope, opts?.schema!, {
+      initialValues: opts?.initialValues || {},
+    });
     return this.workers[namespace];
   }
 }

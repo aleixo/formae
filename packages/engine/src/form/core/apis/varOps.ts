@@ -9,3 +9,7 @@ export const add = (a, b) => {
 export const subtract = (a, b) => {
   return parseInt(a) - parseInt(b);
 };
+
+export const replaceAll = (value: string, searchValue: string, replaceValue: string) => {
+  return value.replace(new RegExp(searchValue, 'g'), replaceValue);
+};

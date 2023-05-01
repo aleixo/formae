@@ -2,7 +2,7 @@ import * as utils from 'core/utils';
 import * as Events from 'core/events';
 import * as apis from 'core/apis';
 
-import { TComponent } from 'core/types';
+import { BUILD_EVENT } from 'core/events';
 
 const template = {
   BEGIN: '${',
@@ -32,13 +32,41 @@ const extractVarOpsArgs = (value: string) =>
 
 const getVarOpsOp = (value: string) => apis.varOps[value.split(varOps.PREFIX)[1].split(varOps.FUNCTION_PREFIX)[0]];
 
-export const handler = ({ field }: Events.TEventInformation) => {
-  if (!field) return;
-  const { component } = field;
+export const handler = ({ field, form }: Events.TEventInformation) => {
+  const scopeComponent = () => {
+    if (!field) return;
+    const { children, wrapper, ...rest } = field.component;
+    const scopedComponent = {
+      ...inObject(rest as any),
+    };
 
-  const isFieldExcludedObservable = !field.scope.scope.configs?.observables?.templates?.exclude?.includes(
-    field.component.name,
-  );
+    field.scopedComponent = {
+      ...rest,
+      ...scopedComponent,
+      children,
+      wrapper,
+    };
+  };
+
+  const scopeForm = () => {
+    const { components, ...rest } = form.schema;
+    const newScopedForm = inObject<any>(rest);
+
+    form.scopedSchema = newScopedForm;
+    form.rehydrate();
+  };
+
+  const subscribeFieldToScopeChange = (parts) => {
+    const isFieldExcludedObservable = !field.scope.scope.configs?.observables?.templates?.exclude?.includes(
+      field.component.name,
+    );
+    const matchingParts = parts[0].split('.');
+    isFieldExcludedObservable &&
+      field.subscribe(BUILD_EVENT(Events.EEVents.ON_SCOPE_CHANGE, matchingParts[0], matchingParts[1]), () => {
+        scopeComponent();
+        field.rehydrate();
+      });
+  };
 
   const replaceTemplateString = (targetString: string): any => {
     targetString = targetString.toString();
@@ -56,14 +84,9 @@ export const handler = ({ field }: Events.TEventInformation) => {
       defaultValue = (utils.object.getValueByPath(field.scope.getGlobalScope(), parts[1]) as string) || parts[1];
     }
 
-    const matchingParts = parts[0].split('.');
-    isFieldExcludedObservable &&
-      field.subscribe(Events.BUILD_EVENT(Events.EEVents.ON_SCOPE_CHANGE, matchingParts[0], matchingParts[1]), () => {
-        field.scopedComponent = scopeComponent();
-        field.rehydrate();
-      });
+    field && subscribeFieldToScopeChange(parts);
 
-    const scopedTemplateValue = utils.object.getValueByPath(field.scope.getGlobalScope(), match);
+    const scopedTemplateValue = utils.object.getValueByPath(form.scope.getGlobalScope(), match);
 
     let value = typeof scopedTemplateValue === 'undefined' ? defaultValue : scopedTemplateValue;
 
@@ -117,7 +140,7 @@ export const handler = ({ field }: Events.TEventInformation) => {
         return {
           ...acc,
           [key]: (object[key] as unknown[]).map(inObject),
-        } as Record<string, string>;
+        };
       }
 
       if (typeof object[key] === 'object') {
@@ -126,18 +149,18 @@ export const handler = ({ field }: Events.TEventInformation) => {
           [key]: {
             ...inObject({ ...(object[key] as Record<string, unknown>) }, recursionLevel + 1),
           },
-        } as Record<string, string>;
+        };
       }
 
       if (typeof object[key] !== 'string') {
         return {
           ...acc,
           [key]: object[key],
-        } as Record<string, string>;
+        };
       }
 
       if (!hasTemplateString(object[key] as string)) {
-        return { ...acc, [key]: object[key] } as Record<string, string>;
+        return { ...acc, [key]: object[key] };
       }
       let value = replaceTemplateString(object[key] as string);
 
@@ -151,22 +174,10 @@ export const handler = ({ field }: Events.TEventInformation) => {
       return {
         ...acc,
         [key]: value,
-      } as Record<string, string>;
-    }, {} as Record<string, string>);
+      };
+    }, {});
   };
 
-  const scopeComponent = (): TComponent => {
-    const { children, wrapper, ...rest } = component;
-    const scopedComponent = {
-      ...inObject(rest as any),
-    };
-
-    return {
-      ...rest,
-      ...scopedComponent,
-      children,
-      wrapper,
-    };
-  };
-  field.scopedComponent = scopeComponent();
+  scopeComponent();
+  scopeForm();
 };

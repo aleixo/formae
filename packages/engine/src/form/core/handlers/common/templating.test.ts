@@ -1,7 +1,7 @@
 import { TComponent, BUILD_EVENT } from 'core';
 import { EEVents } from 'core/events';
 import { getFormInstance } from 'core/managers';
-import { handler } from './templating';
+import { handler } from '../common/templating';
 
 const form = getFormInstance('dsadasewqww', {
   initialScope: {
@@ -26,7 +26,7 @@ describe('Testing handlers/field/templating', () => {
       const field = form.getFieldInstance(component, {});
       field.value = '2';
 
-      handler({ field });
+      handler({ form, field });
       expect(field.scopedComponent.filter?.lessThan).toBe('2');
     });
     it('Test templating on number', () => {
@@ -43,7 +43,7 @@ describe('Testing handlers/field/templating', () => {
 
       const subscribeSpy = jest.spyOn(field, 'subscribe');
 
-      handler({ field });
+      handler({ form, field });
       expect(field.scopedComponent.filter?.lessThan).toBe(2);
       expect(subscribeSpy).toHaveBeenCalled();
     });
@@ -61,7 +61,7 @@ describe('Testing handlers/field/templating', () => {
 
       const subscribeSpy = jest.spyOn(field, 'subscribe');
 
-      handler({ field });
+      handler({ form, field });
       expect(field.scopedComponent.filter?.lessThan).toEqual({ test: true });
       expect(subscribeSpy).toHaveBeenCalled();
     });
@@ -79,7 +79,7 @@ describe('Testing handlers/field/templating', () => {
 
       const subscribeSpy = jest.spyOn(field, 'subscribe');
 
-      handler({ field });
+      handler({ form, field });
       expect(field.scopedComponent.filter?.lessThan).toEqual([{ test: true }]);
       expect(subscribeSpy).toHaveBeenCalled();
     });
@@ -95,7 +95,7 @@ describe('Testing handlers/field/templating', () => {
       };
       const field = form.getFieldInstance(component, {});
       field.value = 'field value';
-      handler({ field });
+      handler({ form, field });
       expect(field.scopedComponent.errorMessages?.required).toBe('Error - field value');
     });
     it('Tests in templating in api', () => {
@@ -113,7 +113,7 @@ describe('Testing handlers/field/templating', () => {
       };
       const field = form.getFieldInstance(component, {});
       field.value = 'googlequerystring';
-      handler({ field });
+      handler({ form, field });
       expect(field.scopedComponent.api?.ON_FIELD_MOUNT[0].url).toBe('www.google.pt?query=googlequerystring');
     });
     it('Tests in templating in props', () => {
@@ -127,7 +127,7 @@ describe('Testing handlers/field/templating', () => {
       };
       const field = form.getFieldInstance(component, {});
       field.value = 'googlequerystring';
-      expect(handler({ field }));
+      expect(handler({ form, field }));
       expect(field.scopedComponent.props?.url).toBe('www.google.pt?query=googlequerystring');
     });
     it('Tests in templating in validations', () => {
@@ -142,7 +142,7 @@ describe('Testing handlers/field/templating', () => {
       };
       const field = form.getFieldInstance(component, {});
       field.value = 2;
-      expect(handler({ field }));
+      expect(handler({ form, field }));
       expect(field.scopedComponent.validations?.ON_FIELD_BLUR?.lessThan).toBe(2);
     });
     it('Tests in templating in masks', () => {
@@ -168,7 +168,7 @@ describe('Testing handlers/field/templating', () => {
       };
       const field = form.getFieldInstance(component, {});
       field.value = 'XXX';
-      expect(handler({ field }));
+      expect(handler({ form, field }));
       expect((field.scopedComponent.masks?.ON_FIELD_BLUR?.generic)![0].mask).toBe('XXX');
       expect((field.scopedComponent.masks?.ON_FIELD_BLUR?.generic)![1].mask).toBe('bar');
     });
@@ -193,7 +193,7 @@ describe('Testing handlers/field/templating', () => {
       };
       const field = form.getFieldInstance(component, {});
       field.value = 'baz';
-      handler({ field });
+      handler({ form, field });
       expect((field.scopedComponent.formatters?.ON_FIELD_BLUR?.splitter)![0].value).toBe('baz');
       expect((field.scopedComponent.formatters?.ON_FIELD_BLUR?.splitter)![1].value).toBe('bar');
     });
@@ -207,7 +207,7 @@ describe('Testing handlers/field/templating', () => {
       };
       const field = form.getFieldInstance(component, {});
       field.value = 'baz';
-      handler({ field });
+      handler({ form, field });
       expect(field.scopedComponent.filter?.lessThan).toBe('baz');
     });
   });
@@ -221,7 +221,7 @@ describe('Testing handlers/field/templating', () => {
     };
     const field = form.getFieldInstance(component, {});
     field.value = 'baz';
-    handler({ field });
+    handler({ form, field });
     expect(field.scopedComponent.filter?.lessThan).toBe('baz');
   });
   it('Should replace template default', () => {
@@ -235,7 +235,7 @@ describe('Testing handlers/field/templating', () => {
     };
     const field = form.getFieldInstance(component, {});
     field.value = 'baz';
-    handler({ field });
+    handler({ form, field });
     expect(field.scopedComponent.filter?.lessThan).toBe('baz');
   });
   it('Non templated component should not subscribe to scope changes', () => {
@@ -252,7 +252,7 @@ describe('Testing handlers/field/templating', () => {
 
     const subscribeSpy = jest.spyOn(field, 'subscribe');
 
-    handler({ field });
+    handler({ form, field });
     expect(field.scopedComponent.filter?.lessThan).toBe(2);
     expect(subscribeSpy).not.toHaveBeenCalled();
   });
@@ -270,7 +270,7 @@ describe('Testing handlers/field/templating', () => {
 
     const subscribeSpy = jest.spyOn(field, 'subscribe');
 
-    handler({ field });
+    handler({ form, field });
     expect(field.scopedComponent.filter?.lessThan).toBe(2);
     expect(subscribeSpy).toHaveBeenCalled();
   });
@@ -290,7 +290,7 @@ describe('Testing handlers/field/templating', () => {
 
       const subscribeSpy = jest.spyOn(field, 'subscribe');
 
-      handler({ field });
+      handler({ form, field });
       expect(field.scopedComponent.filter?.lessThan).toBe('2');
       expect(subscribeSpy).toHaveBeenCalled();
 
@@ -313,7 +313,7 @@ describe('Testing handlers/field/templating', () => {
       const subscribeSpy = jest.spyOn(field, 'subscribe');
       const fieldRehydrateSpy = jest.spyOn(field, 'rehydrate');
 
-      handler({ field });
+      handler({ form, field });
       expect(field.scopedComponent.filter?.lessThan).toBe('2');
       expect(subscribeSpy).toHaveBeenCalled();
 

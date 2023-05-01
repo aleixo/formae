@@ -11,7 +11,8 @@ class Form extends Base {
   #observer: Events.Observer;
   formData: TFormValues;
   formId: string;
-  schema?: TSchema;
+  schema: TSchema;
+  scopedSchema: any;
   scope: Scope;
   initialValues: Record<string, unknown>;
   #step: TStepData;
@@ -20,15 +21,18 @@ class Form extends Base {
     formId: string,
     observer: Events.Observer,
     scope: Scope,
-    schema?: TSchema,
-    initialValues: Record<string, unknown> = {},
+    schema: TSchema,
+    opts: {
+      initialValues: Record<string, unknown>;
+    },
   ) {
     super(observer);
     this.#observer = observer;
     this.schema = schema;
+    this.scopedSchema = schema;
     this.scope = scope;
     this.formId = formId;
-    this.initialValues = initialValues;
+    this.initialValues = opts?.initialValues;
 
     this.#step = {
       numSteps: schema?.components.length,
@@ -83,7 +87,9 @@ class Form extends Base {
   }
 
   rehydrate() {
-    this.publish(Events.CoreEvents.ON_FORM_REHYDRATE);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { components, ...rest } = this.scopedSchema;
+    this.publish(Events.EEVents.ON_FORM_REHYDRATE, { checksum: JSON.stringify(rest) });
   }
 
   destroyField(field: string) {

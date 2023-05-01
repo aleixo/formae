@@ -15,15 +15,7 @@ interface HocProps {
 type DecoratorProps<OriginalComponentProps = Record<string, unknown>> = OriginalComponentProps &
   Pick<
     TComponent,
-    | 'validations'
-    | 'masks'
-    | 'rehydrate'
-    | 'clearFields'
-    | 'api'
-    | 'errorMessages'
-    | 'filter'
-    | 'formatters'
-    | 'visibilityConditions'
+    'validations' | 'masks' | 'clearFields' | 'api' | 'errorMessages' | 'filter' | 'formatters' | 'visibilityConditions'
   > & {
     formId?: string;
     visibility?: boolean;
@@ -105,7 +97,7 @@ const asFormField =
     }, [visibility]);
 
     useEffect(() => {
-      //return () => getFormInstance(formId).destroyField(name);
+      return () => getFormInstance(formId).destroyField(name);
     }, []);
 
     if (!fieldInstance.data.visible) {

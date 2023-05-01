@@ -8,11 +8,10 @@ import * as change from './field/change';
 import * as mount from './field/mount';
 import * as blur from './field/blur';
 import * as focus from './field/focus';
-import * as templating from './field/templating';
+import * as templating from './common/templating';
 import * as api from './field/api';
 import * as data from './field/data';
 import * as clearFields from './field/clearFields';
-import * as rehydrate from './field/rehydrate';
 import * as visibilityConditions from './field/visibilityConditions';
 import * as htmlEventParser from './field/htmlEventParser';
 import * as formatters from './field/formatters';
@@ -38,17 +37,14 @@ const register = (observer: Events.Observer, flows: any, component?: TComponent)
 };
 
 const fieldFlows = () => ({
-  [EEVents.ON_FIELD_REHYDRATE]: [validations],
   [EEVents.ON_FIELD_MOUNT]: [
-    mount,
     templating,
+    mount,
     api,
     validations,
     formatters,
     visibilityConditions,
     clearFields,
-    rehydrate,
-    templating,
     masks,
     data,
   ],
@@ -61,33 +57,22 @@ const fieldFlows = () => ({
     api,
     visibilityConditions,
     clearFields,
-    rehydrate,
-    templating,
     data,
     masks,
   ],
-  [EEVents.ON_FIELD_BLUR]: [
-    blur,
-    formatters,
-    masks,
-    validations,
-    templating,
-    api,
-    visibilityConditions,
-    clearFields,
-    data,
-  ],
+  [EEVents.ON_FIELD_REHYDRATE]: [validations],
+  [EEVents.ON_FIELD_BLUR]: [blur, formatters, masks, validations, api, visibilityConditions, clearFields, data],
   [EEVents.ON_FIELD_FOCUS]: [focus, masks],
 });
 
 const formFlows = () => ({
-  [EEVents.ON_FORM_MOUNT]: [hooks, steps, validate],
+  [EEVents.ON_FORM_MOUNT]: [templating, hooks, steps, validate],
   [EEVents.VALIDATE_FORM]: [validate],
   [EEVents.ON_FORM_SUBMIT]: [hooks],
   [EEVents.ON_FORM_UN_MOUNT]: [hooks],
   [EEVents.NAVIGATE_STEP_BACK]: [steps],
   [EEVents.NAVIGATE_STEP_FORWARD]: [steps],
-  [EEVents.ON_FORM_REHYDRATE]: [],
+  [Events.ALL_NAMESPACE_EVENTS(EEVents.ON_SCOPE_CHANGE)]: [templating],
 });
 
 export { register, fieldFlows, formFlows };
