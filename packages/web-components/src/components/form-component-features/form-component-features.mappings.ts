@@ -17,6 +17,9 @@ const formMapper = {
   [EFormComponent.FORM_GROUP]: {
     component: FormGroup,
   },
+  [EFormComponent.INPUT]: {
+    component: TextField,
+  },
   [EBuilderComponentPropsTypes.STRING]: {
     component: TextField,
   },

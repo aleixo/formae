@@ -1,8 +1,5 @@
 import { TComponent, TSchema } from "@form-builder/engine";
-import {
-  EBuilderComponentPropsTypes,
-  EFormComponent,
-} from "../../../types/engine";
+import { EFormComponent } from "../../../types/engine";
 
 export const schema = ({ component }: { component: TComponent }): TSchema => ({
   components: [
@@ -13,14 +10,19 @@ export const schema = ({ component }: { component: TComponent }): TSchema => ({
         {
           name: "",
           component: EFormComponent.FORM_GROUP,
-          props: {
-            title: "Error messages",
-          },
-          children:
-            component.validations &&
-            [
+          children: [
+            {
+              component: EFormComponent.INPUT,
+              name: "default",
+              props: {
+                label: "Default",
+                placeholder: "Message as default for all validations",
+                fullWidth: true,
+              },
+            },
+            ...[
               ...new Set(
-                Object.keys(component.validations).reduce((acc, key) => {
+                Object.keys(component.validations || {}).reduce((acc, key) => {
                   if (!component.validations || !component.validations[key])
                     return acc;
                   return [...acc, ...Object.keys(component.validations[key])];
@@ -28,15 +30,21 @@ export const schema = ({ component }: { component: TComponent }): TSchema => ({
               ),
             ].map((key) => ({
               name: "errorMessages." + key,
-              component: EBuilderComponentPropsTypes.STRING,
+              component: EFormComponent.INPUT,
               props: {
                 label: key,
                 placeholder: "Message for this validation",
                 fullWidth: true,
               },
             })),
+          ],
         },
       ],
     },
   ],
 });
+/**
+ * {
+                      
+                    }
+ */

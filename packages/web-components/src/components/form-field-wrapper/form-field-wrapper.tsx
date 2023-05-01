@@ -102,7 +102,7 @@ const PreviewContainer = ({
             style={{
               position: "absolute",
               bottom: "16px",
-              zIndex: 2,
+              zIndex: 20,
               marginLeft: "auto",
               marginRight: "auto",
               left: 0,
@@ -112,7 +112,7 @@ const PreviewContainer = ({
           <div
             style={{
               position: "absolute",
-              zIndex: 2,
+              zIndex: 20,
               display: "flex",
               width: "100%",
               justifyContent: "space-between",
@@ -130,6 +130,7 @@ const PreviewContainer = ({
             <Box sx={{ backgroundColor: color }}>
               <IconButton
                 onClick={(e) => {
+                  console.log("DELETE");
                   e.stopPropagation();
                   e.preventDefault();
                   cms.dispatch({

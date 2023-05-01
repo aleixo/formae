@@ -63,8 +63,10 @@ const FormComponentFeatures = ({
 }) => {
   const cms = useCms();
   const schema = useSchema();
+
   const handleComponentUpdate = useCallback(
     (data) => {
+      console.log("save", data);
       const component = merge(
         cms.state.selectedComponent || {},
         data.formatted || {}
