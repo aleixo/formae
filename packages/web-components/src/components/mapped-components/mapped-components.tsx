@@ -32,6 +32,7 @@ const MappedComponents = (): ReactElement => {
                   mapper={cms.mappings}
                 >
                   <Form
+                    disable
                     schema={schema.addToFormStep(
                       schema.initForm(),
                       schema.buildComponent({
@@ -58,10 +59,10 @@ const MappedComponents = (): ReactElement => {
       </Grid>
       <Divider>Container Templates</Divider>
       <FormComponentFeatureTemplate
-        template={cms.state.selectedComponent}
         feature="container"
-        showGrid
+        template={cms.state.selectedComponent}
         onChangeTemplate={(template) => {}}
+        showGrid
       />
     </Stack>
   );

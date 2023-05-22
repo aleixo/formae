@@ -64,14 +64,14 @@ const PreviewContainer = ({ children, onDragStart, onDrop, component, }) => {
         } }, { children: [(isSelected || isOvering) && (_jsxs("div", { children: [_jsx("div", { style: {
                             position: "absolute",
                             bottom: "16px",
-                            zIndex: 2,
+                            zIndex: 20,
                             marginLeft: "auto",
                             marginRight: "auto",
                             left: 0,
                             textAlign: "center",
                         } }), _jsxs("div", Object.assign({ style: {
                             position: "absolute",
-                            zIndex: 2,
+                            zIndex: 20,
                             display: "flex",
                             width: "100%",
                             justifyContent: "space-between",
@@ -80,6 +80,7 @@ const PreviewContainer = ({ children, onDragStart, onDrop, component, }) => {
                                     padding: "6px",
                                     backgroundColor: color,
                                 } }, { children: component.component })), _jsxs(Box, Object.assign({ sx: { backgroundColor: color } }, { children: [_jsx(IconButton, Object.assign({ onClick: (e) => {
+                                            console.log("DELETE");
                                             e.stopPropagation();
                                             e.preventDefault();
                                             cms.dispatch({

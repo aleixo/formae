@@ -40,7 +40,7 @@ const FormComponentFeatureTemplate = ({
       },
     });
   };
-  console.log(template);
+
   return (
     <List>
       <NewTemplateModal
@@ -101,6 +101,7 @@ const FormComponentFeatureTemplate = ({
                       mapper={cms.mappings}
                     >
                       <Form
+                        disable
                         schema={schema.addToFormStep(
                           schema.initForm(),
                           template.configuration
@@ -111,7 +112,6 @@ const FormComponentFeatureTemplate = ({
                   title={template.name}
                   description={"User template"}
                   onClick={() => {
-                    console.log(template);
                     dispatchNewComponentToSchema(
                       schema.cloneComponent(template.configuration)
                     );

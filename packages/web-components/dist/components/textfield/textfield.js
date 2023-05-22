@@ -5,9 +5,10 @@ const FormTextField = asFormField({
     propsMapping: {
         getValue: "onChange",
         setValue: "value",
-        setErrorMessage: "errorMessage",
         onBlur: "onBlur",
         onFocus: "onFocus",
+        setErrorMessage: "helperText",
+        setErrorState: "error",
     },
 });
 export { FormTextField, TextField };

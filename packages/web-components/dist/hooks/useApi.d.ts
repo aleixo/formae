@@ -1,11 +1,8 @@
-import { TComponent, TSchema } from "@form-builder/engine";
-type ITemplates = Record<string, TComponent>;
+import { TSchema } from "@form-builder/engine";
 declare const useApi: () => {
+    updateTemplates: (templates: any) => void;
     getSchema: () => TSchema;
     updateSchema: (schema: TSchema) => void;
-    addTemplate: (template: Record<string, TComponent>) => void;
-    getTemplates: () => ITemplates;
-    addFormFieldConfigurationsTemplate: (configs: Record<string, unknown>) => void;
-    getFormFieldConfigurationsTemplate: () => TComponent;
+    getTemplates: () => unknown;
 };
 export { useApi };

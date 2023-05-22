@@ -14,9 +14,7 @@ import {
 export default function Home() {
   return (
     <Provider
-      onSave={() => {
-        console.log("save it");
-      }}
+      onSave={() => {}}
       mappings={
         {
           examples,

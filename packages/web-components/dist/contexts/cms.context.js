@@ -10,25 +10,33 @@ export const Context = createContext({
     props: {},
     state: cmsInitialState,
     dispatch: () => { },
+    onSave: () => { },
 });
 Context.displayName = "CMSContext";
-const Provider = ({ children, mappings }) => {
+const Provider = ({ children, mappings, onSave, initialSchema, }) => {
     const api = useApi();
     const schema = useSchema();
-    const [state, dispatch] = useReducer(cmsReducer, Object.assign(Object.assign({}, cmsInitialState), { schema: schema.initForm() }));
-    const { middleware } = useCmsMiddleware();
+    const [state, dispatch] = useReducer(cmsReducer, Object.assign({}, cmsInitialState));
+    const { pre } = useCmsMiddleware();
     useEffect(() => {
-        const schemaFromApi = api.getSchema();
-        if (!Object.keys(schemaFromApi).length) {
-            return;
-        }
         dispatch({
-            type: ECMSActions.SET_BUILDER_SCHEMA,
-            payload: { schema: schemaFromApi },
+            type: ECMSActions.REHYDRATE,
+            payload: {
+                newState: {
+                    schema: api.getSchema() || initialSchema || schema.initForm(),
+                    templates: api.getTemplates(),
+                },
+            },
         });
-    }, [api]);
-    return (_jsx(Context.Provider, Object.assign({ value: Object.assign(Object.assign({}, mappings), { state, dispatch: (action) => {
-                middleware(action);
+    }, []);
+    useEffect(() => {
+        if (!Object.keys(state.templates).length)
+            return;
+        api.updateTemplates(state.templates);
+    }, [JSON.stringify(state.templates)]);
+    return (_jsx(Context.Provider, Object.assign({ value: Object.assign(Object.assign({}, mappings), { state,
+            onSave, dispatch: (action) => {
+                pre(action);
                 dispatch(action);
             } }) }, { children: children })));
 };

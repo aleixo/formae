@@ -1,4 +1,4 @@
-import React, { ReactElement, useMemo } from 'react';
+import { ReactElement, useMemo } from 'react';
 
 import { TChildWrapperProps } from './types';
 import { getFormInstance, BUILD_EVENT } from 'core';

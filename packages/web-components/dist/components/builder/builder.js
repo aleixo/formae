@@ -17,7 +17,6 @@ const Builder = ({ mode }) => {
     const formRef = useRef(null);
     let draggingElementRef = useRef(null);
     const resetOveredAndSelected = () => {
-        console.log("RESET");
         cms.dispatch({
             type: ECMSActions.SET_OVERED_COMPONENT,
             payload: { component: undefined },

@@ -19,11 +19,8 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
         },
     };
 }); // TypeScript only: need a type cast here because https://github.com/Microsoft/TypeScript/issues/26591
-function handleClick(event) {
-    event.preventDefault();
-}
-function BreadCrumb({ paths, onClick, }) {
-    return (_jsx("div", Object.assign({ role: "presentation" }, { children: _jsxs(Breadcrumbs, Object.assign({ "aria-label": "breadcrumb" }, { children: [_jsx(StyledBreadcrumb, { component: "a", href: "#", label: "Features", onClick: () => onClick(), icon: _jsx(HomeIcon, { fontSize: "small" }) }), paths.map((path) => (_jsx(StyledBreadcrumb, { component: "a", href: "#", label: path, onClick: () => onClick(path) }, path)))] })) })));
+function BreadCrumb({ paths, onClick, levelOneName, }) {
+    return (_jsx("div", Object.assign({ role: "presentation" }, { children: _jsxs(Breadcrumbs, Object.assign({ "aria-label": "breadcrumb" }, { children: [_jsx(StyledBreadcrumb, { component: "a", href: "#", label: levelOneName, onClick: () => onClick(), icon: _jsx(HomeIcon, { fontSize: "small" }) }), paths.map((path) => (_jsx(StyledBreadcrumb, { component: "a", href: "#", label: path, onClick: () => onClick(path) }, path)))] })) })));
 }
 export { BreadCrumb };
 //# sourceMappingURL=breadcrumb.js.map

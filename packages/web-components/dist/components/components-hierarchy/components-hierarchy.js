@@ -8,9 +8,9 @@ const ComponentsHierarchy = () => {
     const render = () => {
         const components = [];
         schema.transverseSchema(cms.state.schema, 0, (component, index, currDepth) => {
-            var _a, _b;
-            components.push(_jsx(S.Item, Object.assign({ padding: currDepth.toString(), selected: ((_a = cms.state.selectedComponent) === null || _a === void 0 ? void 0 : _a.component).id ===
-                    component[index].id, overed: ((_b = cms.state.overedComponent) === null || _b === void 0 ? void 0 : _b.id) === component[index].id }, { children: _jsxs("p", { children: ["- ", component[index].component, "/", component[index].name] }) })));
+            var _a, _b, _c;
+            components.push(_jsx(S.Item, Object.assign({ padding: currDepth.toString(), selected: ((_b = (_a = cms.state.selectedComponent) === null || _a === void 0 ? void 0 : _a.component) === null || _b === void 0 ? void 0 : _b.id) ===
+                    component[index].id, overed: ((_c = cms.state.overedComponent) === null || _c === void 0 ? void 0 : _c.id) === component[index].id }, { children: _jsxs("p", { children: ["- ", component[index].component, "/", component[index].name] }) })));
         });
         return components;
     };
