@@ -57,7 +57,7 @@ const FormComponentFeatures = ({ feature, events, onEventClick, showEventSelecti
     }, [cms, schema]);
     const [formKey, setFormKey] = useState(new Date().getTime());
     const { submitForm } = useForm({
-        formId: "features",
+        id: "features",
         onSubmit: handleComponentUpdate,
     });
     const [selectedEvent, setSelectedEvent] = useState();
@@ -81,7 +81,9 @@ const FormComponentFeatures = ({ feature, events, onEventClick, showEventSelecti
                         if (selectedEvent) {
                             handleComponentUpdate({
                                 formatted: {
-                                    [feature]: { [selectedEvent]: template.configuration },
+                                    [feature]: {
+                                        [selectedEvent]: template.configuration,
+                                    },
                                 },
                             });
                         }

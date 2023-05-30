@@ -17,7 +17,7 @@ const MappedComponents = () => {
             },
         });
     };
-    return (_jsxs(Stack, Object.assign({ spacing: 3 }, { children: [_jsx(Divider, { children: "User mapped components" }), _jsx(Grid, Object.assign({ container: true, spacing: 2 }, { children: Object.keys(cms.mappings).map((key, i) => (_jsx(Grid, Object.assign({ item: true, xs: 6 }, { children: _jsx(ActionAreaCard, { preview: () => (_jsx(FormProvider, Object.assign({ propsMapping: cms.propsMapping, mapper: cms.mappings }, { children: _jsx(Form, { schema: schema.addToFormStep(schema.initForm(), schema.buildComponent({
+    return (_jsxs(Stack, Object.assign({ spacing: 3 }, { children: [_jsx(Divider, { children: "User mapped components" }), _jsx(Grid, Object.assign({ container: true, spacing: 2 }, { children: Object.keys(cms.mappings).map((key, i) => (_jsx(Grid, Object.assign({ item: true, xs: 6 }, { children: _jsx(ActionAreaCard, { preview: () => (_jsx(FormProvider, Object.assign({ propsMapping: cms.propsMapping, mapper: cms.mappings }, { children: _jsx(Form, { disable: true, schema: schema.addToFormStep(schema.initForm(), schema.buildComponent({
                                     component: key,
                                     props: cms.examples[key],
                                 })) }) }))), title: cms.mappings[key].label, description: cms.mappings[key].description, onClick: () => {
@@ -25,7 +25,7 @@ const MappedComponents = () => {
                                 component: key,
                                 props: cms.examples[key],
                             }));
-                        } }) }), key))) })), _jsx(Divider, { children: "Container Templates" }), _jsx(FormComponentFeatureTemplate, { template: cms.state.selectedComponent, feature: "container", showGrid: true, onChangeTemplate: (template) => { } })] })));
+                        } }) }), key))) })), _jsx(Divider, { children: "Container Templates" }), _jsx(FormComponentFeatureTemplate, { feature: "container", template: cms.state.selectedComponent, onChangeTemplate: () => { }, showGrid: true })] })));
 };
 export { MappedComponents };
 //# sourceMappingURL=mapped-components.js.map

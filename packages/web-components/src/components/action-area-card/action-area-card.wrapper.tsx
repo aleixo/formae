@@ -1,10 +1,10 @@
 import { Delete } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 interface IProps {
   children: any;
-  onDeleteClick(): void;
+  onDeleteClick?: () => void;
 }
 
 const ActionAreaWrapper = ({ children, onDeleteClick }: IProps) => {
@@ -12,7 +12,7 @@ const ActionAreaWrapper = ({ children, onDeleteClick }: IProps) => {
 
   return (
     <div
-      onMouseEnter={() => setShow(true)}
+      onMouseEnter={() => onDeleteClick && setShow(true)}
       onMouseLeave={() => setShow(false)}
       style={{
         position: "relative",
@@ -40,7 +40,7 @@ const ActionAreaWrapper = ({ children, onDeleteClick }: IProps) => {
                 onClick={(e) => {
                   e.stopPropagation();
                   e.preventDefault();
-                  onDeleteClick();
+                  onDeleteClick && onDeleteClick();
                 }}
               >
                 <Delete />

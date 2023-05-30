@@ -13,7 +13,7 @@ const NewTemplateModal = ({ open, onClose, feature, template }) => {
         setOpenModal(open);
     }, [open]);
     const { formData } = useForm({
-        formId: "new_template",
+        id: "new_template",
         onData: (data) => {
             setIsValid(data.form.isValid);
         },

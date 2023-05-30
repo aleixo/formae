@@ -26,8 +26,11 @@ const FormComponentFeatureTemplate = ({
 }: {
   showGrid?: boolean;
   template: any;
-  feature: string;
-  onChangeTemplate(template: { formatted: TComponent }): void;
+  feature: keyof TComponent;
+  onChangeTemplate(template: {
+    formatted: TComponent;
+    configuration: any;
+  }): void;
 }) => {
   const [openNewTemplateModal, setOpenNewTemplateModal] = useState(false);
   const cms = useCms();

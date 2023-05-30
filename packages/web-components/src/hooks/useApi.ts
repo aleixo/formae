@@ -1,8 +1,11 @@
 import { TSchema } from "@form-builder/engine";
 import { useCallback, useMemo } from "react";
 
-const getStoreItem = <T>(key: string) =>
-  JSON.parse(window.localStorage.getItem(key) || "{}") as T;
+const getStoreItem = <T>(key: string) => {
+  const item = window.localStorage.getItem(key);
+  if (!item) return false;
+  return JSON.parse(item) as T;
+};
 
 const setStoreItem = (key: string, item: Record<string, unknown>) =>
   window.localStorage.setItem(key, JSON.stringify(item));

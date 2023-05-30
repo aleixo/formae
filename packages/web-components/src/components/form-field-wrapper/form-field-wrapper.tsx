@@ -130,7 +130,6 @@ const PreviewContainer = ({
             <Box sx={{ backgroundColor: color }}>
               <IconButton
                 onClick={(e) => {
-                  console.log("DELETE");
                   e.stopPropagation();
                   e.preventDefault();
                   cms.dispatch({
@@ -139,7 +138,7 @@ const PreviewContainer = ({
                       schema: schema.remove<TSchema>(
                         cms.state.schema!,
                         0,
-                        component as any
+                        component
                       ),
                     },
                   });
@@ -155,7 +154,7 @@ const PreviewContainer = ({
                     type: ECMSActions.SET_BUILDER_SCHEMA,
                     payload: {
                       schema: schema.moveUp<TSchema>(
-                        cms.state.schema!,
+                        cms.state.schema,
                         component as any
                       ),
                     },

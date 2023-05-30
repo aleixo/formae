@@ -26,7 +26,7 @@ import { schema as basicsSchema } from "./forms/form-component-features.basics";
 import { FeatureEvents } from "./form-component-events";
 import * as S from "./form-component-features.styles";
 import { FormComponentFeatureTemplate } from "../form-template/form-template";
-import { Box, Button, Divider, Stack } from "@mui/material";
+import { Button, Divider, Stack } from "@mui/material";
 type EFeatures = keyof TComponent;
 
 function merge(...objects) {
@@ -66,7 +66,6 @@ const FormComponentFeatures = ({
 
   const handleComponentUpdate = useCallback(
     (data) => {
-      console.log("save", data);
       const component = merge(
         cms.state.selectedComponent || {},
         data.formatted || {}
@@ -91,7 +90,7 @@ const FormComponentFeatures = ({
 
   const [formKey, setFormKey] = useState(new Date().getTime());
   const { submitForm } = useForm({
-    formId: "features",
+    id: "features",
     onSubmit: handleComponentUpdate,
   });
   const [selectedEvent, setSelectedEvent] = useState();
@@ -140,7 +139,9 @@ const FormComponentFeatures = ({
             if (selectedEvent) {
               handleComponentUpdate({
                 formatted: {
-                  [feature]: { [selectedEvent]: template.configuration },
+                  [feature as string]: {
+                    [selectedEvent]: template.configuration,
+                  },
                 },
               });
             }
@@ -148,10 +149,10 @@ const FormComponentFeatures = ({
           feature={feature}
           template={
             selectedEvent
-              ? ((cms.state.selectedComponent || {})[feature] || {})[
+              ? ((cms.state.selectedComponent || {})[feature as string] || {})[
                   selectedEvent
                 ]
-              : (cms.state.selectedComponent || {})[feature]
+              : (cms.state.selectedComponent || {})[feature as string]
           }
         />
         <Divider>Features</Divider>

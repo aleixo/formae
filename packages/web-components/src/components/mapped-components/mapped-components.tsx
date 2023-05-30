@@ -5,19 +5,19 @@ import { ECMSActions } from "../../contexts/cms.reducer";
 import { useSchema } from "../../hooks/useSchema";
 import { ActionAreaCard } from "../action-area-card/action-area-card";
 import { FormComponentFeatureTemplate } from "../form-template/form-template";
-import { Form, FormProvider, TSchema } from "@form-builder/engine";
+import { Form, FormProvider } from "@form-builder/engine";
+
 const MappedComponents = (): ReactElement => {
   const cms = useCms();
   const schema = useSchema();
 
-  const dispatchNewComponentToSchema = (component) => {
+  const dispatchNewComponentToSchema = (component) =>
     cms.dispatch({
       type: ECMSActions.SET_BUILDER_SCHEMA,
       payload: {
         schema: schema.addToFormStep(cms.state.schema!, component),
       },
     });
-  };
 
   return (
     <Stack spacing={3}>
@@ -25,12 +25,9 @@ const MappedComponents = (): ReactElement => {
       <Grid container spacing={2}>
         {Object.keys(cms.mappings).map((key, i) => (
           <Grid item xs={6} key={key}>
-            <ActionAreaCard
-              preview={() => (
-                <FormProvider
-                  propsMapping={cms.propsMapping}
-                  mapper={cms.mappings}
-                >
+            <FormProvider propsMapping={cms.propsMapping} mapper={cms.mappings}>
+              <ActionAreaCard
+                preview={() => (
                   <Form
                     disable
                     schema={schema.addToFormStep(
@@ -41,19 +38,19 @@ const MappedComponents = (): ReactElement => {
                       })
                     )}
                   />
-                </FormProvider>
-              )}
-              title={cms.mappings[key].label as string}
-              description={cms.mappings[key].description as string}
-              onClick={() => {
-                dispatchNewComponentToSchema(
-                  schema.buildComponent({
-                    component: key,
-                    props: cms.examples[key] as any,
-                  })
-                );
-              }}
-            />
+                )}
+                title={cms.mappings[key].label as string}
+                description={cms.mappings[key].description as string}
+                onClick={() => {
+                  dispatchNewComponentToSchema(
+                    schema.buildComponent({
+                      component: key,
+                      props: cms.examples[key] as any,
+                    })
+                  );
+                }}
+              />
+            </FormProvider>
           </Grid>
         ))}
       </Grid>
@@ -61,7 +58,7 @@ const MappedComponents = (): ReactElement => {
       <FormComponentFeatureTemplate
         feature="container"
         template={cms.state.selectedComponent}
-        onChangeTemplate={(template) => {}}
+        onChangeTemplate={() => {}}
         showGrid
       />
     </Stack>

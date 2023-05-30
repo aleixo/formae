@@ -1,17 +1,21 @@
-import { MenuItem, Select } from "@mui/material";
+import { MenuItem, Select as MUISelect } from "@mui/material";
 
-const FormSelect = (
-  props: React.ComponentProps<typeof Select> & {
+const Select = (
+  props: React.ComponentProps<typeof MUISelect> & {
     options: { value: string; label: string; selected?: boolean }[];
   }
 ) => (
-  <Select autoWidth={true} fullWidth={true} {...props}>
+  <MUISelect {...props}>
     {props.options.map((option) => (
-      <MenuItem key={option.value} value={option.value}>
+      <MenuItem
+        key={option.value}
+        value={option.value}
+        selected={option.selected || props.value === option.value}
+      >
         {option.label}
       </MenuItem>
     ))}
-  </Select>
+  </MUISelect>
 );
 
-export { FormSelect };
+export { Select };

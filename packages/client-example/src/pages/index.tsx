@@ -6,11 +6,6 @@ import {
   props,
 } from "../mappings";
 
-import {
-  bolttechTheme,
-  BolttechThemeProvider,
-} from "@edirect/frontend-foundations";
-
 export default function Home() {
   return (
     <Provider
@@ -24,19 +19,7 @@ export default function Home() {
         } as any
       }
     >
-      <BolttechThemeProvider
-        theme={
-          {
-            ...bolttechTheme,
-            colors: {
-              ...bolttechTheme.colors,
-              text: {},
-            },
-          } as any
-        }
-      >
-        <BuilderPage />
-      </BolttechThemeProvider>
+      <BuilderPage />
     </Provider>
   );
 }

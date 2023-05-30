@@ -3,6 +3,6 @@ declare function ActionAreaCard({ title, description, onClick, preview, }: {
     title: string;
     description: string;
     onClick(): void;
-    preview: any;
+    preview?: any;
 }): JSX.Element;
 export { ActionAreaCard };

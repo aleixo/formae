@@ -8,11 +8,9 @@ export enum EFormComponent {
 
 export enum EBuilderComponentPropsTypes {
   STRING = "string",
-  NUMBER = "number",
   BOOLEAN = "boolean",
   OBJECT = "object",
-  ARRAY = "array",
-  TABLE = "table",
+  SELECT = "select",
 }
 
 export interface IComponent extends TComponent {

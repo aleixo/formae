@@ -41,7 +41,7 @@ function LeftPanel() {
         <List component="nav">
           <ListItemButton
             onClick={() => {
-              window.open(`/preview?key=form_json`, "_blank");
+              window.open(`/?mode=PREVIEW`);
             }}
           >
             <ListItemIcon>

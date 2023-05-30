@@ -1,48 +1,29 @@
-import { Form, FormProvider, TSchema } from "@form-builder/engine";
+import { Form, FormProvider, TSchema, useForm } from "@form-builder/engine";
 import { useEffect, useState } from "react";
 
 import { useCms } from "../../contexts/cms.context";
 import { ECMSActions } from "../../contexts/cms.reducer";
 import { useSchema } from "../../hooks/useSchema";
+import { mapper, propsMapping } from "./component-props-form.mappings";
 import { EBuilderComponentPropsTypes } from "../../types/engine";
-import { Checkbox } from "../checkbox/checkbox";
-import { FormGroup } from "../formGroup/formGroup";
-import { TextField } from "../textfield/textfield";
+import { ScopeModal } from "../scope-modal/scope-modal";
 
 const ComponentPropsForm = () => {
   const cms = useCms();
   const schema = useSchema();
   const [formKey, setFormKey] = useState(new Date().getTime());
 
+  const { formData } = useForm({ id: "builder_form" });
+
   useEffect(() => {
     setFormKey(new Date().getTime());
   }, [cms.state.selectedComponent?.name]);
 
   if (!cms.state.selectedComponent) return <></>;
+
   return (
-    <FormProvider
-      mapper={{
-        [EBuilderComponentPropsTypes.STRING]: {
-          component: TextField,
-        },
-        [EBuilderComponentPropsTypes.BOOLEAN]: {
-          component: Checkbox,
-        },
-        formGroup: {
-          component: FormGroup,
-        },
-      }}
-      propsMapping={{
-        [EBuilderComponentPropsTypes.STRING]: {
-          getValue: "onChange",
-          setValue: "value",
-        },
-        [EBuilderComponentPropsTypes.BOOLEAN]: {
-          getValue: "onChange",
-          setValue: "checked",
-        },
-      }}
-    >
+    <FormProvider mapper={mapper} propsMapping={propsMapping}>
+      <ScopeModal scope={formData().form.scope} />
       <Form
         key={formKey}
         onData={(data) => {
@@ -61,11 +42,11 @@ const ComponentPropsForm = () => {
         schema={{
           components: [
             {
-              component: "formGroup",
+              component: EBuilderComponentPropsTypes.OBJECT,
               name: "",
               children: [
                 {
-                  component: "formGroup",
+                  component: EBuilderComponentPropsTypes.OBJECT,
                   name: "",
                   children: cms.props[
                     cms.state.selectedComponent?.component
@@ -73,6 +54,7 @@ const ComponentPropsForm = () => {
                     ...comp,
                     name: "props." + comp.name,
                     props: {
+                      ...comp.props,
                       label:
                         comp.name.charAt(0).toUpperCase() + comp.name.slice(1),
                     },

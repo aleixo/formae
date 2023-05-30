@@ -91,17 +91,20 @@ const Builder = ({ mode }: IProps) => {
     },
     [cms, mode, schema]
   );
+
   return (
     <FormProvider mapper={cms.mappings} propsMapping={cms.propsMapping}>
       <S.BuilderContainer onClick={resetOveredAndSelected}>
-        <Form
-          id="builder_form"
-          ref={formRef}
-          key={formKey}
-          schema={cms.state.schema}
-          onFocus={handleFieldFocus}
-          renderFieldWrapper={renderFieldWrapper}
-        />
+        {cms.state.schema && (
+          <Form
+            id="builder_form"
+            ref={formRef}
+            key={formKey + mode}
+            schema={cms.state.schema}
+            onFocus={handleFieldFocus}
+            renderFieldWrapper={renderFieldWrapper}
+          />
+        )}
       </S.BuilderContainer>
     </FormProvider>
   );

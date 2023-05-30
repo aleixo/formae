@@ -5,13 +5,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 
 import ListSubheader from "@mui/material/ListSubheader";
 
-import {
-  Box,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Stack,
-} from "@mui/material";
+import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { MappedComponents } from "../mapped-components/mapped-components";
 import { ComponentPropsForm } from "../component-props-form/component-props-form";
 import { ComponentsHierarchy } from "../components-hierarchy/components-hierarchy";

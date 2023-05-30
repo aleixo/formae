@@ -20,15 +20,13 @@ const FormComponentFeatureTemplate = ({ feature, template, onChangeTemplate, sho
             },
         });
     };
-    console.log(template);
     return (_jsxs(List, { children: [_jsx(NewTemplateModal, { open: openNewTemplateModal, onClose: () => setOpenNewTemplateModal(false), feature: feature, template: template }), template && (_jsxs(ListItemButton, Object.assign({ onClick: () => {
                     setOpenNewTemplateModal(true);
                 } }, { children: [_jsx(ListItemIcon, { children: _jsx(DashboardIcon, {}) }), _jsx(ListItemText, { primary: "Save and create template from selection" })] }))), showGrid || (_jsx(ListItemButton, { children: _jsxs(FormControl, Object.assign({ fullWidth: true }, { children: [_jsx(InputLabel, Object.assign({ id: "templates" }, { children: "Configured templates" })), _jsx(Select, Object.assign({ labelId: "templates", id: "demo-simple-select", value: "Templates", label: "Configured templates", placeholder: "Select one template", onChange: (e) => {
                                 onChangeTemplate(cms.state.templates[feature].find((template) => template.name === e.target.value));
                             } }, { children: cms.state.templates[feature] &&
                                 cms.state.templates[feature].map((template) => (_jsx(MenuItem, Object.assign({ value: template.name }, { children: template.name }), template.name))) }))] })) })), showGrid && (_jsx(Grid, Object.assign({ container: true, spacing: 2 }, { children: cms.state.templates.container &&
-                    cms.state.templates.container.map((template) => (_jsx(Grid, Object.assign({ item: true, xs: 6 }, { children: _jsx(ActionAreaCard, { preview: () => (_jsx(FormProvider, Object.assign({ propsMapping: cms.propsMapping, mapper: cms.mappings }, { children: _jsx(Form, { schema: schema.addToFormStep(schema.initForm(), template.configuration) }) }))), title: template.name, description: "User template", onClick: () => {
-                                console.log(template);
+                    cms.state.templates.container.map((template) => (_jsx(Grid, Object.assign({ item: true, xs: 6 }, { children: _jsx(ActionAreaCard, { preview: () => (_jsx(FormProvider, Object.assign({ propsMapping: cms.propsMapping, mapper: cms.mappings }, { children: _jsx(Form, { disable: true, schema: schema.addToFormStep(schema.initForm(), template.configuration) }) }))), title: template.name, description: "User template", onClick: () => {
                                 dispatchNewComponentToSchema(schema.cloneComponent(template.configuration));
                             } }) }), template.name))) })))] }));
 };

@@ -6,14 +6,18 @@
   ],
   "scripts": {
     "bootstrap": "npx lerna bootstrap",
-    "dev": "npx -y lerna run dev --scope client-example",
+    "start": "npx -y lerna run dev --scope client-example",
     "build": "npx lerna run build",
     "graph": "npx nx graph"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
     "@form-builder/web-components": "^0.0.1",
+    "@mui/material": "^5.13.2",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-json-editor-ui": "^1.0.8"
   },
   "devDependencies": {
     "@types/node": "18.15.11",

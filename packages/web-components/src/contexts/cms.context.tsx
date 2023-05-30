@@ -76,6 +76,7 @@ const Provider = ({
 
   useEffect(() => {
     if (!Object.keys(state.templates).length) return;
+
     api.updateTemplates(state.templates);
   }, [JSON.stringify(state.templates)]);
 

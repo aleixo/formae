@@ -50,7 +50,6 @@ export const ConnectedInputInsideSchema: Story = (): React.ReactElement => {
   const { submitForm } = useForm({
     id: '1',
     onData: (data) => {},
-    onSubmit: console.log,
   });
   return (
     <FormProvider mapper={Mappings} propsMapping={formBuilderPropsMapping}>
@@ -179,9 +178,7 @@ export const AddingRemovingField: Story = (): React.ReactElement => {
 export const UseFormOnMultiple: Story = (): React.ReactElement => {
   const { submitForm } = useForm({
     ids: ['form1', 'form2'],
-    onSubmit: (data) => {
-      console.log('SUBMIT ', data);
-    },
+    onSubmit: (data) => {},
   });
   return (
     <FormProvider
@@ -258,13 +255,8 @@ export const UseFormOnMultiple: Story = (): React.ReactElement => {
 export const UseFormGroup: Story = (): React.ReactElement => {
   const { submitForm } = useForm({
     ids: ['form', 'form2'],
-    onValid: (d, a) => {
-      console.log('validation', d, a);
-    },
-    onSubmit: (data) => {
-      console.log('SUBMIT ', data);
-    },
-    onData: console.log,
+    onValid: (d, a) => {},
+    onSubmit: (data) => {},
   });
   return (
     <FormProvider

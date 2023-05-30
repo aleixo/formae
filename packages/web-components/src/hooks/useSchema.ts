@@ -79,17 +79,6 @@ const useSchema = () => {
     }),
   });
 
-  const buildPage = ({
-    configs,
-    page,
-  }: {
-    configs: any;
-    page: TComponent[];
-  }) => ({
-    configs,
-    page,
-  });
-
   const edit = <T>(schema: T, targetComponent: IComponent): T => {
     return transverseSchema<T>(schema, 0, (component, localIndex) => {
       if (component[localIndex].id === targetComponent.id) {
@@ -149,6 +138,11 @@ const useSchema = () => {
   const moveUp = <T>(schema: T, targetComponent: IComponent): T => {
     return transverseSchema<T>(schema, 0, (component, localIndex) => {
       if (component[localIndex].id === targetComponent.id) {
+        if (!component[localIndex - 1]) return;
+        if (mappings[component[localIndex - 1]?.component]?.isContainer) {
+          return moveTo(schema, targetComponent, component[0]);
+        }
+
         arraymove(component, localIndex, localIndex - 1);
       }
     });
@@ -165,6 +159,7 @@ const useSchema = () => {
   const moveTo = <T>(schema: T, from: IComponent, to?: IComponent): T => {
     if (from.id === to?.id) return schema;
     remove(schema, 0, from);
+
     if (!to) {
       return transverseSchema(
         schema,
@@ -256,7 +251,6 @@ const useSchema = () => {
     moveDown,
     transverseSchema,
     cloneComponent,
-    buildPage,
     extractComponentFormConfigurations,
     createTemplate,
   };

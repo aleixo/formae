@@ -12,7 +12,7 @@ export enum ECMSActions {
 export interface ICMSState {
   overedComponent?: TComponent & { id?: string };
   selectedComponent?: TComponent & { id?: string };
-  schema?: TSchema;
+  schema: TSchema;
   templates: Record<string, any[]>;
 }
 
@@ -39,7 +39,7 @@ export type TCMSAction = {
 
 const cmsInitialState: ICMSState = {
   overedComponent: undefined,
-  schema: undefined as any,
+  schema: undefined,
   selectedComponent: undefined,
   templates: {},
 };
