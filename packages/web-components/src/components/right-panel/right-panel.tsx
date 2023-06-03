@@ -8,7 +8,6 @@ import ListSubheader from "@mui/material/ListSubheader";
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { MappedComponents } from "../mapped-components/mapped-components";
 import { ComponentPropsForm } from "../component-props-form/component-props-form";
-import { ComponentsHierarchy } from "../components-hierarchy/components-hierarchy";
 import { FormComponentFeatures } from "../form-component-features/form-component-features";
 import { Drawer } from "../drawer/drawer";
 import { useCms } from "../../contexts/cms.context";
@@ -18,7 +17,6 @@ import { CoreEvents } from "@form-builder/engine";
 enum ERightMenus {
   MAPPED_COMPONENTS = "Mapped components/",
   FIELD_PROPS = "Field Properties",
-  FORM_HIERARCHY = "Hierarchy",
   VALIDATIONS = "Validations",
   FILTERS = "Filter",
   MASKS = "Masks",
@@ -65,9 +63,6 @@ function RightPanel() {
           )}
           {rightOpenedMenu === ERightMenus.FIELD_PROPS && (
             <ComponentPropsForm />
-          )}
-          {rightOpenedMenu === ERightMenus.FORM_HIERARCHY && (
-            <ComponentsHierarchy />
           )}
           {rightOpenedMenu.includes(ERightMenus.VALIDATIONS) && (
             <FormComponentFeatures
@@ -150,12 +145,6 @@ function RightPanel() {
               <DashboardIcon />
             </ListItemIcon>
             <ListItemText primary="Templates & mapped components" />
-          </ListItemButton>
-          <ListItemButton onClick={toggleRightMenu(ERightMenus.FORM_HIERARCHY)}>
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Form Hierarchy" />
           </ListItemButton>
           <ListItemButton
             disabled={!cms.state.selectedComponent}

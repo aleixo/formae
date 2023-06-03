@@ -6,9 +6,9 @@ export declare enum EFormComponent {
 }
 export declare enum EBuilderComponentPropsTypes {
     STRING = "string",
-    NUMBER = "number",
     BOOLEAN = "boolean",
     OBJECT = "object",
+    SELECT = "select",
     ARRAY = "array",
     TABLE = "table"
 }

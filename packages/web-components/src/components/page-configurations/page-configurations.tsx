@@ -22,7 +22,7 @@ import Divider from "@mui/material/Divider";
 
 const PageConfigurations = ({ page }) => {
   const { submitForm } = useForm({
-    formId: "new_page",
+    id: "new_page",
     onSubmit: async () => {
       //const res = await createBin(
       //  schema.init({ configs: data.formatted.configs }),

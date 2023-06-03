@@ -52,7 +52,7 @@ const Builder = ({ mode }) => {
                 });
             }, component: component }, { children: children })));
     }, [cms, mode, schema]);
-    return (_jsx(FormProvider, Object.assign({ mapper: cms.mappings, propsMapping: cms.propsMapping }, { children: _jsx(S.BuilderContainer, Object.assign({ onClick: resetOveredAndSelected }, { children: _jsx(Form, { id: "builder_form", ref: formRef, schema: cms.state.schema, onFocus: handleFieldFocus, renderFieldWrapper: renderFieldWrapper }, formKey) })) })));
+    return (_jsx(FormProvider, Object.assign({ mapper: cms.mappings, propsMapping: cms.propsMapping }, { children: _jsx(S.BuilderContainer, Object.assign({ onClick: resetOveredAndSelected }, { children: cms.state.schema && (_jsx(Form, { id: "builder_form", ref: formRef, schema: cms.state.schema, onFocus: handleFieldFocus, renderFieldWrapper: renderFieldWrapper }, formKey + mode)) })) })));
 };
 export { Builder };
 //# sourceMappingURL=builder.js.map

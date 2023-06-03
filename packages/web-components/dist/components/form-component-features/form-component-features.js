@@ -1,9 +1,9 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { FormProvider, useForm, } from "@form-builder/engine";
-import { formMapper, formPropsMapping, } from "./form-component-features.mappings";
+import { formMapper, formPropsMapping } from "../../common/mappings/mappings";
 import { useCms } from "../../contexts/cms.context";
 import { useSchema } from "../../hooks/useSchema";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { ECMSActions } from "../../contexts/cms.reducer";
 import { schema as validationsSchema } from "./forms/form-component-features.validations";
 import { schema as formattersSchema } from "./forms/form-component-features.formatters";
@@ -12,6 +12,7 @@ import { schema as filterSchema } from "./forms/form-component-features.filter";
 import { schema as apiSchema } from "./forms/form-component-features.api";
 import { schema as masksSchema } from "./forms/form-component-features.masks";
 import { schema as basicsSchema } from "./forms/form-component-features.basics";
+import { schema as formConfigurationsSchema } from "./forms/form-component-features.configurations";
 import { FeatureEvents } from "./form-component-events";
 import * as S from "./form-component-features.styles";
 import { FormComponentFeatureTemplate } from "../form-template/form-template";
@@ -35,11 +36,10 @@ function merge(...objects) {
         return prev;
     }, {});
 }
-const FormComponentFeatures = ({ feature, events, onEventClick, showEventSelection, }) => {
+const FormComponentFeatures = ({ feature = "basic", events, onEventClick, showEventSelection, }) => {
     const cms = useCms();
     const schema = useSchema();
     const handleComponentUpdate = useCallback((data) => {
-        console.log("save", data);
         const component = merge(cms.state.selectedComponent || {}, data.formatted || {});
         cms.dispatch({
             type: ECMSActions.SET_SELECTED_COMPONENT,
@@ -61,19 +61,9 @@ const FormComponentFeatures = ({ feature, events, onEventClick, showEventSelecti
         onSubmit: handleComponentUpdate,
     });
     const [selectedEvent, setSelectedEvent] = useState();
-    const featureSchema = useMemo(() => feature
-        ? {
-            validations: validationsSchema,
-            formatters: formattersSchema,
-            errorMessages: errorMessagesSchema,
-            filter: filterSchema,
-            api: apiSchema,
-            masks: masksSchema,
-        }[feature]
-        : basicsSchema, [feature]);
     if (showEventSelection && events) {
         return (_jsx(FeatureEvents, { events: events, onEventClick: (event) => {
-                onEventClick(event);
+                onEventClick && onEventClick(event);
                 setSelectedEvent(event);
             } }));
     }
@@ -89,7 +79,16 @@ const FormComponentFeatures = ({ feature, events, onEventClick, showEventSelecti
                         }
                     }, feature: feature, template: selectedEvent
                         ? ((cms.state.selectedComponent || {})[feature] || {})[selectedEvent]
-                        : (cms.state.selectedComponent || {})[feature] }), _jsx(Divider, { children: "Features" }), _jsx(Button, Object.assign({ fullWidth: true, variant: "outlined", onClick: () => submitForm() }, { children: "Save" })), _jsx(S.FormFullWidth, { initialValues: cms.state.selectedComponent, id: "features", schema: featureSchema({
+                        : (cms.state.selectedComponent || {})[feature] }), _jsx(Divider, { children: "Features" }), _jsx(Button, Object.assign({ fullWidth: true, variant: "outlined", onClick: () => submitForm() }, { children: "Save" })), _jsx(S.FormFullWidth, { initialValues: cms.state.selectedComponent, id: "features", schema: {
+                        basic: basicsSchema,
+                        configurations: formConfigurationsSchema,
+                        validations: validationsSchema,
+                        formatters: formattersSchema,
+                        errorMessages: errorMessagesSchema,
+                        filter: filterSchema,
+                        api: apiSchema,
+                        masks: masksSchema,
+                    }[feature]({
                         event: selectedEvent,
                         component: cms.state.selectedComponent,
                     }) }, formKey)] })) })));

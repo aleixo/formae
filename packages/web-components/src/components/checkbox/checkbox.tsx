@@ -3,9 +3,12 @@ import {
   Checkbox as MuiCheckbox,
   FormGroup,
   FormControlLabel,
+  CheckboxProps,
 } from "@mui/material";
 
-const Checkbox = (props) => {
+const Checkbox = (
+  props: JSX.IntrinsicAttributes & CheckboxProps & { label: string }
+) => {
   return (
     <FormGroup>
       <FormControlLabel

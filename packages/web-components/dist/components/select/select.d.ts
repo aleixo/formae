@@ -1,10 +1,10 @@
 /// <reference types="react" />
-import { Select } from "@mui/material";
-declare const FormSelect: (props: React.ComponentProps<typeof Select> & {
+import { Select as MUISelect } from "@mui/material";
+declare const Select: (props: React.ComponentProps<typeof MUISelect> & {
     options: {
         value: string;
         label: string;
         selected?: boolean;
     }[];
 }) => JSX.Element;
-export { FormSelect };
+export { Select };

@@ -7,9 +7,9 @@ export var EFormComponent;
 export var EBuilderComponentPropsTypes;
 (function (EBuilderComponentPropsTypes) {
     EBuilderComponentPropsTypes["STRING"] = "string";
-    EBuilderComponentPropsTypes["NUMBER"] = "number";
     EBuilderComponentPropsTypes["BOOLEAN"] = "boolean";
     EBuilderComponentPropsTypes["OBJECT"] = "object";
+    EBuilderComponentPropsTypes["SELECT"] = "select";
     EBuilderComponentPropsTypes["ARRAY"] = "array";
     EBuilderComponentPropsTypes["TABLE"] = "table";
 })(EBuilderComponentPropsTypes || (EBuilderComponentPropsTypes = {}));

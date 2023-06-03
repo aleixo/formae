@@ -11,12 +11,25 @@ import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { Drawer } from "../drawer/drawer";
 import { useCms } from "../../contexts/cms.context";
 import { ShortcutsModal } from "../shortcuts-modal/shortcuts-modal";
+import { FormComponentFeatures } from "../form-component-features/form-component-features";
+import { ComponentsHierarchy } from "../components-hierarchy/components-hierarchy";
+
+enum EMenus {
+  FORM_HIERARCHY = "Hierarchy",
+  FORM_CONFIGURATIONS = "FORM_CONFIGURATIONS",
+}
 
 function LeftPanel() {
   const cms = useCms();
   const [showShortcutModal, setShowShorcutModal] = React.useState(false);
   const [openLeft, setOpenLeft] = React.useState(true);
   const toggleDrawerLeft = () => setOpenLeft(!openLeft);
+
+  const [openedMenu, setOpenedMenu] = React.useState<string | undefined>();
+
+  const toggleMenu = (item?: EMenus) => () => {
+    setOpenedMenu(item);
+  };
 
   return (
     <>
@@ -69,7 +82,27 @@ function LeftPanel() {
             </ListItemIcon>
             <ListItemText primary="HotKeys" />
           </ListItemButton>
+          <ListItemButton onClick={toggleMenu(EMenus.FORM_CONFIGURATIONS)}>
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary="Form global configurations" />
+          </ListItemButton>
+          <ListItemButton onClick={toggleMenu(EMenus.FORM_HIERARCHY)}>
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary="Form components hierarchy" />
+          </ListItemButton>
         </List>
+        {openedMenu === EMenus.FORM_CONFIGURATIONS && (
+          <FormComponentFeatures
+            feature="configurations"
+            allowTemplate={false}
+          />
+        )}
+
+        {openedMenu === EMenus.FORM_HIERARCHY && <ComponentsHierarchy />}
       </Drawer>
     </>
   );

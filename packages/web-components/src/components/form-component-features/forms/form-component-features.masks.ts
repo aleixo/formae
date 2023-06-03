@@ -1,5 +1,5 @@
 import { CoreEvents, TComponent, TSchema } from "@form-builder/engine";
-import { EBuilderComponentPropsTypes } from "../../../types/engine";
+import { EBuilderComponentPropsTypes } from "../../../common/types/engine";
 
 export type TFeatureConfigurationsPossibleEvents = keyof typeof CoreEvents;
 export type TFeatureConfigurationsEvent = {

@@ -12,9 +12,7 @@ import { useCms } from "../../contexts/cms.context";
 import { useSchema } from "../../hooks/useSchema";
 import { useState } from "react";
 
-import JsonEditor from "react-json-editor-ui";
-
-function TabPanel(props: TabPanelProps) {
+function TabPanel(props: any) {
   const { children, value, index } = props;
 
   return (
@@ -51,9 +49,7 @@ const ScopeModal = ({ scope }) => {
   const [show, setSHow] = useState(false);
   const [value, setValue] = useState(0);
 
-  const [editObject, setEditObject] = useState<any>({});
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
@@ -87,24 +83,7 @@ const ScopeModal = ({ scope }) => {
             <Tab label="Mock" />
             <Tab label="Available Scope" />
           </Tabs>
-          <TabPanel value={value} index={0}>
-            <JsonEditor
-              data={editObject}
-              onChange={(data) => {
-                setEditObject(data);
-              }}
-              optionsMap={{
-                color: [
-                  { value: "red", label: "Red" },
-                  { value: "blue", label: "Blue" },
-                ],
-                city: [
-                  { value: "beijing", label: "Beijing" },
-                  { value: "shanghai", label: "Shanghai" },
-                ],
-              }}
-            />
-          </TabPanel>
+          <TabPanel value={value} index={0} />
           <TabPanel value={value} index={1}>
             {Object.keys(flatten(scope)).map((key) => {
               return (

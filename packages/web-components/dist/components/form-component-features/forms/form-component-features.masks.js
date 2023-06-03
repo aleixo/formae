@@ -1,4 +1,4 @@
-import { EBuilderComponentPropsTypes } from "../../../types/engine";
+import { EBuilderComponentPropsTypes } from "../../../common/types/engine";
 const masks = (prefix = "") => [
     {
         component: EBuilderComponentPropsTypes.BOOLEAN,

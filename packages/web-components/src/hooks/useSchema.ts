@@ -1,6 +1,6 @@
 import { TComponent, TSchema } from "@form-builder/engine";
 import { v4 } from "uuid";
-import { IComponent } from "../types/engine";
+import { IComponent } from "../common/types/engine";
 import { useCms } from "../contexts/cms.context";
 
 const useSchema = () => {
@@ -143,7 +143,7 @@ const useSchema = () => {
           return moveTo(schema, targetComponent, component[0]);
         }
 
-        arraymove(component, localIndex, localIndex - 1);
+        return arraymove(component, localIndex, localIndex - 1);
       }
     });
   };

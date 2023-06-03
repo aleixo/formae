@@ -1,4 +1,4 @@
-import { EBuilderComponentPropsTypes } from "../../../types/engine";
+import { EBuilderComponentPropsTypes } from "../../../common/types/engine";
 import { validations } from "./form-component-features.validations";
 export const schema = () => ({
     components: [

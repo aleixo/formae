@@ -14,8 +14,8 @@ import { useSchema } from "../../hooks/useSchema";
 
 interface IProps {
   children: any;
-  onDragStart(): void;
-  onDrop(): void;
+  onDragStart?(): void;
+  onDrop?(): void;
   component: TComponent & { id?: string };
 }
 
@@ -154,7 +154,7 @@ const PreviewContainer = ({
                     type: ECMSActions.SET_BUILDER_SCHEMA,
                     payload: {
                       schema: schema.moveUp<TSchema>(
-                        cms.state.schema,
+                        cms.state.schema!,
                         component as any
                       ),
                     },

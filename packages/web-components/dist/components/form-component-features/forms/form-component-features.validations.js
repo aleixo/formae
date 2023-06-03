@@ -1,4 +1,4 @@
-import { EBuilderComponentPropsTypes, EFormComponent, } from "../../../types/engine";
+import { EBuilderComponentPropsTypes } from "../../../common/types/engine";
 export const validations = (prefix = "") => {
     return [
         {
@@ -78,7 +78,7 @@ export const validations = (prefix = "") => {
             },
         },
         {
-            component: EFormComponent.FORM_GROUP,
+            component: EBuilderComponentPropsTypes.GROUP,
             name: prefix + "numericRange",
             props: {
                 title: "Numeric range",
@@ -202,7 +202,7 @@ export const validations = (prefix = "") => {
             },
         },
         {
-            component: EFormComponent.FORM_GROUP,
+            component: EBuilderComponentPropsTypes.GROUP,
             name: prefix + "date TODO",
             props: {
                 title: "Date",
@@ -360,7 +360,7 @@ export const validations = (prefix = "") => {
                                 },
                             },
                             {
-                                component: EFormComponent.FORM_GROUP,
+                                component: EBuilderComponentPropsTypes.GROUP,
                                 props: {
                                     label: "Field validations todo",
                                     fullWidth: true,

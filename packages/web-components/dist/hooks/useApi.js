@@ -1,5 +1,10 @@
 import { useCallback, useMemo } from "react";
-const getStoreItem = (key) => JSON.parse(window.localStorage.getItem(key) || "{}");
+const getStoreItem = (key) => {
+    const item = window.localStorage.getItem(key);
+    if (!item)
+        return false;
+    return JSON.parse(item);
+};
 const setStoreItem = (key, item) => window.localStorage.setItem(key, JSON.stringify(item));
 const useApi = () => {
     const getSchema = useCallback(() => getStoreItem("form_json"), []);

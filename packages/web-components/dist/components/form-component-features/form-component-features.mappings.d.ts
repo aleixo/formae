@@ -32,14 +32,14 @@ declare const formMapper: {
         }) => JSX.Element;
     };
     boolean: {
-        component: (props: any) => JSX.Element;
+        component: (props: JSX.IntrinsicAttributes & import("@mui/material").CheckboxProps & {
+            label: string;
+        }) => JSX.Element;
     };
     table: {
-        component: ({ title, row, baseCellName, id, value }: {
+        component: ({ title, row, value }: {
             title: any;
             row: any;
-            baseCellName: any;
-            id: any;
             value?: never[] | undefined;
         }) => JSX.Element;
     };

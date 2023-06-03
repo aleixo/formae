@@ -2,8 +2,8 @@
 import { TComponent } from "@form-builder/engine";
 interface IProps {
     children: any;
-    onDragStart(): void;
-    onDrop(): void;
+    onDragStart?(): void;
+    onDrop?(): void;
     component: TComponent & {
         id?: string;
     };

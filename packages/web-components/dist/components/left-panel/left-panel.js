@@ -11,6 +11,7 @@ import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { Drawer } from "../drawer/drawer";
 import { useCms } from "../../contexts/cms.context";
 import { ShortcutsModal } from "../shortcuts-modal/shortcuts-modal";
+import { FormComponentFeatures } from "../form-component-features/form-component-features";
 function LeftPanel() {
     const cms = useCms();
     const [showShortcutModal, setShowShorcutModal] = React.useState(false);
@@ -22,12 +23,12 @@ function LeftPanel() {
                             justifyContent: "center",
                             px: [1],
                         } }, { children: _jsx(IconButton, Object.assign({ onClick: toggleDrawerLeft }, { children: openLeft ? _jsx(ChevronLeftIcon, {}) : _jsx(ChevronRightIcon, {}) })) })), _jsx(Divider, {}), _jsxs(List, Object.assign({ component: "nav" }, { children: [_jsxs(ListItemButton, Object.assign({ onClick: () => {
-                                    window.open(`/preview?key=form_json`, "_blank");
+                                    window.open(`/?mode=PREVIEW`);
                                 } }, { children: [_jsx(ListItemIcon, { children: _jsx(DashboardIcon, {}) }), _jsx(ListItemText, { primary: "Preview" })] })), _jsxs(ListItemButton, Object.assign({ onClick: () => {
                                     cms.onSave(cms.state.schema);
                                 } }, { children: [_jsx(ListItemIcon, { children: _jsx(DashboardIcon, {}) }), _jsx(ListItemText, { primary: "Save" })] })), _jsxs(ListItemButton, Object.assign({ onClick: () => {
                                     setShowShorcutModal(true);
-                                } }, { children: [_jsx(ListItemIcon, { children: _jsx(DashboardIcon, {}) }), _jsx(ListItemText, { primary: "HotKeys" })] }))] }))] }))] }));
+                                } }, { children: [_jsx(ListItemIcon, { children: _jsx(DashboardIcon, {}) }), _jsx(ListItemText, { primary: "HotKeys" })] }))] })), _jsx(FormComponentFeatures, { feature: "configurations" })] }))] }));
 }
 export { LeftPanel };
 //# sourceMappingURL=left-panel.js.map

@@ -1,5 +1,5 @@
 import { EBuilderComponentPropsTypes, EFormComponent, } from "../../types/engine";
-import { FormSelect } from "../select/select";
+import { Select } from "../select/select";
 import { Checkbox } from "../checkbox/checkbox";
 import { FormGroup } from "../formGroup/formGroup";
 import { Accordion } from "../accordion/accordion";
@@ -19,7 +19,7 @@ const formMapper = {
         component: TextField,
     },
     [EBuilderComponentPropsTypes.ARRAY]: {
-        component: FormSelect,
+        component: Select,
     },
     [EBuilderComponentPropsTypes.OBJECT]: {
         component: FormGroup,

@@ -28,7 +28,7 @@ function BuilderPage() {
             padding: "2rem",
           }}
         >
-          <Builder mode={query.mode || "BUILDING"} />
+          <Builder mode={(query.mode as string) || "BUILDING"} />
         </Box>
         {query.mode !== "PREVIEW" && <RightPanel />}
       </Box>

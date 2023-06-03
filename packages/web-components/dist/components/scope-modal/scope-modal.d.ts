@@ -1,7 +1,5 @@
 /// <reference types="react" />
-declare const ScopeModal: ({ open, onClose, scope }: {
-    open: any;
-    onClose: any;
+declare const ScopeModal: ({ scope }: {
     scope: any;
 }) => JSX.Element;
 export { ScopeModal };

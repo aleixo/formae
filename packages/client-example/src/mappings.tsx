@@ -1,12 +1,12 @@
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import { EBuilderComponentPropsTypes } from "@form-builder/web-components/src/types/engine";
+import { EBuilderComponentPropsTypes } from "@form-builder/web-components";
 import { FormControl, FormGroup, InputLabel, Stack } from "@mui/material";
 
 const mappings = {
-  input: {
+  textField: {
     component: TextField,
-    label: "TextField",
+    label: "Text Field",
     description: "Input bla bla",
   },
   autocomplete: {
@@ -42,7 +42,7 @@ const mappings = {
 };
 
 const formBuilderPropsMapping = {
-  input: {
+  textField: {
     getValue: "onChange",
     setValue: "value",
     setErrorMessage: "errorMessage",
@@ -59,7 +59,7 @@ const formBuilderPropsMapping = {
 };
 
 const examples = {
-  input: {
+  textField: {
     label: "Example",
     variant: "filled",
   },
@@ -69,7 +69,7 @@ const examples = {
 };
 
 const props: Record<string, any[]> = {
-  input: [
+  textField: [
     {
       name: "label",
       component: EBuilderComponentPropsTypes.STRING,

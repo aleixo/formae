@@ -12,7 +12,7 @@ export enum ECMSActions {
 export interface ICMSState {
   overedComponent?: TComponent & { id?: string };
   selectedComponent?: TComponent & { id?: string };
-  schema: TSchema;
+  schema?: TSchema;
   templates: Record<string, any[]>;
 }
 
@@ -60,7 +60,7 @@ const cmsReducer = (state: ICMSState, action: TCMSAction): ICMSState => {
     }),
     [ECMSActions.SET_BUILDER_SCHEMA]: () => ({
       ...state,
-      schema: action.payload.schema,
+      schema: action.payload.schema as TSchema,
     }),
     [ECMSActions.ADD_TEMPLATE]: () => ({
       ...state,

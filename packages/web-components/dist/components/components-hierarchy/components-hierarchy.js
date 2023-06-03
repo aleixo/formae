@@ -2,6 +2,7 @@ import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
 import { useCms } from "../../contexts/cms.context";
 import { useSchema } from "../../hooks/useSchema";
 import * as S from "./components-hierarchy.styles";
+import { PreviewContainer } from "../form-field-wrapper/form-field-wrapper";
 const ComponentsHierarchy = () => {
     const schema = useSchema();
     const cms = useCms();
@@ -9,8 +10,8 @@ const ComponentsHierarchy = () => {
         const components = [];
         schema.transverseSchema(cms.state.schema, 0, (component, index, currDepth) => {
             var _a, _b, _c;
-            components.push(_jsx(S.Item, Object.assign({ padding: currDepth.toString(), selected: ((_b = (_a = cms.state.selectedComponent) === null || _a === void 0 ? void 0 : _a.component) === null || _b === void 0 ? void 0 : _b.id) ===
-                    component[index].id, overed: ((_c = cms.state.overedComponent) === null || _c === void 0 ? void 0 : _c.id) === component[index].id }, { children: _jsxs("p", { children: ["- ", component[index].component, "/", component[index].name] }) })));
+            components.push(_jsx(PreviewContainer, Object.assign({ component: component[index] }, { children: _jsx(S.Item, Object.assign({ padding: currDepth.toString(), selected: ((_b = (_a = cms.state.selectedComponent) === null || _a === void 0 ? void 0 : _a.component) === null || _b === void 0 ? void 0 : _b.id) ===
+                        component[index].id, overed: ((_c = cms.state.overedComponent) === null || _c === void 0 ? void 0 : _c.id) === component[index].id }, { children: _jsxs("p", { children: ["- ", component[index].component, "/", component[index].name] }) })) })));
         });
         return components;
     };

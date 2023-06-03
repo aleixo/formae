@@ -1,8 +1,5 @@
 import { TSchema } from "@form-builder/engine";
-import {
-  EBuilderComponentPropsTypes,
-  EFormComponent,
-} from "../../../types/engine";
+import { EBuilderComponentPropsTypes } from "../../../common/types/engine";
 
 export const schema = (): TSchema => ({
   components: [
@@ -11,14 +8,14 @@ export const schema = (): TSchema => ({
       name: "",
       children: [
         {
-          component: EFormComponent.FORM_GROUP,
+          component: EBuilderComponentPropsTypes.GROUP,
           name: "",
           children: [
             {
               component: EBuilderComponentPropsTypes.STRING,
               name: "name",
               props: {
-                label: "Required",
+                label: "Field name",
                 fullWidth: true,
               },
             },

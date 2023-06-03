@@ -80,7 +80,6 @@ const PreviewContainer = ({ children, onDragStart, onDrop, component, }) => {
                                     padding: "6px",
                                     backgroundColor: color,
                                 } }, { children: component.component })), _jsxs(Box, Object.assign({ sx: { backgroundColor: color } }, { children: [_jsx(IconButton, Object.assign({ onClick: (e) => {
-                                            console.log("DELETE");
                                             e.stopPropagation();
                                             e.preventDefault();
                                             cms.dispatch({

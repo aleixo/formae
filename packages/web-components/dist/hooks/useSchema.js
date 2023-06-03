@@ -50,10 +50,6 @@ const useSchema = () => {
                 return comp;
             return Object.assign(Object.assign({}, comp), { children: [...comp.children, component] });
         }) }));
-    const buildPage = ({ configs, page, }) => ({
-        configs,
-        page,
-    });
     const edit = (schema, targetComponent) => {
         return transverseSchema(schema, 0, (component, localIndex) => {
             if (component[localIndex].id === targetComponent.id) {
@@ -90,8 +86,14 @@ const useSchema = () => {
     };
     const moveUp = (schema, targetComponent) => {
         return transverseSchema(schema, 0, (component, localIndex) => {
+            var _a, _b;
             if (component[localIndex].id === targetComponent.id) {
-                arraymove(component, localIndex, localIndex - 1);
+                if (!component[localIndex - 1])
+                    return;
+                if ((_b = mappings[(_a = component[localIndex - 1]) === null || _a === void 0 ? void 0 : _a.component]) === null || _b === void 0 ? void 0 : _b.isContainer) {
+                    return moveTo(schema, targetComponent, component[0]);
+                }
+                return arraymove(component, localIndex, localIndex - 1);
             }
         });
     };
@@ -164,7 +166,6 @@ const useSchema = () => {
         moveDown,
         transverseSchema,
         cloneComponent,
-        buildPage,
         extractComponentFormConfigurations,
         createTemplate,
     };

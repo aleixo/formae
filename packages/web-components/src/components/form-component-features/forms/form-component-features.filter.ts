@@ -1,5 +1,5 @@
 import { TSchema } from "@form-builder/engine";
-import { EBuilderComponentPropsTypes } from "../../../types/engine";
+import { EBuilderComponentPropsTypes } from "../../../common/types/engine";
 import { validations } from "./form-component-features.validations";
 
 export const schema = (): TSchema => ({
@@ -10,7 +10,7 @@ export const schema = (): TSchema => ({
       children: [
         {
           name: "",
-          component: EBuilderComponentPropsTypes.OBJECT,
+          component: EBuilderComponentPropsTypes.GROUP,
           children: validations(`filter`),
         },
       ],

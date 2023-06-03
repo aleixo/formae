@@ -74,6 +74,10 @@ const Field = ({
     [],
   );
 
+  if (!Element) {
+    throw new Error(`No mappings for field ${JSON.stringify(component)}`);
+  }
+
   if (!fieldInstance.data.visible || !fieldInstance.data.mounted) {
     return null;
   }

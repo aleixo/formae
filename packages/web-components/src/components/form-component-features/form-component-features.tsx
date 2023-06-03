@@ -5,14 +5,11 @@ import {
   useForm,
 } from "@form-builder/engine";
 
-import {
-  formMapper,
-  formPropsMapping,
-} from "./form-component-features.mappings";
+import { formMapper, formPropsMapping } from "../../common/mappings/mappings";
 
 import { useCms } from "../../contexts/cms.context";
 import { useSchema } from "../../hooks/useSchema";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { ECMSActions } from "../../contexts/cms.reducer";
 
 import { schema as validationsSchema } from "./forms/form-component-features.validations";
@@ -23,19 +20,22 @@ import { schema as apiSchema } from "./forms/form-component-features.api";
 import { schema as masksSchema } from "./forms/form-component-features.masks";
 import { schema as basicsSchema } from "./forms/form-component-features.basics";
 
+import { schema as formConfigurationsSchema } from "./forms/form-component-features.configurations";
+
 import { FeatureEvents } from "./form-component-events";
 import * as S from "./form-component-features.styles";
 import { FormComponentFeatureTemplate } from "../form-template/form-template";
 import { Button, Divider, Stack } from "@mui/material";
-type EFeatures = keyof TComponent;
 
-function merge(...objects) {
-  const isObject = (obj) => obj && typeof obj === "object";
+type EFeatures = keyof TComponent | "basic" | "configurations";
 
-  return objects.reduce((prev, obj) => {
-    Object.keys(obj).forEach((key) => {
-      const pVal = prev[key];
-      const oVal = obj[key];
+function merge(...objects: {}[]) {
+  const isObject = (obj: any) => obj && typeof obj === "object";
+
+  return objects.reduce((prev: any, obj: any) => {
+    Object.keys(obj).forEach((key: string) => {
+      const pVal = prev[key] as any;
+      const oVal = obj[key] as any;
 
       if (Array.isArray(pVal) && Array.isArray(oVal)) {
         prev[key] = pVal.concat(...oVal);
@@ -51,25 +51,29 @@ function merge(...objects) {
 }
 
 const FormComponentFeatures = ({
-  feature,
+  feature = "basic",
   events,
   onEventClick,
   showEventSelection,
+  allowTemplate = true,
+  title,
 }: {
   showEventSelection?: boolean;
   feature?: EFeatures;
   events?: string[];
   onEventClick?(event: string): void;
+  allowTemplate?: boolean;
+  title?: string;
 }) => {
   const cms = useCms();
   const schema = useSchema();
 
   const handleComponentUpdate = useCallback(
-    (data) => {
+    (data: { formatted: any }) => {
       const component = merge(
         cms.state.selectedComponent || {},
         data.formatted || {}
-      );
+      ) as TComponent;
       cms.dispatch({
         type: ECMSActions.SET_SELECTED_COMPONENT,
         payload: {
@@ -95,36 +99,13 @@ const FormComponentFeatures = ({
   });
   const [selectedEvent, setSelectedEvent] = useState();
 
-  const featureSchema = useMemo<
-    ({
-      event,
-      component,
-    }: {
-      event?: string;
-      component?: TComponent;
-    }) => TSchema
-  >(
-    () =>
-      feature
-        ? {
-            validations: validationsSchema,
-            formatters: formattersSchema,
-            errorMessages: errorMessagesSchema,
-            filter: filterSchema,
-            api: apiSchema,
-            masks: masksSchema,
-          }[feature]
-        : basicsSchema,
-    [feature]
-  );
-
   if (showEventSelection && events) {
     return (
       <FeatureEvents
         events={events}
         onEventClick={(event) => {
-          onEventClick(event);
-          setSelectedEvent(event);
+          onEventClick && onEventClick(event);
+          setSelectedEvent(event as any);
         }}
       />
     );
@@ -132,39 +113,52 @@ const FormComponentFeatures = ({
   return (
     <FormProvider mapper={formMapper} propsMapping={formPropsMapping}>
       <Stack spacing={3}>
-        <Divider>Templates</Divider>
+        {allowTemplate && (
+          <>
+            <Divider>Templates</Divider>
 
-        <FormComponentFeatureTemplate
-          onChangeTemplate={(template) => {
-            if (selectedEvent) {
-              handleComponentUpdate({
-                formatted: {
-                  [feature as string]: {
-                    [selectedEvent]: template.configuration,
-                  },
-                },
-              });
-            }
-          }}
-          feature={feature}
-          template={
-            selectedEvent
-              ? ((cms.state.selectedComponent || {})[feature as string] || {})[
-                  selectedEvent
-                ]
-              : (cms.state.selectedComponent || {})[feature as string]
-          }
-        />
-        <Divider>Features</Divider>
+            <FormComponentFeatureTemplate
+              onChangeTemplate={(template) => {
+                if (selectedEvent) {
+                  handleComponentUpdate({
+                    formatted: {
+                      [feature as string]: {
+                        [selectedEvent]: template.configuration,
+                      },
+                    },
+                  });
+                }
+              }}
+              feature={feature as any}
+              template={
+                selectedEvent
+                  ? ((cms.state.selectedComponent || {})[feature as string] ||
+                      {})[selectedEvent]
+                  : (cms.state.selectedComponent || {})[feature as string]
+              }
+            />
+            <Button fullWidth variant="outlined" onClick={() => submitForm()}>
+              Save
+            </Button>
+          </>
+        )}
 
-        <Button fullWidth variant="outlined" onClick={() => submitForm()}>
-          Save
-        </Button>
+        <Divider>{title}</Divider>
+
         <S.FormFullWidth
           key={formKey}
           initialValues={cms.state.selectedComponent}
           id={"features"}
-          schema={featureSchema({
+          schema={{
+            basic: basicsSchema,
+            configurations: formConfigurationsSchema,
+            validations: validationsSchema,
+            formatters: formattersSchema,
+            errorMessages: errorMessagesSchema,
+            filter: filterSchema,
+            api: apiSchema,
+            masks: masksSchema,
+          }[feature]({
             event: selectedEvent,
             component: cms.state.selectedComponent,
           })}

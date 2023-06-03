@@ -1,5 +1,5 @@
 import { CoreEvents, TComponent } from "@form-builder/engine";
-import { EBuilderComponentPropsTypes } from "../../../types/engine";
+import { EBuilderComponentPropsTypes } from "../../../common/types/engine";
 
 export type TFeatureConfigurationsPossibleEvents = keyof typeof CoreEvents;
 export type TFeatureConfigurationsEvent = {
@@ -60,7 +60,7 @@ export const schema = ({ event }: { event: string }) => ({
       name: "",
       children: [
         {
-          component: EBuilderComponentPropsTypes.OBJECT,
+          component: EBuilderComponentPropsTypes.GROUP,
           name: "",
           children: formatters(`formatters.${event}.`),
         },

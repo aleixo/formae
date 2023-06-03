@@ -1,9 +1,22 @@
 /// <reference types="react" />
-declare const Table: ({ title, row, baseCellName, id, value }: {
+/**
+ *
+ * <Fragment
+              key={i}
+              components={row}
+              id={id}
+              onComponent={(component) => ({
+                ...component,
+                name: component.name
+                  ? `${baseCellName}[${i}].${component.name}`
+                  : `${baseCellName}[${i}]`,
+              })}
+            />
+ *
+ */
+declare const Table: ({ title, row, value }: {
     title: any;
     row: any;
-    baseCellName: any;
-    id: any;
     value?: never[] | undefined;
 }) => JSX.Element;
 export { Table };

@@ -24,7 +24,7 @@ import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import Divider from "@mui/material/Divider";
 const PageConfigurations = ({ page }) => {
     const { submitForm } = useForm({
-        formId: "new_page",
+        id: "new_page",
         onSubmit: () => __awaiter(void 0, void 0, void 0, function* () {
             //const res = await createBin(
             //  schema.init({ configs: data.formatted.configs }),

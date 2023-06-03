@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { useCms } from "../../contexts/cms.context";
 import { ECMSActions } from "../../contexts/cms.reducer";
 import { useSchema } from "../../hooks/useSchema";
-import { mapper, propsMapping } from "./component-props-form.mappings";
-import { EBuilderComponentPropsTypes } from "../../types/engine";
+import { formMapper, formPropsMapping } from "../../common/mappings/mappings";
+import { EBuilderComponentPropsTypes } from "../../common/types/engine";
 import { ScopeModal } from "../scope-modal/scope-modal";
 
 const ComponentPropsForm = () => {
@@ -22,7 +22,7 @@ const ComponentPropsForm = () => {
   if (!cms.state.selectedComponent) return <></>;
 
   return (
-    <FormProvider mapper={mapper} propsMapping={propsMapping}>
+    <FormProvider mapper={formMapper} propsMapping={formPropsMapping}>
       <ScopeModal scope={formData().form.scope} />
       <Form
         key={formKey}
@@ -42,11 +42,11 @@ const ComponentPropsForm = () => {
         schema={{
           components: [
             {
-              component: EBuilderComponentPropsTypes.OBJECT,
+              component: EBuilderComponentPropsTypes.GROUP,
               name: "",
               children: [
                 {
-                  component: EBuilderComponentPropsTypes.OBJECT,
+                  component: EBuilderComponentPropsTypes.GROUP,
                   name: "",
                   children: cms.props[
                     cms.state.selectedComponent?.component

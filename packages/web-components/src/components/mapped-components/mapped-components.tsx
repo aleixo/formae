@@ -23,7 +23,7 @@ const MappedComponents = (): ReactElement => {
     <Stack spacing={3}>
       <Divider>User mapped components</Divider>
       <Grid container spacing={2}>
-        {Object.keys(cms.mappings).map((key, i) => (
+        {Object.keys(cms.mappings).map((key) => (
           <Grid item xs={6} key={key}>
             <FormProvider propsMapping={cms.propsMapping} mapper={cms.mappings}>
               <ActionAreaCard
@@ -56,7 +56,7 @@ const MappedComponents = (): ReactElement => {
       </Grid>
       <Divider>Container Templates</Divider>
       <FormComponentFeatureTemplate
-        feature="container"
+        feature={"container" as any}
         template={cms.state.selectedComponent}
         onChangeTemplate={() => {}}
         showGrid

@@ -1,4 +1,4 @@
-import { EFormComponent } from "../../../types/engine";
+import { EBuilderComponentPropsTypes } from "../../../common/types/engine";
 export const schema = ({ component }) => ({
     components: [
         {
@@ -7,10 +7,10 @@ export const schema = ({ component }) => ({
             children: [
                 {
                     name: "",
-                    component: EFormComponent.FORM_GROUP,
+                    component: EBuilderComponentPropsTypes.GROUP,
                     children: [
                         {
-                            component: EFormComponent.INPUT,
+                            component: EBuilderComponentPropsTypes.STRING,
                             name: "default",
                             props: {
                                 label: "Default",
@@ -26,7 +26,7 @@ export const schema = ({ component }) => ({
                             }, [])),
                         ].map((key) => ({
                             name: "errorMessages." + key,
-                            component: EFormComponent.INPUT,
+                            component: EBuilderComponentPropsTypes.STRING,
                             props: {
                                 label: key,
                                 placeholder: "Message for this validation",

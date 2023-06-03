@@ -1,6 +1,6 @@
 /// <reference types="react" />
 import { TComponent, TSchema } from "@form-builder/engine";
-import { IComponent } from "../types/engine";
+import { IComponent } from "../common/types/engine";
 declare const useSchema: () => {
     getComponentWithPattern: <T>(schema: T, pattern: string) => TComponent[];
     init: ({ configs }: {
@@ -24,13 +24,6 @@ declare const useSchema: () => {
     moveDown: <T_5>(schema: T_5, targetComponent: IComponent) => T_5;
     transverseSchema: <T_6>(schema: T_6, targetStep: number, cb: (component: IComponent[], index: number, currDepth: number) => void) => T_6;
     cloneComponent: (component: TComponent) => IComponent;
-    buildPage: ({ configs, page, }: {
-        configs: any;
-        page: TComponent[];
-    }) => {
-        configs: any;
-        page: TComponent[];
-    };
     extractComponentFormConfigurations: (component: TComponent) => Pick<TComponent, "api" | "formatters" | "clearFields" | "masks" | "validations" | "visibilityConditions">;
     createTemplate: (component: TComponent, isReference: boolean, name: string) => {
         __isTemplate: boolean;

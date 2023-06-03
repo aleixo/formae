@@ -14,7 +14,7 @@ import { PreviewContainer } from "../form-field-wrapper/form-field-wrapper";
 import * as S from "./builder.styles";
 
 interface IProps {
-  mode: "BUILDING" | "PREVIEW";
+  mode: "BUILDING" | "PREVIEW" | string;
 }
 
 const Builder = ({ mode }: IProps) => {
@@ -43,7 +43,7 @@ const Builder = ({ mode }: IProps) => {
   };
 
   const handleFieldFocus = useCallback(
-    (_, component) => {
+    (_: any, component: any) => {
       if (mode === "PREVIEW") return;
 
       cms.dispatch({
@@ -55,7 +55,7 @@ const Builder = ({ mode }: IProps) => {
   );
 
   const renderFieldWrapper = useCallback(
-    (component, children) => {
+    (component: TComponent, children: any) => {
       if (mode === "PREVIEW") return <>{children}</>;
 
       return (
