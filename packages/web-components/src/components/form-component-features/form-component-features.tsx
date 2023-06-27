@@ -68,9 +68,23 @@ const FormComponentFeatures = ({
   const cms = useCms();
   const schema = useSchema();
 
+  const updateSchemaConfiguration = (formatted) => {
+    cms.dispatch({
+      type: ECMSActions.SET_BUILDER_SCHEMA,
+      payload: {
+        schema: {
+          ...formatted,
+          ...cms.state.schema,
+        },
+      },
+    });
+  };
+
   const handleComponentUpdate = useCallback(
     (data: { formatted: any }) => {
-      console.log("SUBMITTED");
+      if (feature === "configurations") {
+        return updateSchemaConfiguration(data.formatted);
+      }
       const component = merge(
         cms.state.selectedComponent || {},
         data.formatted || {}
@@ -87,7 +101,6 @@ const FormComponentFeatures = ({
           schema: schema.edit<TSchema>(cms.state.schema!, component),
         },
       });
-      console.log("new comp ", component);
       setFormKey(new Date().getTime());
     },
 
@@ -112,6 +125,7 @@ const FormComponentFeatures = ({
       />
     );
   }
+  console.log("SCHEMA ", cms.state.schema);
   return (
     <FormProvider mapper={formMapper} propsMapping={formPropsMapping}>
       <Stack spacing={3}>
@@ -150,7 +164,10 @@ const FormComponentFeatures = ({
 
         <S.FormFullWidth
           key={formKey}
-          initialValues={cms.state.selectedComponent}
+          initialValues={{
+            ...cms.state.selectedComponent,
+            formattedDataDefaults: cms.state.schema?.formattedDataDefaults,
+          }}
           id={"features"}
           schema={{
             basic: basicsSchema,

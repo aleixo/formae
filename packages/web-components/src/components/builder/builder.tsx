@@ -31,7 +31,6 @@ const Builder = ({ mode }: IProps) => {
   let draggingElementRef = useRef<TComponent & TField>(null);
 
   const resetOveredAndSelected = () => {
-    console.log("AQUi");
     cms.dispatch({
       type: ECMSActions.SET_OVERED_COMPONENT,
       payload: { component: undefined },

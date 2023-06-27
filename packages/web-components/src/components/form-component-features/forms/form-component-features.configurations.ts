@@ -33,8 +33,10 @@ export const schema = (): TSchema => ({
               props: {
                 title: "Formatted data defaults",
                 id: "features",
+                baseCellName: "formattedDataDefaults",
                 label: "Form Data defaults",
                 fullWidth: true,
+                keyValuePair: true,
                 row: [
                   {
                     component: EBuilderComponentPropsTypes.GROUP,

@@ -7,6 +7,7 @@ export const EBuilderComponentPropsTypes = {
   TABLE: "table",
   ACCORDION: "ACCORDION",
   GROUP: "GROUP",
+  BUTTON: "BUTTON",
 };
 
 export interface IComponent extends TComponent {
