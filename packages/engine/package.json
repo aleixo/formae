@@ -33,17 +33,16 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/gofrank/bolttech-form-engine.git"
+    "url": "git+ssh://git@github.com/aleixo/formae"
   },
   "keywords": [
-    "bolttech",
     "edirect",
     "form-engine",
     "forms",
     "reactjs",
     "low-code"
   ],
-  "author": "bolttech",
+  "author": "Diogo Aleixo",
   "license": "ISC",
   "homepage": "https://bitbucket.org/gofrank/bolttech-form-engine#readme",
   "dependencies": {
@@ -53,7 +52,6 @@
     "@storybook/addon-links": "^6.5.16",
     "@storybook/react": "^6.5.16",
     "@storybook/testing-library": "^0.0.13",
-    "credit-card-type": "^9.1.0",
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2"
   },

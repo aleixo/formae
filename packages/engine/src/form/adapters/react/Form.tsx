@@ -60,6 +60,7 @@ const Form = React.forwardRef<TFormRefActions, TFormProps>(
       () => (Mapper.step ? (Mapper.step.component as new () => React.Component) : React.Fragment),
       [],
     );
+
     const Children = useMemo(() => {
       if (!formInstance.step.currentStepSchema) {
         return undefined;
@@ -146,6 +147,12 @@ const Form = React.forwardRef<TFormRefActions, TFormProps>(
         },
       };
     }, [JSON.stringify(iVars)]);
+
+    useEffect(() => {
+      formInstance.subscribe(EEVents.ON_FRAGMENT_FIELD_CHANGE, ({ payload }) => {
+        onData && onData(formInstance.formData, payload.component, payload.field);
+      });
+    }, []);
 
     useMemo(
       () =>

@@ -28,11 +28,36 @@ export const schema = (): TSchema => ({
               },
             },
             {
-              component: EBuilderComponentPropsTypes.STRING,
+              component: EBuilderComponentPropsTypes.TABLE,
               name: "formattedDataDefaults",
               props: {
+                title: "Formatted data defaults",
+                id: "features",
                 label: "Form Data defaults",
                 fullWidth: true,
+                row: [
+                  {
+                    component: EBuilderComponentPropsTypes.GROUP,
+                    children: [
+                      {
+                        component: EBuilderComponentPropsTypes.STRING,
+                        name: "key",
+                        props: {
+                          label: "Key",
+                          placeholder: "Data default key",
+                        },
+                      },
+                      {
+                        component: EBuilderComponentPropsTypes.STRING,
+                        name: "value",
+                        props: {
+                          label: "Value",
+                          placeholder: "Data default value",
+                        },
+                      },
+                    ],
+                  },
+                ],
               },
             },
             {

@@ -16,9 +16,11 @@ const NewTemplateModal = ({ open, onClose, feature, template }) => {
   const [openModal, setOpenModal] = useState(open);
   const [isValid, setIsValid] = useState(false);
   const cms = useCms();
+
   useEffect(() => {
     setOpenModal(open);
   }, [open]);
+
   const { formData } = useForm({
     id: "new_template",
     onData: (data) => {

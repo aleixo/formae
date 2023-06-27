@@ -336,9 +336,6 @@ export type TVAvailableValidations = {
   repeatedNumbers?: boolean;
   url?: boolean;
   path?: TPathError;
-  isCreditCard?: string[];
-  isCreditCardAndLength?: string[];
-  isCreditCodeMatch?: { numberCard: string; availableOptions: string[] };
   customValidation?: ICustomValidationValue[];
   notAllowSpaces?: true;
   isInTheList?: string[] | number[] | string;

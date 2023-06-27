@@ -5,7 +5,6 @@ import { useCms } from "../../contexts/cms.context";
 import { ECMSActions } from "../../contexts/cms.reducer";
 import { useSchema } from "../../hooks/useSchema";
 import { PreviewContainer } from "../form-field-wrapper/form-field-wrapper";
-import * as S from "./builder.styles";
 const Builder = ({ mode }) => {
     const [formKey, setFormKey] = useState(new Date().getTime());
     const cms = useCms();
@@ -17,6 +16,7 @@ const Builder = ({ mode }) => {
     const formRef = useRef(null);
     let draggingElementRef = useRef(null);
     const resetOveredAndSelected = () => {
+        console.log("AQUi");
         cms.dispatch({
             type: ECMSActions.SET_OVERED_COMPONENT,
             payload: { component: undefined },
@@ -52,7 +52,11 @@ const Builder = ({ mode }) => {
                 });
             }, component: component }, { children: children })));
     }, [cms, mode, schema]);
-    return (_jsx(FormProvider, Object.assign({ mapper: cms.mappings, propsMapping: cms.propsMapping }, { children: _jsx(S.BuilderContainer, Object.assign({ onClick: resetOveredAndSelected }, { children: cms.state.schema && (_jsx(Form, { id: "builder_form", ref: formRef, schema: cms.state.schema, onFocus: handleFieldFocus, renderFieldWrapper: renderFieldWrapper }, formKey + mode)) })) })));
+    return (_jsx(FormProvider, Object.assign({ mapper: cms.mappings, propsMapping: cms.propsMapping }, { children: _jsx("div", Object.assign({ style: {
+                width: "100%",
+                height: "100%",
+                padding: "2rem",
+            }, onClick: resetOveredAndSelected }, { children: cms.state.schema && (_jsx(Form, { id: "builder_form", ref: formRef, schema: cms.state.schema, onFocus: handleFieldFocus, renderFieldWrapper: renderFieldWrapper }, formKey + mode)) })) })));
 };
 export { Builder };
 //# sourceMappingURL=builder.js.map

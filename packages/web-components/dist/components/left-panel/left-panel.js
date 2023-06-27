@@ -12,11 +12,21 @@ import { Drawer } from "../drawer/drawer";
 import { useCms } from "../../contexts/cms.context";
 import { ShortcutsModal } from "../shortcuts-modal/shortcuts-modal";
 import { FormComponentFeatures } from "../form-component-features/form-component-features";
+import { ComponentsHierarchy } from "../components-hierarchy/components-hierarchy";
+var EMenus;
+(function (EMenus) {
+    EMenus["FORM_HIERARCHY"] = "Hierarchy";
+    EMenus["FORM_CONFIGURATIONS"] = "FORM_CONFIGURATIONS";
+})(EMenus || (EMenus = {}));
 function LeftPanel() {
     const cms = useCms();
     const [showShortcutModal, setShowShorcutModal] = React.useState(false);
     const [openLeft, setOpenLeft] = React.useState(true);
     const toggleDrawerLeft = () => setOpenLeft(!openLeft);
+    const [openedMenu, setOpenedMenu] = React.useState();
+    const toggleMenu = (item) => () => {
+        setOpenedMenu(item);
+    };
     return (_jsxs(_Fragment, { children: [_jsx(ShortcutsModal, { open: showShortcutModal, onClose: () => setShowShorcutModal(false) }), _jsxs(Drawer, Object.assign({ variant: "permanent", open: openLeft }, { children: [_jsx(Toolbar, Object.assign({ sx: {
                             display: "flex",
                             alignItems: "center",
@@ -28,7 +38,7 @@ function LeftPanel() {
                                     cms.onSave(cms.state.schema);
                                 } }, { children: [_jsx(ListItemIcon, { children: _jsx(DashboardIcon, {}) }), _jsx(ListItemText, { primary: "Save" })] })), _jsxs(ListItemButton, Object.assign({ onClick: () => {
                                     setShowShorcutModal(true);
-                                } }, { children: [_jsx(ListItemIcon, { children: _jsx(DashboardIcon, {}) }), _jsx(ListItemText, { primary: "HotKeys" })] }))] })), _jsx(FormComponentFeatures, { feature: "configurations" })] }))] }));
+                                } }, { children: [_jsx(ListItemIcon, { children: _jsx(DashboardIcon, {}) }), _jsx(ListItemText, { primary: "HotKeys" })] })), _jsxs(ListItemButton, Object.assign({ onClick: toggleMenu(EMenus.FORM_CONFIGURATIONS) }, { children: [_jsx(ListItemIcon, { children: _jsx(DashboardIcon, {}) }), _jsx(ListItemText, { primary: "Form global configurations" })] })), _jsxs(ListItemButton, Object.assign({ onClick: toggleMenu(EMenus.FORM_HIERARCHY) }, { children: [_jsx(ListItemIcon, { children: _jsx(DashboardIcon, {}) }), _jsx(ListItemText, { primary: "Form components hierarchy" })] }))] })), openedMenu === EMenus.FORM_CONFIGURATIONS && (_jsx(FormComponentFeatures, { feature: "configurations", allowTemplate: false })), openedMenu === EMenus.FORM_HIERARCHY && _jsx(ComponentsHierarchy, {})] }))] }));
 }
 export { LeftPanel };
 //# sourceMappingURL=left-panel.js.map

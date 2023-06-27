@@ -467,27 +467,6 @@ describe('Testing core/apis/validations', () => {
     });
   });
 
-  // TODO - Put here the other credit cards validation
-  describe('Test isCreditCard validation', () => {
-    it('Correct credit card should not fail', () => {
-      expect(
-        run('4242424242424242', {
-          isCreditCard: true,
-        }),
-      ).toEqual({
-        isCreditCard: {
-          fail: false,
-          message: undefined,
-          validationValue: true,
-          metadata: {
-            creditCardCC: 'CVV',
-            creditCardCCSize: 3,
-            typeCard: 'visa',
-          },
-        },
-      });
-    });
-  });
   describe('Test url validation', () => {
     it('Correct url should not fail', () => {
       expect(

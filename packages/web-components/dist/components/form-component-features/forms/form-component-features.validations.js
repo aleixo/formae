@@ -233,7 +233,7 @@ export const validations = (prefix = "") => {
                     },
                 },
                 {
-                    component: EBuilderComponentPropsTypes.OBJECT,
+                    component: EBuilderComponentPropsTypes.GROUP,
                     name: prefix + "origin",
                     children: [
                         {
@@ -267,7 +267,7 @@ export const validations = (prefix = "") => {
                             },
                         },
                         {
-                            component: EBuilderComponentPropsTypes.OBJECT,
+                            component: EBuilderComponentPropsTypes.GROUP,
                             name: prefix + "intervals",
                             children: [
                                 {
@@ -299,7 +299,7 @@ export const validations = (prefix = "") => {
                     ],
                 },
                 {
-                    component: EBuilderComponentPropsTypes.OBJECT,
+                    component: EBuilderComponentPropsTypes.GROUP,
                     name: prefix + "origin",
                     props: {
                         title: "222",
@@ -381,7 +381,7 @@ export const schema = ({ event }) => ({
             children: [
                 {
                     name: "",
-                    component: EBuilderComponentPropsTypes.OBJECT,
+                    component: EBuilderComponentPropsTypes.GROUP,
                     children: validations(`validations.${event}.`),
                 },
             ],

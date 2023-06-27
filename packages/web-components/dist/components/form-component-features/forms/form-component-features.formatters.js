@@ -41,7 +41,7 @@ export const schema = ({ event }) => ({
             name: "",
             children: [
                 {
-                    component: EBuilderComponentPropsTypes.OBJECT,
+                    component: EBuilderComponentPropsTypes.GROUP,
                     name: "",
                     children: formatters(`formatters.${event}.`),
                 },

@@ -11,7 +11,6 @@ import { useCms } from "../../contexts/cms.context";
 import { ECMSActions } from "../../contexts/cms.reducer";
 import { useSchema } from "../../hooks/useSchema";
 import { PreviewContainer } from "../form-field-wrapper/form-field-wrapper";
-import * as S from "./builder.styles";
 
 interface IProps {
   mode: "BUILDING" | "PREVIEW" | string;
@@ -32,6 +31,7 @@ const Builder = ({ mode }: IProps) => {
   let draggingElementRef = useRef<TComponent & TField>(null);
 
   const resetOveredAndSelected = () => {
+    console.log("AQUi");
     cms.dispatch({
       type: ECMSActions.SET_OVERED_COMPONENT,
       payload: { component: undefined },
@@ -94,7 +94,14 @@ const Builder = ({ mode }: IProps) => {
 
   return (
     <FormProvider mapper={cms.mappings} propsMapping={cms.propsMapping}>
-      <S.BuilderContainer onClick={resetOveredAndSelected}>
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          padding: "2rem",
+        }}
+        onClick={resetOveredAndSelected}
+      >
         {cms.state.schema && (
           <Form
             id="builder_form"
@@ -105,7 +112,7 @@ const Builder = ({ mode }: IProps) => {
             renderFieldWrapper={renderFieldWrapper}
           />
         )}
-      </S.BuilderContainer>
+      </div>
     </FormProvider>
   );
 };

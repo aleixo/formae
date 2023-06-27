@@ -8,7 +8,7 @@ export const schema = () => ({
             children: [
                 {
                     name: "",
-                    component: EBuilderComponentPropsTypes.OBJECT,
+                    component: EBuilderComponentPropsTypes.GROUP,
                     children: validations(`filter`),
                 },
             ],

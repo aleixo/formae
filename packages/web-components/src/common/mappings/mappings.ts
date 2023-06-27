@@ -35,6 +35,7 @@ const formPropsMapping = {
   },
   [EBuilderComponentPropsTypes.TABLE]: {
     setValue: "value",
+    getValue: "onChange",
   },
   [EBuilderComponentPropsTypes.SELECT]: {
     setValue: "value",

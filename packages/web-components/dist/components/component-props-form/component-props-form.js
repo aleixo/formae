@@ -28,11 +28,11 @@ const ComponentPropsForm = () => {
                 }, initialValues: cms.state.selectedComponent, id: [(_b = cms.state.selectedComponent) === null || _b === void 0 ? void 0 : _b.component] + ".props", schema: {
                     components: [
                         {
-                            component: EBuilderComponentPropsTypes.OBJECT,
+                            component: EBuilderComponentPropsTypes.GROUP,
                             name: "",
                             children: [
                                 {
-                                    component: EBuilderComponentPropsTypes.OBJECT,
+                                    component: EBuilderComponentPropsTypes.GROUP,
                                     name: "",
                                     children: cms.props[(_c = cms.state.selectedComponent) === null || _c === void 0 ? void 0 : _c.component].map((comp) => (Object.assign(Object.assign({}, comp), { name: "props." + comp.name, props: Object.assign(Object.assign({}, comp.props), { label: comp.name.charAt(0).toUpperCase() + comp.name.slice(1) }) }))),
                                 },

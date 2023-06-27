@@ -12,7 +12,7 @@
  * This undo will be called when the form is filtering the data on the input if it has formatters configured
  */
 import { TSplitterFormatterValue, TSchemaFormatters } from 'core/types';
-import * as utils from 'core/utils';
+
 type TFormatterFunction = (data: { value: string | number; formatterValue: unknown; onBlur?: boolean }) => string;
 
 const splitter = ({ value, formatterValue }: { value: string; formatterValue: TSplitterFormatterValue }): string => {
@@ -66,19 +66,11 @@ const upperCase = ({ value }: { value: string }): string => {
   return value.toUpperCase();
 };
 
-const gapsCreditCard = ({ value, formatterValue }: { value: string; formatterValue: string[] }): string | undefined => {
-  if (!value) return;
-
-  const [type, rawValue] = utils.creditCard.getTypeCard(value, formatterValue);
-  return utils.creditCard.formatValue(rawValue, type);
-};
-
 const formatters: Record<string, unknown> = {
   splitter,
   undo_splitter,
   capitalize,
   upperCase,
-  gapsCreditCard,
 };
 
 const run = (value: any, componentFormatters: TSchemaFormatters, undo?: boolean): string | number => {

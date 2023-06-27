@@ -70,6 +70,7 @@ const FormComponentFeatures = ({
 
   const handleComponentUpdate = useCallback(
     (data: { formatted: any }) => {
+      console.log("SUBMITTED");
       const component = merge(
         cms.state.selectedComponent || {},
         data.formatted || {}
@@ -86,6 +87,7 @@ const FormComponentFeatures = ({
           schema: schema.edit<TSchema>(cms.state.schema!, component),
         },
       });
+      console.log("new comp ", component);
       setFormKey(new Date().getTime());
     },
 
@@ -137,13 +139,14 @@ const FormComponentFeatures = ({
                   : (cms.state.selectedComponent || {})[feature as string]
               }
             />
-            <Button fullWidth variant="outlined" onClick={() => submitForm()}>
-              Save
-            </Button>
           </>
         )}
 
         <Divider>{title}</Divider>
+
+        <Button fullWidth variant="outlined" onClick={() => submitForm()}>
+          Save configurations
+        </Button>
 
         <S.FormFullWidth
           key={formKey}

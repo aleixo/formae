@@ -1,4 +1,4 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
 import { FormProvider, useForm, } from "@form-builder/engine";
 import { formMapper, formPropsMapping } from "../../common/mappings/mappings";
 import { useCms } from "../../contexts/cms.context";
@@ -36,10 +36,11 @@ function merge(...objects) {
         return prev;
     }, {});
 }
-const FormComponentFeatures = ({ feature = "basic", events, onEventClick, showEventSelection, }) => {
+const FormComponentFeatures = ({ feature = "basic", events, onEventClick, showEventSelection, allowTemplate = true, title, }) => {
     const cms = useCms();
     const schema = useSchema();
     const handleComponentUpdate = useCallback((data) => {
+        console.log("SUBMITTED");
         const component = merge(cms.state.selectedComponent || {}, data.formatted || {});
         cms.dispatch({
             type: ECMSActions.SET_SELECTED_COMPONENT,
@@ -53,6 +54,7 @@ const FormComponentFeatures = ({ feature = "basic", events, onEventClick, showEv
                 schema: schema.edit(cms.state.schema, component),
             },
         });
+        console.log("new comp ", component);
         setFormKey(new Date().getTime());
     }, [cms, schema]);
     const [formKey, setFormKey] = useState(new Date().getTime());
@@ -67,19 +69,20 @@ const FormComponentFeatures = ({ feature = "basic", events, onEventClick, showEv
                 setSelectedEvent(event);
             } }));
     }
-    return (_jsx(FormProvider, Object.assign({ mapper: formMapper, propsMapping: formPropsMapping }, { children: _jsxs(Stack, Object.assign({ spacing: 3 }, { children: [_jsx(Divider, { children: "Templates" }), _jsx(FormComponentFeatureTemplate, { onChangeTemplate: (template) => {
-                        if (selectedEvent) {
-                            handleComponentUpdate({
-                                formatted: {
-                                    [feature]: {
-                                        [selectedEvent]: template.configuration,
-                                    },
-                                },
-                            });
-                        }
-                    }, feature: feature, template: selectedEvent
-                        ? ((cms.state.selectedComponent || {})[feature] || {})[selectedEvent]
-                        : (cms.state.selectedComponent || {})[feature] }), _jsx(Divider, { children: "Features" }), _jsx(Button, Object.assign({ fullWidth: true, variant: "outlined", onClick: () => submitForm() }, { children: "Save" })), _jsx(S.FormFullWidth, { initialValues: cms.state.selectedComponent, id: "features", schema: {
+    return (_jsx(FormProvider, Object.assign({ mapper: formMapper, propsMapping: formPropsMapping }, { children: _jsxs(Stack, Object.assign({ spacing: 3 }, { children: [allowTemplate && (_jsxs(_Fragment, { children: [_jsx(Divider, { children: "Templates" }), _jsx(FormComponentFeatureTemplate, { onChangeTemplate: (template) => {
+                                if (selectedEvent) {
+                                    handleComponentUpdate({
+                                        formatted: {
+                                            [feature]: {
+                                                [selectedEvent]: template.configuration,
+                                            },
+                                        },
+                                    });
+                                }
+                            }, feature: feature, template: selectedEvent
+                                ? ((cms.state.selectedComponent || {})[feature] ||
+                                    {})[selectedEvent]
+                                : (cms.state.selectedComponent || {})[feature] })] })), _jsx(Divider, { children: title }), _jsx(Button, Object.assign({ fullWidth: true, variant: "outlined", onClick: () => submitForm() }, { children: "Save configurations" })), _jsx(S.FormFullWidth, { initialValues: cms.state.selectedComponent, id: "features", schema: {
                         basic: basicsSchema,
                         configurations: formConfigurationsSchema,
                         validations: validationsSchema,

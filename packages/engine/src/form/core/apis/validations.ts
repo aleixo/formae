@@ -36,11 +36,6 @@ interface TCallback {
   };
 }
 
-interface IValidationCreditCard {
-  value: string;
-  validationValue: string[];
-}
-
 export interface ICustomValidationValue {
   from: number;
   to: number;
@@ -128,34 +123,6 @@ const email = ({ value }: TValidationArguments<string, string>): TErrorReturn =>
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const fail = !regex.test(value as string);
 
-  return { fail };
-};
-
-const isCreditCard = ({ value, validationValue }: IValidationCreditCard): TErrorReturn => {
-  if (!value) return { fail: true };
-
-  const [type] = utils.creditCard.getTypeCard(value, validationValue);
-
-  return {
-    fail: !type,
-    metadata: { typeCard: type?.type, creditCardCC: type?.code?.name, creditCardCCSize: type?.code?.size },
-  };
-};
-
-const isCreditCodeMatch = ({
-  value,
-  validationValue,
-}: TValidationArguments<string, { numberCard: string; availableOptions: string[] }>): TErrorReturn => {
-  if (!value) return { fail: true };
-  const [type] = utils.creditCard.getTypeCard(validationValue.numberCard, validationValue.availableOptions);
-  return { fail: type?.code?.size !== value.length };
-};
-
-const isCreditCardAndLength = ({ value, validationValue }: IValidationCreditCard): TErrorReturn => {
-  if (!value) return { fail: true };
-
-  const [type, rawValue] = utils.creditCard.getTypeCard(value, validationValue);
-  const fail = type && !type.lengths.includes(rawValue.length);
   return { fail };
 };
 
@@ -462,9 +429,6 @@ const validations: Record<string, unknown> = {
   value,
   regex,
   hasNoExtraSpaces,
-  isCreditCard,
-  isCreditCardAndLength,
-  isCreditCodeMatch,
   onlyLetters,
   notAllowSpaces,
   callback,
