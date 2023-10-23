@@ -11,7 +11,7 @@ export const schema = (): TSchema => ({
         {
           name: "",
           component: EBuilderComponentPropsTypes.GROUP,
-          children: validations(`filter`),
+          children: validations(`filter.`),
         },
       ],
     },

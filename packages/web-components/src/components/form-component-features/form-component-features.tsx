@@ -68,27 +68,31 @@ const FormComponentFeatures = ({
   const cms = useCms();
   const schema = useSchema();
 
-  const updateSchemaConfiguration = (formatted) => {
-    cms.dispatch({
-      type: ECMSActions.SET_BUILDER_SCHEMA,
-      payload: {
-        schema: {
-          ...formatted,
-          ...cms.state.schema,
+  const updateSchemaConfiguration = useCallback(
+    (formatted) => {
+      cms.dispatch({
+        type: ECMSActions.SET_BUILDER_SCHEMA,
+        payload: {
+          schema: {
+            ...formatted,
+            ...cms.state.schema,
+          },
         },
-      },
-    });
-  };
+      });
+    },
+    [cms]
+  );
 
   const handleComponentUpdate = useCallback(
     (data: { formatted: any }) => {
       if (feature === "configurations") {
         return updateSchemaConfiguration(data.formatted);
       }
-      const component = merge(
-        cms.state.selectedComponent || {},
-        data.formatted || {}
-      ) as TComponent;
+
+      const component = {
+        ...cms.state.selectedComponent,
+        ...data.formatted,
+      } as TComponent;
       cms.dispatch({
         type: ECMSActions.SET_SELECTED_COMPONENT,
         payload: {
@@ -101,17 +105,13 @@ const FormComponentFeatures = ({
           schema: schema.edit<TSchema>(cms.state.schema!, component),
         },
       });
-      setFormKey(new Date().getTime());
+      //setFormKey(new Date().getTime());
     },
 
-    [cms, schema]
+    [cms, feature, schema, updateSchemaConfiguration]
   );
 
-  const [formKey, setFormKey] = useState(new Date().getTime());
-  const { submitForm } = useForm({
-    id: "features",
-    onSubmit: handleComponentUpdate,
-  });
+  const [formKey] = useState(new Date().getTime());
   const [selectedEvent, setSelectedEvent] = useState();
 
   if (showEventSelection && events) {
@@ -125,10 +125,9 @@ const FormComponentFeatures = ({
       />
     );
   }
-  console.log("SCHEMA ", cms.state.schema);
   return (
     <FormProvider mapper={formMapper} propsMapping={formPropsMapping}>
-      <Stack spacing={3}>
+      <Stack spacing={3} maxHeight={"100vh"}>
         {allowTemplate && (
           <>
             <Divider>Templates</Divider>
@@ -157,17 +156,14 @@ const FormComponentFeatures = ({
         )}
 
         <Divider>{title}</Divider>
-
-        <Button fullWidth variant="outlined" onClick={() => submitForm()}>
-          Save configurations
-        </Button>
-
         <S.FormFullWidth
+          submitOnValidOnly={false}
           key={formKey}
           initialValues={{
             ...cms.state.selectedComponent,
             formattedDataDefaults: cms.state.schema?.formattedDataDefaults,
           }}
+          onData={handleComponentUpdate}
           id={"features"}
           schema={{
             basic: basicsSchema,

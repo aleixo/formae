@@ -1,24 +1,16 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { Fragment, TComponent } from "@form-builder/engine";
-const Table = ({
-  id,
-  title,
-  row,
-  baseCellName,
-  onChange,
-  value = [],
-  keyValuePair,
-}) => {
+
+const Table = ({ id, title, row, baseCellName, onChange, value = [] }) => {
   const [state, dispatch] = useState<any[]>(
     Array.isArray(value)
       ? Array.from(value, (row) => row)
       : Object.keys(value).map((key) => ({ key: key, value: value[key] }))
   );
+
   const buildRowComponent = (component: TComponent, rowIndex: number) => {
-    const firstPathPart = keyValuePair
-      ? baseCellName
-      : `${baseCellName}[${rowIndex}]`;
+    const firstPathPart = `${baseCellName}[${rowIndex}]`;
     return {
       ...component,
       name: component.name
@@ -26,7 +18,7 @@ const Table = ({
         : `${firstPathPart}`,
     };
   };
-  console.log(value, state);
+
   return (
     <div>
       <h3>{title}</h3>
@@ -37,15 +29,15 @@ const Table = ({
             components={row}
             id={id}
             onComponent={(c) => buildRowComponent(c, i)}
-            onData={(d) => {
-              onChange(d);
-              console.log("ONDATA");
+            onData={({ formatted }) => {
+              onChange(formatted[baseCellName]);
             }}
           />
           <Button
+            type="button"
             onClick={() => {
-              dispatch(state.filter((item, index) => index !== i));
-              onChange({ ...state, [key]: undefined });
+              dispatch(state.filter((_, index) => index !== i));
+              onChange(state.filter((_, index) => index !== i));
             }}
           >
             Remove
@@ -53,8 +45,8 @@ const Table = ({
         </>
       ))}
       <Button
+        type="button"
         onClick={() => {
-          //onChange(state);
           dispatch([...state, row]);
         }}
       >

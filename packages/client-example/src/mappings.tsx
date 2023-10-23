@@ -1,13 +1,30 @@
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { EBuilderComponentPropsTypes } from "@form-builder/web-components";
-import { FormControl, FormGroup, InputLabel, Stack } from "@mui/material";
+import {
+  Checkbox,
+  FormControl,
+  FormGroup,
+  InputLabel,
+  MenuItem,
+  Rating,
+  Select,
+  Stack,
+} from "@mui/material";
 
 const mappings = {
+  rating: {
+    component: Rating,
+    label: "Rating",
+  },
   textField: {
     component: TextField,
     label: "Text Field",
     description: "Input bla bla",
+  },
+  checkbox: {
+    component: Checkbox,
+    label: "Checkbox",
   },
   autocomplete: {
     component: (props: any) => (
@@ -33,6 +50,15 @@ const mappings = {
     isContainer: true,
     label: "Form control",
   },
+  select: {
+    component: Select,
+    label: "Select",
+    isContainer: false,
+  },
+  menuItem: {
+    component: MenuItem,
+    label: "Menu Item",
+  },
   stack: {
     component: Stack,
     label: "Stack",
@@ -42,12 +68,28 @@ const mappings = {
 };
 
 const formBuilderPropsMapping = {
+  select: {
+    getValue: "onChange",
+    setValue: "value",
+    setErrorState: "error",
+  },
+  rating: {
+    getValue: "onChange",
+    setValue: "value",
+    setErrorState: "error",
+  },
+  checkbox: {
+    getValue: "onChange",
+    setValue: "value",
+    setErrorState: "error",
+  },
   textField: {
     getValue: "onChange",
     setValue: "value",
-    setErrorMessage: "errorMessage",
+    setErrorMessage: "helperText",
     onBlur: "onBlur",
     onFocus: "onFocus",
+    setErrorState: "error",
   },
   autocomplete: {
     getValue: "onChange",
@@ -69,6 +111,128 @@ const examples = {
 };
 
 const props: Record<string, any[]> = {
+  select: [
+    {
+      name: "label",
+      component: EBuilderComponentPropsTypes.STRING,
+    },
+    {
+      name: "labelId",
+      component: EBuilderComponentPropsTypes.STRING,
+    },
+  ],
+  menuItem: [
+    {
+      name: "value",
+      component: EBuilderComponentPropsTypes.STRING,
+    },
+    {
+      name: "children",
+      component: EBuilderComponentPropsTypes.STRING,
+    },
+  ],
+  rating: [
+    {
+      name: "defaultValue",
+      component: EBuilderComponentPropsTypes.STRING,
+    },
+    {
+      name: "disabled",
+      component: EBuilderComponentPropsTypes.BOOLEAN,
+    },
+    {
+      name: "highlightSelectedOnly",
+      component: EBuilderComponentPropsTypes.BOOLEAN,
+    },
+    {
+      name: "max",
+      component: EBuilderComponentPropsTypes.STRING,
+    },
+  ],
+  checkbox: [
+    {
+      name: "color",
+      component: EBuilderComponentPropsTypes.SELECT,
+      props: {
+        label: "Color",
+        options: [
+          {
+            label: "Default",
+            value: "default",
+          },
+          {
+            label: "Primary",
+            value: "primary",
+          },
+          {
+            label: "Secondary",
+            value: "secondary",
+          },
+          {
+            label: "Error",
+            value: "error",
+          },
+          {
+            label: "Info",
+            value: "info",
+          },
+          {
+            label: "Success",
+            value: "success",
+          },
+          {
+            label: "Warning",
+            value: "warning",
+          },
+        ],
+      },
+    },
+    {
+      name: "defaultChecked",
+      component: EBuilderComponentPropsTypes.BOOLEAN,
+      props: {
+        label: "Default checked",
+      },
+    },
+    {
+      name: "disabled",
+      component: EBuilderComponentPropsTypes.BOOLEAN,
+      props: {
+        label: "Disabled",
+      },
+    },
+    {
+      name: "disableRipple",
+      component: EBuilderComponentPropsTypes.BOOLEAN,
+      props: {
+        label: "Disable Ripple",
+      },
+    },
+    {
+      name: "id",
+      component: EBuilderComponentPropsTypes.STRING,
+      props: {
+        label: "Id",
+      },
+    },
+    {
+      name: "size",
+      component: EBuilderComponentPropsTypes.SELECT,
+      props: {
+        label: "Disabled",
+        options: [
+          {
+            label: "Medium",
+            value: "medium",
+          },
+          {
+            label: "Small",
+            value: "small",
+          },
+        ],
+      },
+    },
+  ],
   textField: [
     {
       name: "label",

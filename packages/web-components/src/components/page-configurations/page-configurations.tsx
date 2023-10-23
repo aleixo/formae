@@ -121,6 +121,7 @@ const PageConfigurations = ({ page }) => {
         </AccordionSummary>
         <AccordionDetails>
           <Button
+            type="button"
             endIcon={<Delete />}
             variant="outlined"
             fullWidth

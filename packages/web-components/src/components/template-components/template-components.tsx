@@ -31,6 +31,7 @@ const TemplateComponents = ({
         <Stack spacing={2}>
           {Object.keys(components).map((key, i) => (
             <Button
+              type="button"
               variant="outlined"
               draggable
               key={i}

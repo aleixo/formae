@@ -117,9 +117,7 @@ const useSchema = () => {
         }
         return transverseSchema(schema, 0, (componentSet, localIndex) => {
             if (componentSet[localIndex].id === to.id) {
-                if (to.component === "__FORM__CONTAINER__" ||
-                    mappings[to.component].isContainer ||
-                    Array.isArray(to.children)) {
+                if (mappings[to.component].isContainer || Array.isArray(to.children)) {
                     componentSet[localIndex].children = [
                         ...(componentSet[localIndex].children || []),
                         from,

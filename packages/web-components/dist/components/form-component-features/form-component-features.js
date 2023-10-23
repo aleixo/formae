@@ -37,10 +37,21 @@ function merge(...objects) {
     }, {});
 }
 const FormComponentFeatures = ({ feature = "basic", events, onEventClick, showEventSelection, allowTemplate = true, title, }) => {
+    var _a;
     const cms = useCms();
     const schema = useSchema();
+    const updateSchemaConfiguration = (formatted) => {
+        cms.dispatch({
+            type: ECMSActions.SET_BUILDER_SCHEMA,
+            payload: {
+                schema: Object.assign(Object.assign({}, formatted), cms.state.schema),
+            },
+        });
+    };
     const handleComponentUpdate = useCallback((data) => {
-        console.log("SUBMITTED");
+        if (feature === "configurations") {
+            return updateSchemaConfiguration(data.formatted);
+        }
         const component = merge(cms.state.selectedComponent || {}, data.formatted || {});
         cms.dispatch({
             type: ECMSActions.SET_SELECTED_COMPONENT,
@@ -54,7 +65,6 @@ const FormComponentFeatures = ({ feature = "basic", events, onEventClick, showEv
                 schema: schema.edit(cms.state.schema, component),
             },
         });
-        console.log("new comp ", component);
         setFormKey(new Date().getTime());
     }, [cms, schema]);
     const [formKey, setFormKey] = useState(new Date().getTime());
@@ -69,6 +79,7 @@ const FormComponentFeatures = ({ feature = "basic", events, onEventClick, showEv
                 setSelectedEvent(event);
             } }));
     }
+    console.log("SCHEMA ", cms.state.schema);
     return (_jsx(FormProvider, Object.assign({ mapper: formMapper, propsMapping: formPropsMapping }, { children: _jsxs(Stack, Object.assign({ spacing: 3 }, { children: [allowTemplate && (_jsxs(_Fragment, { children: [_jsx(Divider, { children: "Templates" }), _jsx(FormComponentFeatureTemplate, { onChangeTemplate: (template) => {
                                 if (selectedEvent) {
                                     handleComponentUpdate({
@@ -82,7 +93,7 @@ const FormComponentFeatures = ({ feature = "basic", events, onEventClick, showEv
                             }, feature: feature, template: selectedEvent
                                 ? ((cms.state.selectedComponent || {})[feature] ||
                                     {})[selectedEvent]
-                                : (cms.state.selectedComponent || {})[feature] })] })), _jsx(Divider, { children: title }), _jsx(Button, Object.assign({ fullWidth: true, variant: "outlined", onClick: () => submitForm() }, { children: "Save configurations" })), _jsx(S.FormFullWidth, { initialValues: cms.state.selectedComponent, id: "features", schema: {
+                                : (cms.state.selectedComponent || {})[feature] })] })), _jsx(Divider, { children: title }), _jsx(Button, Object.assign({ fullWidth: true, variant: "outlined", onClick: () => submitForm() }, { children: "Save configurations" })), _jsx(S.FormFullWidth, { initialValues: Object.assign(Object.assign({}, cms.state.selectedComponent), { formattedDataDefaults: (_a = cms.state.schema) === null || _a === void 0 ? void 0 : _a.formattedDataDefaults }), id: "features", schema: {
                         basic: basicsSchema,
                         configurations: formConfigurationsSchema,
                         validations: validationsSchema,

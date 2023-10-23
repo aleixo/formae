@@ -15,7 +15,10 @@ const ComponentsHierarchy = () => {
       0,
       (component, index, currDepth) => {
         components.push(
-          <PreviewContainer component={component[index]}>
+          <PreviewContainer
+            displayComponentName={false}
+            component={component[index]}
+          >
             <S.Item
               padding={currDepth.toString()}
               selected={

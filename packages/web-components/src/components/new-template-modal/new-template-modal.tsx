@@ -60,6 +60,7 @@ const NewTemplateModal = ({ open, onClose, feature, template }) => {
       </DialogContent>
       <DialogActions>
         <Button
+          type="button"
           onClick={() => {
             setOpenModal(false);
           }}
@@ -67,6 +68,7 @@ const NewTemplateModal = ({ open, onClose, feature, template }) => {
           Cancel
         </Button>
         <Button
+          type="button"
           disabled={!isValid}
           onClick={() => {
             setOpenModal(false);

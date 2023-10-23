@@ -17,6 +17,7 @@ interface IProps {
   onDragStart?(): void;
   onDrop?(): void;
   component: TComponent & { id?: string };
+  displayComponentName?: boolean;
 }
 
 const PreviewContainer = ({
@@ -24,6 +25,7 @@ const PreviewContainer = ({
   onDragStart,
   onDrop,
   component,
+  displayComponentName = true,
 }: IProps) => {
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const cms = useCms();
@@ -121,12 +123,13 @@ const PreviewContainer = ({
           >
             <p
               style={{
-                padding: "6px",
+                padding: displayComponentName ? "4px" : "0px",
                 backgroundColor: color,
               }}
             >
-              {component.component}
+              {displayComponentName ? component.component : ""}
             </p>
+
             <Box sx={{ backgroundColor: color }}>
               <IconButton
                 onClick={(e) => {

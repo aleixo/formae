@@ -55,7 +55,9 @@ const ScopeModal = ({ scope }) => {
 
   return (
     <>
-      <Button onClick={() => setSHow(true)}>Binding variables</Button>
+      <Button type="button" onClick={() => setSHow(true)}>
+        Binding variables
+      </Button>
       <Modal
         open={show}
         onClose={() => setSHow(false)}
@@ -106,6 +108,7 @@ const ScopeModal = ({ scope }) => {
                     gap="2rem"
                   >
                     <Button
+                      type="button"
                       onClick={() => {
                         navigator.clipboard.writeText("${" + key + "}");
                       }}

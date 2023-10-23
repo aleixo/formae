@@ -5,7 +5,6 @@ import { Checkbox } from "../../components/checkbox/checkbox";
 import { FormGroup } from "../../components/formGroup/formGroup";
 import { Table } from "../../components/table/table";
 import { TextField } from "../../components/textfield/textfield";
-import { Button } from "@mui/material";
 
 const formMapper = {
   [EBuilderComponentPropsTypes.GROUP]: {

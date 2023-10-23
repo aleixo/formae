@@ -22,7 +22,7 @@ export const schema = ({ component }: { component: TComponent }): TSchema => ({
             },
             ...[
               ...new Set(
-                Object.keys(component.validations || {}).reduce((acc, key) => {
+                Object.keys(component?.validations || {}).reduce((acc, key) => {
                   if (!component.validations || !component.validations[key])
                     return acc;
                   return [...acc, ...Object.keys(component.validations[key])];

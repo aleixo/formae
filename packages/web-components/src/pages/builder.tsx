@@ -7,11 +7,13 @@ import { RightPanel } from "../components/right-panel/right-panel";
 import { LeftPanel } from "../components/left-panel/left-panel";
 
 import { useRouter } from "next/router";
+import { useKeyboardSensor } from "../hooks/useKeyboardSensor";
 
 const mdTheme = createTheme();
 
 function BuilderPage() {
   const { query } = useRouter();
+  useKeyboardSensor();
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>

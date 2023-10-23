@@ -34,7 +34,9 @@ function BasicCard() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button type="button" size="small">
+          Learn More
+        </Button>
       </CardActions>
     </Card>
   );

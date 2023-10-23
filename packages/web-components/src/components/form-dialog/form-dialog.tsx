@@ -20,7 +20,7 @@ export default function FormDialog({ openText, description }) {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button type="button" variant="outlined" onClick={handleClickOpen}>
         {openText}
       </Button>
       <Dialog open={open} onClose={handleClose}>
@@ -38,8 +38,12 @@ export default function FormDialog({ openText, description }) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Subscribe</Button>
+          <Button type="button" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button type="button" onClick={handleClose}>
+            Subscribe
+          </Button>
         </DialogActions>
       </Dialog>
     </div>

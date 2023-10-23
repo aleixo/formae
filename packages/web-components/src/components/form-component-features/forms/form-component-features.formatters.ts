@@ -34,19 +34,24 @@ const formatters = (prefix = ""): TComponent[] => [
       baseCellName: prefix + "splitter",
       row: [
         {
-          component: EBuilderComponentPropsTypes.STRING,
-          name: "value",
-          props: {
-            label: "value",
-          },
-        },
-        {
-          component: EBuilderComponentPropsTypes.STRING,
-          name: "position",
-          props: {
-            label: "Position",
-            type: "number",
-          },
+          component: EBuilderComponentPropsTypes.GROUP,
+          children: [
+            {
+              component: EBuilderComponentPropsTypes.STRING,
+              name: "value",
+              props: {
+                label: "value",
+              },
+            },
+            {
+              component: EBuilderComponentPropsTypes.STRING,
+              name: "position",
+              props: {
+                label: "Position",
+                type: "number",
+              },
+            },
+          ],
         },
       ],
     },

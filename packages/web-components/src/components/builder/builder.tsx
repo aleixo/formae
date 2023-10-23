@@ -67,11 +67,6 @@ const Builder = ({ mode }: IProps) => {
           }}
           onDrop={() => {
             cms.dispatch({
-              type: ECMSActions.SET_OVERED_COMPONENT,
-              payload: { component: undefined },
-            });
-
-            cms.dispatch({
               type: ECMSActions.SET_BUILDER_SCHEMA,
               payload: {
                 schema: schema.moveTo<TSchema>(
@@ -80,6 +75,10 @@ const Builder = ({ mode }: IProps) => {
                   component as any
                 ),
               },
+            });
+            cms.dispatch({
+              type: ECMSActions.SET_OVERED_COMPONENT,
+              payload: { component: undefined },
             });
           }}
           component={component as TComponent}
