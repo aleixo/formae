@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useCms } from "../../contexts/cms.context";
 import { ECMSActions } from "../../contexts/cms.reducer";
 import { useSchema } from "../../hooks/useSchema";
-const PreviewContainer = ({ children, onDragStart, onDrop, component, }) => {
+const PreviewContainer = ({ children, onDragStart, onDrop, component, displayComponentName = true, }) => {
     const [isDraggingOver, setIsDraggingOver] = useState(false);
     const cms = useCms();
     const schema = useSchema();
@@ -77,9 +77,9 @@ const PreviewContainer = ({ children, onDragStart, onDrop, component, }) => {
                             justifyContent: "space-between",
                             alignItems: "center",
                         } }, { children: [_jsx("p", Object.assign({ style: {
-                                    padding: "6px",
+                                    padding: displayComponentName ? "4px" : "0px",
                                     backgroundColor: color,
-                                } }, { children: component.component })), _jsxs(Box, Object.assign({ sx: { backgroundColor: color } }, { children: [_jsx(IconButton, Object.assign({ onClick: (e) => {
+                                } }, { children: displayComponentName ? component.component : "" })), _jsxs(Box, Object.assign({ sx: { backgroundColor: color } }, { children: [_jsx(IconButton, Object.assign({ onClick: (e) => {
                                             e.stopPropagation();
                                             e.preventDefault();
                                             cms.dispatch({

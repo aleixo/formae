@@ -11,6 +11,7 @@ import { useCms } from "../../contexts/cms.context";
 import { ECMSActions } from "../../contexts/cms.reducer";
 import { useSchema } from "../../hooks/useSchema";
 import { PreviewContainer } from "../form-field-wrapper/form-field-wrapper";
+import { Container } from "@mui/material";
 
 interface IProps {
   mode: "BUILDING" | "PREVIEW" | string;
@@ -21,14 +22,13 @@ const Builder = ({ mode }: IProps) => {
 
   const cms = useCms();
   const schema = useSchema();
+  const formRef = useRef<TFormRefActions>(null);
+  let draggingElementRef = useRef<TComponent & TField>(null);
 
   useEffect(() => {
     setFormKey(new Date().getTime());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(cms.state.schema)]);
-
-  const formRef = useRef<TFormRefActions>(null);
-  let draggingElementRef = useRef<TComponent & TField>(null);
 
   const resetOveredAndSelected = () => {
     cms.dispatch({
@@ -92,10 +92,9 @@ const Builder = ({ mode }: IProps) => {
 
   return (
     <FormProvider mapper={cms.mappings} propsMapping={cms.propsMapping}>
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
+      <Container
+        sx={{
+          backgroundColor: (theme) => theme.palette.grey[100],
           padding: "2rem",
         }}
         onClick={resetOveredAndSelected}
@@ -110,7 +109,7 @@ const Builder = ({ mode }: IProps) => {
             renderFieldWrapper={renderFieldWrapper}
           />
         )}
-      </div>
+      </Container>
     </FormProvider>
   );
 };

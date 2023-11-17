@@ -3,6 +3,7 @@ import { TComponent, TSchema } from "@form-builder/engine";
 import { IComponent } from "../common/types/engine";
 declare const useSchema: () => {
     getComponentWithPattern: <T>(schema: T, pattern: string) => TComponent[];
+    getTopSchemaComponent: (schema: TSchema) => any;
     init: ({ configs }: {
         configs: any;
     }) => {
@@ -22,7 +23,7 @@ declare const useSchema: () => {
     remove: <T_3>(schema: T_3, step: number, component: IComponent) => T_3;
     moveUp: <T_4>(schema: T_4, targetComponent: IComponent) => T_4;
     moveDown: <T_5>(schema: T_5, targetComponent: IComponent) => T_5;
-    transverseSchema: <T_6>(schema: T_6, targetStep: number, cb: (component: IComponent[], index: number, currDepth: number) => void) => T_6;
+    transverseSchema: <T_6>(schema: T_6, targetStep: number, cb: (component: IComponent[], index: number, currDepth: number, len: number, prev: IComponent[], count: any) => any, id?: number) => T_6;
     cloneComponent: (component: TComponent) => IComponent;
     extractComponentFormConfigurations: (component: TComponent) => Pick<TComponent, "api" | "formatters" | "clearFields" | "masks" | "validations" | "visibilityConditions">;
     createTemplate: (component: TComponent, isReference: boolean, name: string) => {

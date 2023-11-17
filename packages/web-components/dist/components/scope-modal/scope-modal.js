@@ -29,7 +29,7 @@ const ScopeModal = ({ scope }) => {
     const handleChange = (_event, newValue) => {
         setValue(newValue);
     };
-    return (_jsxs(_Fragment, { children: [_jsx(Button, Object.assign({ onClick: () => setSHow(true) }, { children: "Binding variables" })), _jsx(Modal, Object.assign({ open: show, onClose: () => setSHow(false), "aria-labelledby": "modal-modal-title", "aria-describedby": "modal-modal-description" }, { children: _jsxs(Box, Object.assign({ sx: {
+    return (_jsxs(_Fragment, { children: [_jsx(Button, Object.assign({ type: "button", onClick: () => setSHow(true) }, { children: "Binding variables" })), _jsx(Modal, Object.assign({ open: show, onClose: () => setSHow(false), "aria-labelledby": "modal-modal-title", "aria-describedby": "modal-modal-description" }, { children: _jsxs(Box, Object.assign({ sx: {
                         position: "absolute",
                         top: "50%",
                         left: "50%",
@@ -40,7 +40,7 @@ const ScopeModal = ({ scope }) => {
                         maxHeight: "50%",
                         width: "70%",
                     } }, { children: [_jsxs(Tabs, Object.assign({ value: value, onChange: handleChange, "aria-label": "basic tabs example" }, { children: [_jsx(Tab, { label: "Mock" }), _jsx(Tab, { label: "Available Scope" })] })), _jsx(TabPanel, { value: value, index: 0 }), _jsx(TabPanel, Object.assign({ value: value, index: 1 }, { children: Object.keys(flatten(scope)).map((key) => {
-                                return (_jsxs(Box, Object.assign({ display: "flex", justifyContent: "space-between", alignItems: "center", flexDirection: "row" }, { children: [_jsx(Typography, Object.assign({ style: { color: "red" }, sx: { mt: 2 } }, { children: key })), _jsxs(Box, Object.assign({ display: "flex", justifyContent: "flex-end", alignItems: "center", flexDirection: "row", gap: "2rem" }, { children: [_jsx(Button, Object.assign({ onClick: () => {
+                                return (_jsxs(Box, Object.assign({ display: "flex", justifyContent: "space-between", alignItems: "center", flexDirection: "row" }, { children: [_jsx(Typography, Object.assign({ style: { color: "red" }, sx: { mt: 2 } }, { children: key })), _jsxs(Box, Object.assign({ display: "flex", justifyContent: "flex-end", alignItems: "center", flexDirection: "row", gap: "2rem" }, { children: [_jsx(Button, Object.assign({ type: "button", onClick: () => {
                                                         navigator.clipboard.writeText("${" + key + "}");
                                                     } }, { children: "Copy" })), _jsx(Badge, { badgeContent: schema.getComponentWithPattern(cms.state.schema, key).length, color: "secondary" })] }))] }), key));
                             }) }))] })) }))] }));

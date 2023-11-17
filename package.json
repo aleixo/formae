@@ -8,6 +8,7 @@
     "bootstrap": "npx lerna bootstrap",
     "start": "npx -y lerna run dev --scope client-example",
     "build": "npx lerna run build",
+    "build:engine": "npx lerna run build --scope @form-builder/engine",
     "graph": "npx nx graph"
   },
   "dependencies": {

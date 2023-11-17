@@ -184,22 +184,92 @@ export const validations = (prefix = "") => {
             },
         },
         {
-            component: EBuilderComponentPropsTypes.TABLE,
-            name: prefix + "conditions TODO",
+            component: EBuilderComponentPropsTypes.GROUP,
+            name: "",
             props: {
+                label: "Condition",
                 title: "Conditions",
-                id: "features",
-                baseCellName: prefix + "conditions",
-                row: [
-                    {
-                        component: EBuilderComponentPropsTypes.STRING,
-                        props: {
-                            label: "Item",
-                            fullWidth: true,
-                        },
-                    },
-                ],
             },
+            children: [
+                {
+                    component: EBuilderComponentPropsTypes.SELECT,
+                    name: prefix + "conditions.rule",
+                    props: {
+                        options: [
+                            {
+                                label: "And",
+                                value: "and",
+                            },
+                            {
+                                label: "Or",
+                                value: "or",
+                            },
+                        ],
+                        label: "Item",
+                        fullWidth: true,
+                    },
+                },
+                {
+                    component: EBuilderComponentPropsTypes.TABLE,
+                    name: prefix + "conditions.set",
+                    props: {
+                        title: "Rule set",
+                        id: "features",
+                        baseCellName: prefix + "conditions.set",
+                        row: [
+                            {
+                                component: EBuilderComponentPropsTypes.GROUP,
+                                props: {},
+                                children: [
+                                    {
+                                        component: EBuilderComponentPropsTypes.SELECT,
+                                        name: "condition",
+                                        props: {
+                                            label: "Condition",
+                                            options: [
+                                                {
+                                                    label: "===",
+                                                    value: "===",
+                                                },
+                                                {
+                                                    label: ">",
+                                                    value: ">",
+                                                },
+                                                {
+                                                    label: ">=",
+                                                    value: ">=",
+                                                },
+                                                {
+                                                    label: "<",
+                                                    value: "<",
+                                                },
+                                                {
+                                                    label: "<=",
+                                                    value: "<=",
+                                                },
+                                            ],
+                                        },
+                                    },
+                                    {
+                                        component: EBuilderComponentPropsTypes.STRING,
+                                        name: "target",
+                                        props: {
+                                            label: "target",
+                                        },
+                                    },
+                                    {
+                                        component: EBuilderComponentPropsTypes.STRING,
+                                        name: "origin",
+                                        props: {
+                                            label: "origin",
+                                        },
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                },
+            ],
         },
         {
             component: EBuilderComponentPropsTypes.GROUP,

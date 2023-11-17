@@ -5,7 +5,7 @@ import {
   ControlPoint,
   Delete,
 } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
+import { Container, IconButton } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { useCms } from "../../contexts/cms.context";
@@ -33,13 +33,13 @@ const PreviewContainer = ({
 
   const isOvering =
     cms.state.overedComponent && cms.state.overedComponent.id === component.id;
-  const color = isOvering ? "green" : "red";
   const isSelected =
     cms.state.selectedComponent &&
     cms.state.selectedComponent.id === component.id;
 
+  const color = isOvering && !isSelected ? "green" : "red";
   return (
-    <div
+    <Container
       draggable
       style={{
         position: "relative",
@@ -49,26 +49,19 @@ const PreviewContainer = ({
         outlineColor: color,
         minHeight: "20px",
       }}
-      onDragLeave={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-      }}
       onMouseMove={(e) => {
         e.stopPropagation();
         e.preventDefault();
-        cms.dispatch({
-          type: ECMSActions.SET_OVERED_COMPONENT,
-          payload: { component },
-        });
+        cms.state?.overedComponent?.id !== component.id &&
+          cms.dispatch({
+            type: ECMSActions.SET_OVERED_COMPONENT,
+            payload: { component },
+          });
       }}
       onDragOver={(e) => {
         e.stopPropagation();
         e.preventDefault();
         setIsDraggingOver(true);
-        cms.dispatch({
-          type: ECMSActions.SET_OVERED_COMPONENT,
-          payload: { component },
-        });
       }}
       onDragStart={(event) => {
         event.stopPropagation();
@@ -85,12 +78,6 @@ const PreviewContainer = ({
           payload: { component },
         });
       }}
-      onMouseOver={() => {
-        cms.dispatch({
-          type: ECMSActions.SET_OVERED_COMPONENT,
-          payload: { component },
-        });
-      }}
       onMouseLeave={() => {
         cms.dispatch({
           type: ECMSActions.SET_OVERED_COMPONENT,
@@ -99,8 +86,8 @@ const PreviewContainer = ({
       }}
     >
       {(isSelected || isOvering) && (
-        <div>
-          <div
+        <Container>
+          <Container
             style={{
               position: "absolute",
               bottom: "16px",
@@ -110,8 +97,8 @@ const PreviewContainer = ({
               left: 0,
               textAlign: "center",
             }}
-          ></div>
-          <div
+          ></Container>
+          <Container
             style={{
               position: "absolute",
               zIndex: 20,
@@ -201,11 +188,11 @@ const PreviewContainer = ({
                 <ControlPoint />
               </IconButton>
             </Box>
-          </div>
-        </div>
+          </Container>
+        </Container>
       )}
       {children}
-    </div>
+    </Container>
   );
 };
 

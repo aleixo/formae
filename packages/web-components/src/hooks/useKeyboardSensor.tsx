@@ -9,7 +9,6 @@ const useKeyboardSensor = () => {
 
   useEffect(() => {
     const keyPressHandler = (e) => {
-      console.log("GO ", e.key);
       if (e.key === "ArrowUp" && cms.state.selectedComponent) {
         cms.dispatch({
           type: ECMSActions.SET_BUILDER_SCHEMA,

@@ -11,52 +11,40 @@ const useSchema = () => {
     cb: (
       component: IComponent[],
       index: number,
-      currDepth: number,
       len: number,
-      prev: IComponent[],
-      count
+      prev: IComponent[]
     ) => any,
     id?: number
   ): T => {
-    let count = 0;
-    let foundElement = false;
     const transverse = (
       traversable: IComponent[],
       currDepth = 0,
       prev?: IComponent[]
     ): any => {
       for (let localIndex = 0; localIndex < traversable.length; localIndex++) {
-        foundElement = id === traversable[localIndex].id;
+        const foundElement = id === traversable[localIndex].id;
 
         if (foundElement || !id) {
-          const res = cb(
-            traversable,
-            localIndex,
-            currDepth,
-            traversable.length,
-            prev,
-            count
-          );
+          const res = cb(traversable, localIndex, currDepth, prev);
 
           // Nothing more to do
           if (res) break;
         }
 
-        count++;
-
         //We are entering in a container
-        if (traversable[localIndex]?.children)
+        if (traversable[localIndex]?.children) {
           transverse(
             traversable[localIndex].children as any,
             currDepth + 1,
             traversable[localIndex] as any
           );
+        }
       }
       return traversable;
     };
 
-    // IF its a form component
-    if ((schema as any).components as any[]) {
+    // IF its a form component - NOT YET DEVELOPED
+    if ((schema as any)?.components as any[]) {
       return {
         ...schema,
         components: (schema as any).components.map((item, i) => {
@@ -165,64 +153,115 @@ const useSchema = () => {
     });
   };
 
-  const arraymove = (arr: IComponent[], fromIndex: number, toIndex: number) => {
-    var element = arr[fromIndex];
-    arr.splice(fromIndex, 1);
-    arr.splice(toIndex, 0, element);
-    return true;
-  };
+  const moveUp = <T>(schema: TSchema, targetComponent: IComponent): T => {
+    const prevNodes = [];
+    let lastPath = [];
+    const it = (children) => {
+      for (let i = 0; i < children.length; i++) {
+        const component = children[i];
+        if (component.id === targetComponent.id) {
+          if (mappings[children[i - 1]?.component]?.isContainer) {
+            lastPath = [
+              ...lastPath,
+              (prevNodes[prevNodes.length - 1].children || []).length,
+            ];
+          } else {
+            if (
+              mappings[prevNodes[prevNodes.length - 1]?.component]
+                ?.isContainer &&
+              prevNodes[prevNodes.length - 1].children.length >= 1
+            ) {
+              console.log("AQUI2", children);
+              //lastPath += `.children[${i - 1}]`;
+            } else {
+              console.log("AQUI3");
+              lastPath = [...lastPath, i - 1];
+            }
+          }
+          return;
+        } else if (
+          Array.isArray(component.children) ||
+          (mappings[component?.component]?.isContainer &&
+            !Array.isArray(component.children))
+        ) {
+          prevNodes.push(component);
 
-  const moveUp = <T>(schema: T, targetComponent: IComponent): T => {
-    return transverseSchema<T>(
-      schema,
-      0,
-      (component, localIndex) => {
-        if (component[localIndex].id === targetComponent.id) {
-          if (!component[localIndex - 1]) {
-            return moveTo(schema, targetComponent, component[localIndex + 1]);
+          if (mappings[children[i - 1]?.component]?.isContainer) {
+            lastPath.pop();
           }
 
-          if (mappings[component[localIndex - 1]?.component]?.isContainer) {
-            return moveTo(schema, targetComponent, component[localIndex - 1]);
-          }
+          lastPath = [...lastPath, i + 1];
 
-          return arraymove(component, localIndex, localIndex - 1);
+          it(component.children || []);
+        } else {
+          if (
+            mappings[prevNodes[prevNodes.length - 1]?.component]?.isContainer
+          ) {
+            lastPath.pop();
+          } else {
+            lastPath = [];
+          }
         }
-      },
-      targetComponent.id
-    );
+      }
+    };
+    it(schema.components);
+    console.log("l", lastPath);
+    let obj = schema.components[0];
+    lastPath.forEach((indexKey, i) => {
+      if (!obj.children) {
+        obj.children = [];
+      }
+
+      if (i === lastPath.length - 1) {
+        remove(schema, 0, targetComponent);
+        const target = { ...targetComponent };
+        const aux = { ...obj.children[indexKey - 1] };
+
+        obj.children = [
+          ...obj.children.splice(0, indexKey),
+          target,
+          ...obj.children.splice(indexKey + 1),
+        ];
+
+        return;
+      }
+      obj = obj.children[indexKey];
+    });
+
+    return schema;
   };
 
   const moveDown = <T>(schema: T, targetComponent: IComponent): T => {
-    return transverseSchema<T>(
-      schema,
-      0,
-      (component, localIndex, currDepth, length, prev, count) => {
-        console.log(component);
-        if (prev && localIndex + 1 === length) {
-          prev.children = prev.children.filter((_, i) => i !== localIndex);
-          return true;
-          prev = [...prev.splice(0, count), targetComponent, ...prev.slice(1)];
-          component.splice(localIndex, 1);
-          return true;
+    const prevNodes = [];
+
+    const it = (children, prev) => {
+      for (let i = 0; i < children.length; i++) {
+        const component = children[i];
+
+        if (component.id === targetComponent.id) {
+          let targetComp = prev;
+          if (mappings[children[i - 2]?.component]?.isContainer) {
+            targetComp = children[i - 2];
+          }
+          if (!targetComp) {
+            targetComp = prevNodes[0];
+          }
+
+          const target = { ...targetComponent };
+          remove(schema, 0, targetComponent);
+
+          targetComp.children = [...targetComp.children, target];
+          return schema;
         }
 
-        if (mappings[component[localIndex + 1]?.component]?.isContainer) {
-          component[localIndex + 1].children = [
-            targetComponent,
-            ...(component[localIndex + 1].children || []),
-          ];
-          component.splice(localIndex, 1);
-          return true;
+        if (Array.isArray(component?.children)) {
+          const lastNode = prevNodes[prevNodes.length - 1];
+          prevNodes.push(component);
+          return it(component.children, lastNode);
         }
-
-        if (component[localIndex].id === targetComponent.id) {
-          console.log("NORMAL");
-          return arraymove(component, localIndex, localIndex + 1);
-        }
-      },
-      targetComponent.id
-    );
+      }
+    };
+    return it(schema.components);
   };
 
   const moveTo = <T>(schema: T, from: IComponent, to?: IComponent): T => {

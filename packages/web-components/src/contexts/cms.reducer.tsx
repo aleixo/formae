@@ -87,7 +87,7 @@ const useCmsMiddleware = () => {
 
   const mapper = {
     [ECMSActions.SET_BUILDER_SCHEMA]: (action: TCMSAction) => {
-      api.updateSchema(action.payload.schema!);
+      //api.updateSchema(action.payload.schema!);
     },
   };
 

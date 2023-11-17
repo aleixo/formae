@@ -13,6 +13,7 @@ import { useCms } from "../../contexts/cms.context";
 import { ShortcutsModal } from "../shortcuts-modal/shortcuts-modal";
 import { FormComponentFeatures } from "../form-component-features/form-component-features";
 import { ComponentsHierarchy } from "../components-hierarchy/components-hierarchy";
+import { useApi } from "../../hooks/useApi";
 
 enum EMenus {
   FORM_HIERARCHY = "Hierarchy",
@@ -20,6 +21,7 @@ enum EMenus {
 }
 
 function LeftPanel() {
+  const api = useApi();
   const cms = useCms();
   const [showShortcutModal, setShowShorcutModal] = React.useState(false);
   const [openLeft, setOpenLeft] = React.useState(true);
@@ -70,7 +72,13 @@ function LeftPanel() {
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>
-            <ListItemText primary="Save" />
+            <ListItemText primary="Client Save" />
+          </ListItemButton>
+          <ListItemButton onClick={() => api.updateSchema(cms.state.schema)}>
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary="Save to local storage" />
           </ListItemButton>
           <ListItemButton
             onClick={() => {

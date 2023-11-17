@@ -7,6 +7,7 @@ interface IProps {
     component: TComponent & {
         id?: string;
     };
+    displayComponentName?: boolean;
 }
-declare const PreviewContainer: ({ children, onDragStart, onDrop, component, }: IProps) => JSX.Element;
+declare const PreviewContainer: ({ children, onDragStart, onDrop, component, displayComponentName, }: IProps) => JSX.Element;
 export { PreviewContainer };

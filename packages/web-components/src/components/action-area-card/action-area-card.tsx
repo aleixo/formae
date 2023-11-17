@@ -1,7 +1,7 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
+import { CardActionArea, Container, Stack } from "@mui/material";
 import { ActionAreaWrapper } from "./action-area-card.wrapper";
 
 function ActionAreaCard({
@@ -19,18 +19,30 @@ function ActionAreaCard({
 }) {
   return (
     <ActionAreaWrapper onDeleteClick={onDeleteClick}>
-      <Card elevation={4} draggable onClick={onClick}>
-        <div style={{ padding: "1rem", backgroundColor: "grey" }}>
-          {preview && preview()}
-        </div>
-        <CardActionArea onClick={onClick}>
-          <CardContent onClick={onClick}>
-            <Typography gutterBottom variant="h5" component="div">
-              {title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {description}
-            </Typography>
+      <Card
+        elevation={4}
+        draggable
+        onClick={onClick}
+        sx={{ cursor: "pointer" }}
+      >
+        <CardActionArea onClick={onClick} sx={{ height: "200px" }}>
+          <CardContent>
+            <Stack gap="2rem">
+              <Container
+                style={{
+                  padding: "1rem",
+                  backgroundColor: "lightgray",
+                }}
+              >
+                {preview && preview()}
+              </Container>
+              <Typography gutterBottom variant="h5" component="div">
+                {title}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {description}
+              </Typography>
+            </Stack>
           </CardContent>
         </CardActionArea>
       </Card>

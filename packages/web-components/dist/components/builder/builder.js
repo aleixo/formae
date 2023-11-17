@@ -40,22 +40,18 @@ const Builder = ({ mode }) => {
                 draggingElementRef.current = Object.assign(Object.assign({}, draggingElementRef.current), component);
             }, onDrop: () => {
                 cms.dispatch({
-                    type: ECMSActions.SET_OVERED_COMPONENT,
-                    payload: { component: undefined },
-                });
-                cms.dispatch({
                     type: ECMSActions.SET_BUILDER_SCHEMA,
                     payload: {
                         schema: schema.moveTo(cms.state.schema, draggingElementRef.current, component),
                     },
                 });
+                cms.dispatch({
+                    type: ECMSActions.SET_OVERED_COMPONENT,
+                    payload: { component: undefined },
+                });
             }, component: component }, { children: children })));
     }, [cms, mode, schema]);
-    return (_jsx(FormProvider, Object.assign({ mapper: cms.mappings, propsMapping: cms.propsMapping }, { children: _jsx("div", Object.assign({ style: {
-                width: "100%",
-                height: "100%",
-                padding: "2rem",
-            }, onClick: resetOveredAndSelected }, { children: cms.state.schema && (_jsx(Form, { id: "builder_form", ref: formRef, schema: cms.state.schema, onFocus: handleFieldFocus, renderFieldWrapper: renderFieldWrapper }, formKey + mode)) })) })));
+    return (_jsx(FormProvider, Object.assign({ mapper: cms.mappings, propsMapping: cms.propsMapping }, { children: _jsx("div", Object.assign({ onClick: resetOveredAndSelected }, { children: cms.state.schema && (_jsx(Form, { id: "builder_form", ref: formRef, schema: cms.state.schema, onFocus: handleFieldFocus, renderFieldWrapper: renderFieldWrapper }, formKey + mode)) })) })));
 };
 export { Builder };
 //# sourceMappingURL=builder.js.map

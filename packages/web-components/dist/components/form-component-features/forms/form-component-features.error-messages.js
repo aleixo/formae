@@ -19,7 +19,7 @@ export const schema = ({ component }) => ({
                             },
                         },
                         ...[
-                            ...new Set(Object.keys(component.validations || {}).reduce((acc, key) => {
+                            ...new Set(Object.keys((component === null || component === void 0 ? void 0 : component.validations) || {}).reduce((acc, key) => {
                                 if (!component.validations || !component.validations[key])
                                     return acc;
                                 return [...acc, ...Object.keys(component.validations[key])];

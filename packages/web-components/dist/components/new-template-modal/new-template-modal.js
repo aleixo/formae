@@ -27,9 +27,9 @@ const NewTemplateModal = ({ open, onClose, feature, template }) => {
                             },
                         }, errorMessages: {
                             default: "Template name is required",
-                        } })] }), _jsxs(DialogActions, { children: [_jsx(Button, Object.assign({ onClick: () => {
+                        } })] }), _jsxs(DialogActions, { children: [_jsx(Button, Object.assign({ type: "button", onClick: () => {
                             setOpenModal(false);
-                        } }, { children: "Cancel" })), _jsx(Button, Object.assign({ disabled: !isValid, onClick: () => {
+                        } }, { children: "Cancel" })), _jsx(Button, Object.assign({ type: "button", disabled: !isValid, onClick: () => {
                             var _a, _b;
                             setOpenModal(false);
                             cms.dispatch({
